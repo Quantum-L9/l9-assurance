@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "useUnknownInCatchVariables": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": false,
+    "noEmitOnError": true,
+    "baseUrl": ".",
+    "paths": {
+      "@l9/assurance-contracts": [
+        "packages/contracts/src/index.ts"
+      ],
+      "@l9/assurance-evidence": [
+        "packages/evidence/src/index.ts"
+      ],
+      "@l9/assurance-controls": [
+        "packages/controls/src/index.ts"
+      ],
+      "@l9/assurance-policy": [
+        "packages/policy/src/index.ts"
+      ],
+      "@l9/assurance-evaluator": [
+        "packages/evaluator/src/index.ts"
+      ],
+      "@l9/assurance-conformance": [
+        "packages/conformance/src/index.ts"
+      ],
+      "@l9/assurance-cli": [
+        "packages/cli/src/index.ts"
+      ],
+      "@l9/assurance-testing": [
+        "packages/testing/src/index.ts"
+      ]
+    },
+    "typeRoots": [
+      "./types"
+    ]
+  }
+}

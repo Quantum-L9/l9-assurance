@@ -1,0 +1,302 @@
+{
+  "schema": "l9.assurance-decision",
+  "schemaVersion": "1.0.0",
+  "decisionId": "dec_replay_fixture",
+  "subject": {
+    "kind": "git-revision",
+    "repository": {
+      "host": "github.com",
+      "owner": "Quantum-L9",
+      "name": "example"
+    },
+    "revision": {
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "profile": {
+    "id": "l9.pull-request",
+    "version": "1.0.0",
+    "digest": {
+      "algorithm": "sha256",
+      "value": "6794703d9be6abcaef6c3116bf1ac3123e89eeff946625f1912e880ff855c876"
+    }
+  },
+  "policy": {
+    "id": "l9.organization-default",
+    "version": "1.0.0",
+    "digest": {
+      "algorithm": "sha256",
+      "value": "1b7c43e6f0922886142420241e955e86a3fe0e39748bacca4d0d89e8e0171b16"
+    }
+  },
+  "verdict": "pass",
+  "controlResults": [
+    {
+      "controlId": "L9.CI.EVIDENCE_REVISION_CONSISTENCY",
+      "controlVersion": "1.0.0",
+      "status": "pass",
+      "severity": "mandatory",
+      "evidenceRefs": [
+        "ev_64644e71789da2861babcd8c2dd311aa54db2e97",
+        "ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5",
+        "ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a",
+        "ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b",
+        "ev_e11f311a92224de3124a92f50a322cb3d6966f0a",
+        "ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5"
+      ],
+      "waiverRefs": [],
+      "unknownRefs": [],
+      "reasons": [
+        {
+          "code": "CONTROL_SUBJECT_CONSISTENT",
+          "message": "all admitted evidence references the exact subject revision"
+        }
+      ],
+      "evaluatedAt": "2026-07-21T00:00:02.000Z"
+    },
+    {
+      "controlId": "L9.CI.LINT",
+      "controlVersion": "1.0.0",
+      "status": "pass",
+      "severity": "mandatory",
+      "evidenceRefs": [
+        "ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5"
+      ],
+      "waiverRefs": [],
+      "unknownRefs": [],
+      "reasons": [
+        {
+          "code": "CONTROL_REQUIREMENT_SATISFIED",
+          "message": "l9.lint passed"
+        }
+      ],
+      "evaluatedAt": "2026-07-21T00:00:02.000Z"
+    },
+    {
+      "controlId": "L9.CI.MANDATORY_FINDINGS_ABSENT",
+      "controlVersion": "1.0.0",
+      "status": "pass",
+      "severity": "mandatory",
+      "evidenceRefs": [
+        "ev_64644e71789da2861babcd8c2dd311aa54db2e97"
+      ],
+      "waiverRefs": [],
+      "unknownRefs": [],
+      "reasons": [
+        {
+          "code": "CONTROL_REQUIREMENT_SATISFIED",
+          "message": "no open mandatory findings were reported"
+        }
+      ],
+      "evaluatedAt": "2026-07-21T00:00:02.000Z"
+    },
+    {
+      "controlId": "L9.CI.REPOSITORY_METADATA",
+      "controlVersion": "1.0.0",
+      "status": "pass",
+      "severity": "mandatory",
+      "evidenceRefs": [
+        "ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a"
+      ],
+      "waiverRefs": [],
+      "unknownRefs": [],
+      "reasons": [
+        {
+          "code": "CONTROL_REQUIREMENT_SATISFIED",
+          "message": "l9.repository-metadata passed"
+        }
+      ],
+      "evaluatedAt": "2026-07-21T00:00:02.000Z"
+    },
+    {
+      "controlId": "L9.CI.SDK_VALIDATION",
+      "controlVersion": "1.0.0",
+      "status": "pass",
+      "severity": "mandatory",
+      "evidenceRefs": [
+        "ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b"
+      ],
+      "waiverRefs": [],
+      "unknownRefs": [],
+      "reasons": [
+        {
+          "code": "CONTROL_REQUIREMENT_SATISFIED",
+          "message": "l9.sdk-validation passed"
+        }
+      ],
+      "evaluatedAt": "2026-07-21T00:00:02.000Z"
+    },
+    {
+      "controlId": "L9.CI.TESTS",
+      "controlVersion": "1.0.0",
+      "status": "pass",
+      "severity": "mandatory",
+      "evidenceRefs": [
+        "ev_e11f311a92224de3124a92f50a322cb3d6966f0a"
+      ],
+      "waiverRefs": [],
+      "unknownRefs": [],
+      "reasons": [
+        {
+          "code": "CONTROL_REQUIREMENT_SATISFIED",
+          "message": "l9.tests passed"
+        }
+      ],
+      "evaluatedAt": "2026-07-21T00:00:02.000Z"
+    },
+    {
+      "controlId": "L9.CI.TRANSPORT_PACKET",
+      "controlVersion": "1.0.0",
+      "status": "pass",
+      "severity": "mandatory",
+      "evidenceRefs": [
+        "ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5"
+      ],
+      "waiverRefs": [],
+      "unknownRefs": [],
+      "reasons": [
+        {
+          "code": "CONTROL_REQUIREMENT_SATISFIED",
+          "message": "l9.transport-packet passed"
+        }
+      ],
+      "evaluatedAt": "2026-07-21T00:00:02.000Z"
+    }
+  ],
+  "claims": [
+    {
+      "claimId": "l9.claim.evidence-revision-consistent",
+      "claimVersion": "1.0.0",
+      "status": "supported",
+      "controlRefs": [
+        "L9.CI.EVIDENCE_REVISION_CONSISTENCY"
+      ]
+    },
+    {
+      "claimId": "l9.claim.lint-satisfied",
+      "claimVersion": "1.0.0",
+      "status": "supported",
+      "controlRefs": [
+        "L9.CI.LINT"
+      ]
+    },
+    {
+      "claimId": "l9.claim.mandatory-findings-absent",
+      "claimVersion": "1.0.0",
+      "status": "supported",
+      "controlRefs": [
+        "L9.CI.MANDATORY_FINDINGS_ABSENT"
+      ]
+    },
+    {
+      "claimId": "l9.claim.pull-request-controls-satisfied",
+      "claimVersion": "1.0.0",
+      "status": "supported",
+      "controlRefs": [
+        "L9.CI.EVIDENCE_REVISION_CONSISTENCY",
+        "L9.CI.LINT",
+        "L9.CI.MANDATORY_FINDINGS_ABSENT",
+        "L9.CI.REPOSITORY_METADATA",
+        "L9.CI.SDK_VALIDATION",
+        "L9.CI.TESTS",
+        "L9.CI.TRANSPORT_PACKET"
+      ]
+    },
+    {
+      "claimId": "l9.claim.repository-metadata-valid",
+      "claimVersion": "1.0.0",
+      "status": "supported",
+      "controlRefs": [
+        "L9.CI.REPOSITORY_METADATA"
+      ]
+    },
+    {
+      "claimId": "l9.claim.sdk-validation-satisfied",
+      "claimVersion": "1.0.0",
+      "status": "supported",
+      "controlRefs": [
+        "L9.CI.SDK_VALIDATION"
+      ]
+    },
+    {
+      "claimId": "l9.claim.tests-satisfied",
+      "claimVersion": "1.0.0",
+      "status": "supported",
+      "controlRefs": [
+        "L9.CI.TESTS"
+      ]
+    },
+    {
+      "claimId": "l9.claim.transport-packet-valid",
+      "claimVersion": "1.0.0",
+      "status": "supported",
+      "controlRefs": [
+        "L9.CI.TRANSPORT_PACKET"
+      ]
+    }
+  ],
+  "evidenceManifest": [
+    {
+      "evidenceId": "ev_64644e71789da2861babcd8c2dd311aa54db2e97",
+      "digest": {
+        "algorithm": "sha256",
+        "value": "5ce76e914fec5eb2f3faad226d84fa2cd1e3ffda7c96fd97369ef721fe584f52"
+      },
+      "evidenceType": "l9.observation/l9.mandatory-findings"
+    },
+    {
+      "evidenceId": "ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5",
+      "digest": {
+        "algorithm": "sha256",
+        "value": "9fb22e045c2dc0adbc9e30b67aa986fd60ca45ee376af493a129d3a4381af170"
+      },
+      "evidenceType": "l9.observation/l9.lint"
+    },
+    {
+      "evidenceId": "ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a",
+      "digest": {
+        "algorithm": "sha256",
+        "value": "36f6fdfe582f2a3e4b09cf63aa1f65b7b40835acfbca20d6fddeb972a7012836"
+      },
+      "evidenceType": "l9.observation/l9.repository-metadata"
+    },
+    {
+      "evidenceId": "ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b",
+      "digest": {
+        "algorithm": "sha256",
+        "value": "acdf8a8cbee35601ea7f0aa6b7f6888a48c1b63d2a548508877c33b19c6b9239"
+      },
+      "evidenceType": "l9.observation/l9.sdk-validation"
+    },
+    {
+      "evidenceId": "ev_e11f311a92224de3124a92f50a322cb3d6966f0a",
+      "digest": {
+        "algorithm": "sha256",
+        "value": "d4b01bdcef5d021ceed32a488c9d9e07ef76ec682838d18a3362f4c087cab5b5"
+      },
+      "evidenceType": "l9.observation/l9.tests"
+    },
+    {
+      "evidenceId": "ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5",
+      "digest": {
+        "algorithm": "sha256",
+        "value": "8a97794e8bb5d21af892886d32c21f979bd0bd06131ba181e24669aac470c1e6"
+      },
+      "evidenceType": "l9.observation/l9.transport-packet"
+    }
+  ],
+  "waivers": [],
+  "unknowns": [],
+  "dimensions": {
+    "controlSatisfaction": 1,
+    "evidenceCompleteness": 1,
+    "evidenceFreshness": 1,
+    "producerTrust": 1
+  },
+  "issuedAt": "2026-07-21T00:00:02.000Z",
+  "evaluator": {
+    "id": "l9-assurance",
+    "version": "2.0.0",
+    "repository": "Quantum-L9/l9-assurance"
+  }
+}

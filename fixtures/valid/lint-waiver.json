@@ -1,0 +1,22 @@
+{
+  "waiverId": "waiver_lint_001",
+  "controlId": "L9.CI.LINT",
+  "subjectScope": {
+    "repository": {
+      "host": "github.com",
+      "owner": "Quantum-L9",
+      "name": "example"
+    },
+    "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "rationale": "Time-bounded risk acceptance for fixture",
+  "riskAcceptance": "Fixture demonstrates conditional semantics only.",
+  "authorizedBy": {
+    "id": "fixture-owner",
+    "roles": [
+      "repository-owner"
+    ]
+  },
+  "issuedAt": "2026-07-20T00:00:00.000Z",
+  "expiresAt": "2026-07-22T00:00:00.000Z"
+}

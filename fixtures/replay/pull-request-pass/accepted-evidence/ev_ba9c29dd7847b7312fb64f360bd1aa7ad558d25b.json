@@ -1,0 +1,78 @@
+{
+  "schema": "l9.evidence-envelope",
+  "schemaVersion": "1.0.0",
+  "evidenceId": "ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b",
+  "subject": {
+    "kind": "git-revision",
+    "repository": {
+      "host": "github.com",
+      "owner": "Quantum-L9",
+      "name": "example"
+    },
+    "revision": {
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "producer": {
+    "id": "l9-ci-sdk",
+    "version": "2.0.0",
+    "repository": "Quantum-L9/l9-ci-sdk"
+  },
+  "evidenceType": "l9.observation/l9.sdk-validation",
+  "observedAt": "2026-07-21T00:00:01.000Z",
+  "issuedAt": "2026-07-21T00:00:02.000Z",
+  "payload": {
+    "schema": "l9.observation",
+    "schemaVersion": "1.0.0",
+    "observationId": "obs_l9_sdk-validation",
+    "producer": {
+      "id": "l9-ci-sdk",
+      "version": "2.0.0",
+      "repository": "Quantum-L9/l9-ci-sdk"
+    },
+    "subject": {
+      "kind": "git-revision",
+      "repository": {
+        "host": "github.com",
+        "owner": "Quantum-L9",
+        "name": "example"
+      },
+      "revision": {
+        "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "check": {
+      "id": "l9.sdk-validation",
+      "version": "1.0.0",
+      "configurationDigest": {
+        "algorithm": "sha256",
+        "value": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "execution": {
+      "runId": "run_fixture",
+      "attempt": 1,
+      "status": "passed",
+      "startedAt": "2026-07-21T00:00:00.000Z",
+      "completedAt": "2026-07-21T00:00:01.000Z"
+    },
+    "summary": {
+      "findingCount": 0,
+      "errorCount": 0,
+      "warningCount": 0,
+      "informationalCount": 0
+    },
+    "findings": [],
+    "artifacts": []
+  },
+  "payloadDigest": {
+    "algorithm": "sha256",
+    "value": "acdf8a8cbee35601ea7f0aa6b7f6888a48c1b63d2a548508877c33b19c6b9239"
+  },
+  "sourceObservationId": "obs_l9_sdk-validation",
+  "lineage": [],
+  "admissionContext": {
+    "receivedAt": "2026-07-21T00:00:02.000Z",
+    "channel": "local"
+  }
+}

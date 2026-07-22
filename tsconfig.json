@@ -1,0 +1,29 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/contracts"
+    },
+    {
+      "path": "./packages/evidence"
+    },
+    {
+      "path": "./packages/controls"
+    },
+    {
+      "path": "./packages/policy"
+    },
+    {
+      "path": "./packages/evaluator"
+    },
+    {
+      "path": "./packages/conformance"
+    },
+    {
+      "path": "./packages/cli"
+    },
+    {
+      "path": "./packages/testing"
+    }
+  ]
+}

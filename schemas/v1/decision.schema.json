@@ -1,0 +1,291 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/assurancedecision.schema.json",
+  "title": "AssuranceDecision",
+  "description": "AssuranceDecision",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "l9.assurance-decision"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "decisionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "$ref": "./subject.schema.json"
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "$ref": "./digest.schema.json"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "digest"
+      ],
+      "unevaluatedProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "$ref": "./digest.schema.json"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "digest"
+      ],
+      "unevaluatedProperties": false
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "conditional",
+        "indeterminate"
+      ]
+    },
+    "controlResults": {
+      "type": "array",
+      "items": {
+        "$ref": "./control-result.schema.json"
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claimId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claimVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "supported",
+              "unsupported",
+              "conditional",
+              "indeterminate"
+            ]
+          },
+          "controlRefs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "claimId",
+          "claimVersion",
+          "status",
+          "controlRefs"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "evidenceManifest": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidenceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "digest": {
+            "$ref": "./digest.schema.json"
+          },
+          "evidenceType": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "evidenceId",
+          "digest"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "waivers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "waiverId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "controlId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "waiverId",
+          "controlId"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "$ref": "./unknown.schema.json"
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "controlSatisfaction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "evidenceCompleteness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "evidenceFreshness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "producerTrust": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [],
+      "unevaluatedProperties": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluator": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "buildDigest": {
+          "$ref": "./digest.schema.json"
+        },
+        "executionIdentity": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "unevaluatedProperties": false
+    },
+    "supersedes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "keyId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "algorithm": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "context": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "keyId",
+        "algorithm",
+        "value",
+        "signedAt"
+      ],
+      "unevaluatedProperties": false
+    },
+    "extensions": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z0-9]+(?:\\.[a-z0-9-]+)+$"
+      },
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "schema",
+    "schemaVersion",
+    "decisionId",
+    "subject",
+    "profile",
+    "policy",
+    "verdict",
+    "controlResults",
+    "claims",
+    "evidenceManifest",
+    "waivers",
+    "unknowns",
+    "issuedAt",
+    "evaluator"
+  ],
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/digest.schema.json",
+  "title": "Digest",
+  "description": "Digest",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "algorithm": {
+      "type": "string",
+      "const": "sha256"
+    },
+    "value": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "algorithm",
+    "value"
+  ],
+  "unevaluatedProperties": false
+}

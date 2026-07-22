@@ -1,0 +1,78 @@
+{
+  "schema": "l9.evidence-envelope",
+  "schemaVersion": "1.0.0",
+  "evidenceId": "ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a",
+  "subject": {
+    "kind": "git-revision",
+    "repository": {
+      "host": "github.com",
+      "owner": "Quantum-L9",
+      "name": "example"
+    },
+    "revision": {
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "producer": {
+    "id": "l9-ci-sdk",
+    "version": "2.0.0",
+    "repository": "Quantum-L9/l9-ci-sdk"
+  },
+  "evidenceType": "l9.observation/l9.repository-metadata",
+  "observedAt": "2026-07-21T00:00:01.000Z",
+  "issuedAt": "2026-07-21T00:00:02.000Z",
+  "payload": {
+    "schema": "l9.observation",
+    "schemaVersion": "1.0.0",
+    "observationId": "obs_l9_repository-metadata",
+    "producer": {
+      "id": "l9-ci-sdk",
+      "version": "2.0.0",
+      "repository": "Quantum-L9/l9-ci-sdk"
+    },
+    "subject": {
+      "kind": "git-revision",
+      "repository": {
+        "host": "github.com",
+        "owner": "Quantum-L9",
+        "name": "example"
+      },
+      "revision": {
+        "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "check": {
+      "id": "l9.repository-metadata",
+      "version": "1.0.0",
+      "configurationDigest": {
+        "algorithm": "sha256",
+        "value": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "execution": {
+      "runId": "run_fixture",
+      "attempt": 1,
+      "status": "passed",
+      "startedAt": "2026-07-21T00:00:00.000Z",
+      "completedAt": "2026-07-21T00:00:01.000Z"
+    },
+    "summary": {
+      "findingCount": 0,
+      "errorCount": 0,
+      "warningCount": 0,
+      "informationalCount": 0
+    },
+    "findings": [],
+    "artifacts": []
+  },
+  "payloadDigest": {
+    "algorithm": "sha256",
+    "value": "36f6fdfe582f2a3e4b09cf63aa1f65b7b40835acfbca20d6fddeb972a7012836"
+  },
+  "sourceObservationId": "obs_l9_repository-metadata",
+  "lineage": [],
+  "admissionContext": {
+    "receivedAt": "2026-07-21T00:00:02.000Z",
+    "channel": "local"
+  }
+}

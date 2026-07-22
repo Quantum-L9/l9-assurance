@@ -1,0 +1,89 @@
+schema: l9.assurance.traceability/v1
+release: 2.0.0
+entries:
+  - id: TRACE-001
+    defect: nested observation objects were only partially validated
+    source: packages/evidence/src/validation.ts
+    correction: strict recursive field, digest, artifact, provenance, location, remediation, and unknown-property validation
+    validation:
+      - tests/unit/evidence.test.mjs
+  - id: TRACE-002
+    defect: artifact discovery parsed unbounded files and did not support fail-closed direct-file media validation
+    source: packages/evidence/src/discovery.ts
+    correction: pre-parse size and count limits, direct JSON media check, symlink rejection, and root containment
+    validation:
+      - tests/security/security.test.mjs
+  - id: TRACE-003
+    defect: producer and check registry constraints were partially inert during admission
+    source: packages/evidence/src/admission.ts
+    correction: enforce subject kinds, producer repository, output schema, and accepted execution statuses
+    validation:
+      - tests/unit/evidence.test.mjs
+  - id: TRACE-004
+    defect: prerelease semantic versions used lexical ordering
+    source: packages/evidence/src/semver.ts
+    correction: SemVer-compatible numeric and alphanumeric prerelease ordering
+    validation:
+      - tests/unit/evidence.test.mjs
+      - tests/unit/controls-policy.test.mjs
+  - id: TRACE-005
+    defect: controls ignored accepted status sets and used numeric split version comparison
+    source: packages/controls/src/evaluate.ts
+    correction: explicit status admission and SemVer-compatible minimum-version evaluation
+    validation:
+      - tests/unit/controls-policy.test.mjs
+  - id: TRACE-006
+    defect: control and profile loaders cast JSON without runtime contract validation
+    source: packages/controls/src/load.ts
+    correction: strict nested runtime validation, cardinality checks, enum checks, version checks, and duplicate detection
+    validation:
+      - tests/unit/controls-policy.test.mjs
+  - id: TRACE-007
+    defect: policy and waiver loaders cast JSON and hard prohibitions lacked an executable trigger model
+    source: packages/policy/src/load.ts
+    correction: strict policy and waiver validation and fail-closed rejection of unsupported Release-zero hard prohibitions
+    validation:
+      - tests/unit/controls-policy.test.mjs
+  - id: TRACE-008
+    defect: policy rollback used incomplete numeric comparison
+    source: packages/policy/src/resolve.ts
+    correction: SemVer-compatible rollback evaluation
+    validation:
+      - tests/unit/controls-policy.test.mjs
+  - id: TRACE-009
+    defect: CLI accepted duplicate and command-irrelevant flags
+    source: packages/cli/src/args.ts
+    correction: duplicate detection, equals syntax, missing-value detection, and command flag allowlists
+    validation:
+      - tests/contract/contracts.test.mjs
+  - id: TRACE-010
+    defect: CLI verify unnecessarily loaded repository configuration and stored envelopes bypassed observation revalidation
+    source: packages/cli/src/commands.ts
+    correction: configuration-free verification and full envelope payload, lineage, subject, producer, and integrity re-admission
+    validation:
+      - tests/contract/contracts.test.mjs
+      - tests/integration/vertical-slice.test.mjs
+  - id: TRACE-011
+    defect: runtime configuration files and registry relationships were trusted after JSON parsing
+    source: packages/cli/src/config.ts
+    correction: strict producer/check registry validation, bidirectional ownership checks, profile-policy identity match, and profile resolution
+    validation:
+      - tests/contract/contracts.test.mjs
+  - id: TRACE-012
+    defect: decision verification checked only a shallow subset of the canonical decision
+    source: packages/evaluator/src/verify.ts
+    correction: strict nested validation, reference integrity, uniqueness, verdict reduction, digest shape, timestamp, dimension, and signature-algorithm checks
+    validation:
+      - tests/security/security.test.mjs
+  - id: TRACE-013
+    defect: resolved policy unknown-handling and mandatory finding severities were partially inert
+    source: packages/evaluator/src/evaluate.ts
+    correction: policy-driven mandatory severity evaluation, mandatory unknown-to-fail, and advisory unknown ignore semantics
+    validation:
+      - tests/integration/vertical-slice.test.mjs
+  - id: TRACE-014
+    defect: release completeness was documented but not machine-enforced
+    source: scripts/validate-completeness.mjs
+    correction: required-artifact, empty-file, unfinished-marker, workspace identity, cache, and nested-archive gate
+    validation:
+      - npm run validate:completeness

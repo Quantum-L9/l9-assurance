@@ -1,0 +1,78 @@
+{
+  "schema": "l9.evidence-envelope",
+  "schemaVersion": "1.0.0",
+  "evidenceId": "ev_64644e71789da2861babcd8c2dd311aa54db2e97",
+  "subject": {
+    "kind": "git-revision",
+    "repository": {
+      "host": "github.com",
+      "owner": "Quantum-L9",
+      "name": "example"
+    },
+    "revision": {
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "producer": {
+    "id": "l9-ci-sdk",
+    "version": "2.0.0",
+    "repository": "Quantum-L9/l9-ci-sdk"
+  },
+  "evidenceType": "l9.observation/l9.mandatory-findings",
+  "observedAt": "2026-07-21T00:00:01.000Z",
+  "issuedAt": "2026-07-21T00:00:02.000Z",
+  "payload": {
+    "schema": "l9.observation",
+    "schemaVersion": "1.0.0",
+    "observationId": "obs_l9_mandatory-findings",
+    "producer": {
+      "id": "l9-ci-sdk",
+      "version": "2.0.0",
+      "repository": "Quantum-L9/l9-ci-sdk"
+    },
+    "subject": {
+      "kind": "git-revision",
+      "repository": {
+        "host": "github.com",
+        "owner": "Quantum-L9",
+        "name": "example"
+      },
+      "revision": {
+        "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "check": {
+      "id": "l9.mandatory-findings",
+      "version": "1.0.0",
+      "configurationDigest": {
+        "algorithm": "sha256",
+        "value": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "execution": {
+      "runId": "run_fixture",
+      "attempt": 1,
+      "status": "passed",
+      "startedAt": "2026-07-21T00:00:00.000Z",
+      "completedAt": "2026-07-21T00:00:01.000Z"
+    },
+    "summary": {
+      "findingCount": 0,
+      "errorCount": 0,
+      "warningCount": 0,
+      "informationalCount": 0
+    },
+    "findings": [],
+    "artifacts": []
+  },
+  "payloadDigest": {
+    "algorithm": "sha256",
+    "value": "5ce76e914fec5eb2f3faad226d84fa2cd1e3ffda7c96fd97369ef721fe584f52"
+  },
+  "sourceObservationId": "obs_l9_mandatory-findings",
+  "lineage": [],
+  "admissionContext": {
+    "receivedAt": "2026-07-21T00:00:02.000Z",
+    "channel": "local"
+  }
+}

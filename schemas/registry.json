@@ -1,0 +1,133 @@
+{
+  "schema": "l9.schema-registry",
+  "schemaVersion": "1.0.0",
+  "draft": "https://json-schema.org/draft/2020-12/schema",
+  "schemas": [
+    {
+      "name": "digest",
+      "title": "Digest",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/digest.schema.json",
+      "version": "1.0.0",
+      "path": "v1/digest.schema.json"
+    },
+    {
+      "name": "subject",
+      "title": "SubjectReference",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/subjectreference.schema.json",
+      "version": "1.0.0",
+      "path": "v1/subject.schema.json"
+    },
+    {
+      "name": "producer",
+      "title": "ProducerIdentity",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/produceridentity.schema.json",
+      "version": "1.0.0",
+      "path": "v1/producer.schema.json"
+    },
+    {
+      "name": "check",
+      "title": "CheckIdentity",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/checkidentity.schema.json",
+      "version": "1.0.0",
+      "path": "v1/check.schema.json"
+    },
+    {
+      "name": "artifact-reference",
+      "title": "ArtifactReference",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/artifactreference.schema.json",
+      "version": "1.0.0",
+      "path": "v1/artifact-reference.schema.json"
+    },
+    {
+      "name": "finding",
+      "title": "Finding",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/finding.schema.json",
+      "version": "1.0.0",
+      "path": "v1/finding.schema.json"
+    },
+    {
+      "name": "observation",
+      "title": "Observation",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/observation.schema.json",
+      "version": "1.0.0",
+      "path": "v1/observation.schema.json"
+    },
+    {
+      "name": "evidence-envelope",
+      "title": "EvidenceEnvelope",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/evidenceenvelope.schema.json",
+      "version": "1.0.0",
+      "path": "v1/evidence-envelope.schema.json"
+    },
+    {
+      "name": "evidence-admission",
+      "title": "EvidenceAdmissionResult",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/evidenceadmissionresult.schema.json",
+      "version": "1.0.0",
+      "path": "v1/evidence-admission.schema.json"
+    },
+    {
+      "name": "claim",
+      "title": "ClaimDefinition",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/claimdefinition.schema.json",
+      "version": "1.0.0",
+      "path": "v1/claim.schema.json"
+    },
+    {
+      "name": "control",
+      "title": "ControlDefinition",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/controldefinition.schema.json",
+      "version": "1.0.0",
+      "path": "v1/control.schema.json"
+    },
+    {
+      "name": "control-result",
+      "title": "ControlResult",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/controlresult.schema.json",
+      "version": "1.0.0",
+      "path": "v1/control-result.schema.json"
+    },
+    {
+      "name": "profile",
+      "title": "AssuranceProfile",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/assuranceprofile.schema.json",
+      "version": "1.0.0",
+      "path": "v1/profile.schema.json"
+    },
+    {
+      "name": "policy",
+      "title": "AssurancePolicy",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/assurancepolicy.schema.json",
+      "version": "1.0.0",
+      "path": "v1/policy.schema.json"
+    },
+    {
+      "name": "waiver",
+      "title": "Waiver",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/waiver.schema.json",
+      "version": "1.0.0",
+      "path": "v1/waiver.schema.json"
+    },
+    {
+      "name": "unknown",
+      "title": "Unknown",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/unknown.schema.json",
+      "version": "1.0.0",
+      "path": "v1/unknown.schema.json"
+    },
+    {
+      "name": "decision",
+      "title": "AssuranceDecision",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/assurancedecision.schema.json",
+      "version": "1.0.0",
+      "path": "v1/decision.schema.json"
+    },
+    {
+      "name": "audit-bundle-manifest",
+      "title": "AuditBundleManifest",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/auditbundlemanifest.schema.json",
+      "version": "1.0.0",
+      "path": "v1/audit-bundle-manifest.schema.json"
+    }
+  ]
+}

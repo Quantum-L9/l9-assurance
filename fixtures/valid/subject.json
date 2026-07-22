@@ -1,0 +1,11 @@
+{
+  "kind": "git-revision",
+  "repository": {
+    "host": "github.com",
+    "owner": "Quantum-L9",
+    "name": "example"
+  },
+  "revision": {
+    "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+}

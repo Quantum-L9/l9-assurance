@@ -1,0 +1,61 @@
+{
+  "schema": "l9.observation",
+  "schemaVersion": "1.0.0",
+  "observationId": "obs_malicious_markdown",
+  "producer": {
+    "id": "l9-ci-sdk",
+    "version": "2.0.0",
+    "repository": "Quantum-L9/l9-ci-sdk"
+  },
+  "subject": {
+    "kind": "git-revision",
+    "repository": {
+      "host": "github.com",
+      "owner": "Quantum-L9",
+      "name": "example"
+    },
+    "revision": {
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "check": {
+    "id": "l9.mandatory-findings",
+    "version": "1.0.0",
+    "configurationDigest": {
+      "algorithm": "sha256",
+      "value": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "execution": {
+    "runId": "run_fixture",
+    "attempt": 1,
+    "status": "failed",
+    "startedAt": "2026-07-21T00:00:00.000Z",
+    "completedAt": "2026-07-21T00:00:01.000Z"
+  },
+  "summary": {
+    "findingCount": 1,
+    "errorCount": 1,
+    "warningCount": 0,
+    "informationalCount": 0
+  },
+  "findings": [
+    {
+      "findingId": "finding_critical_1",
+      "ruleId": "l9.banned-imports",
+      "ruleVersion": "1.0.0",
+      "severity": "critical",
+      "disposition": "open",
+      "message": "<script>alert(1)</script> forbidden import",
+      "location": {
+        "path": "src/index.ts",
+        "lineStart": 1,
+        "columnStart": 1,
+        "lineEnd": 1,
+        "columnEnd": 10
+      },
+      "fingerprint": "fp_critical_1"
+    }
+  ],
+  "artifacts": []
+}

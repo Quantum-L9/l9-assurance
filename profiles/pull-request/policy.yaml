@@ -1,0 +1,26 @@
+{
+  "id": "l9.organization-default",
+  "version": "1.0.0",
+  "title": "L9 Organization Default Release-zero Policy",
+  "controlOverrides": [],
+  "mandatoryFindingSeverities": [
+    "critical",
+    "high"
+  ],
+  "unknownHandling": {
+    "mandatory": "indeterminate",
+    "advisory": "indeterminate"
+  },
+  "waiverAuthorization": {
+    "acceptedRoles": [
+      "repository-owner",
+      "security-owner"
+    ],
+    "requireSignature": false
+  },
+  "hardProhibitions": [],
+  "minimumPolicyVersion": "1.0.0",
+  "extensions": {
+    "l9.policy.trust-status": "development-unactivated"
+  }
+}

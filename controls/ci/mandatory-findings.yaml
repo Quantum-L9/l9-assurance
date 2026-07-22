@@ -1,0 +1,53 @@
+{
+  "id": "L9.CI.MANDATORY_FINDINGS_ABSENT",
+  "version": "1.0.0",
+  "claim": "l9.claim.mandatory-findings-absent",
+  "title": "Mandatory findings are absent",
+  "description": "Mandatory findings are absent.",
+  "severity": "mandatory",
+  "applicability": {
+    "subjectKind": "git-revision"
+  },
+  "evidenceRequirements": [
+    {
+      "producer": "l9-ci-sdk",
+      "check": "l9.mandatory-findings",
+      "minimumCheckVersion": "1.0.0",
+      "acceptedExecutionStatus": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "cardinality": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "subjectBinding": {
+        "exactRevision": true
+      },
+      "freshness": {
+        "mode": "revision-bound"
+      }
+    }
+  ],
+  "dependencies": [],
+  "evaluation": {
+    "type": "no-matching-findings",
+    "mandatoryFindingSeverities": [
+      "critical",
+      "high"
+    ]
+  },
+  "freshness": {
+    "mode": "revision-bound"
+  },
+  "waiver": {
+    "allowed": true,
+    "requiredRoles": [
+      "repository-owner",
+      "security-owner"
+    ],
+    "maximumDurationSeconds": 604800
+  }
+}

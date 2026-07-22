@@ -1,0 +1,52 @@
+{
+  "id": "l9.pull-request",
+  "version": "1.0.0",
+  "title": "L9 Pull Request Assurance",
+  "subjectKinds": [
+    "git-revision"
+  ],
+  "controls": [
+    {
+      "id": "L9.CI.REPOSITORY_METADATA",
+      "version": "1.0.0"
+    },
+    {
+      "id": "L9.CI.TRANSPORT_PACKET",
+      "version": "1.0.0"
+    },
+    {
+      "id": "L9.CI.SDK_VALIDATION",
+      "version": "1.0.0"
+    },
+    {
+      "id": "L9.CI.LINT",
+      "version": "1.0.0"
+    },
+    {
+      "id": "L9.CI.TESTS",
+      "version": "1.0.0"
+    },
+    {
+      "id": "L9.CI.MANDATORY_FINDINGS_ABSENT",
+      "version": "1.0.0"
+    },
+    {
+      "id": "L9.CI.EVIDENCE_REVISION_CONSISTENCY",
+      "version": "1.0.0"
+    }
+  ],
+  "defaultPolicy": {
+    "id": "l9.organization-default",
+    "version": "1.0.0"
+  },
+  "outputClaims": [
+    {
+      "id": "l9.claim.pull-request-controls-satisfied",
+      "version": "1.0.0"
+    }
+  ],
+  "compatibility": {
+    "minimumAssuranceVersion": "2.0.0",
+    "minimumSchemaVersion": "1.0.0"
+  }
+}
