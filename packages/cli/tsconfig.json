@@ -24,6 +24,9 @@
     },
     {
       "path": "../evaluator"
+    },
+    {
+      "path": "../conformance"
     }
   ]
 }

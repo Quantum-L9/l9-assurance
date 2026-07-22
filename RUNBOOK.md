@@ -1,56 +1,90 @@
-# Operator Runbook
+# Runbook
 
-## Validate the repository
+## Prerequisites
+
+- Node.js 22 or newer
+- npm 10 or newer
+- Python 3 for cross-language conformance
+
+## Install and validate
 
 ```bash
-npm ci
+npm ci --ignore-scripts
 npm run ci
-npm run benchmark
-npm pack --workspaces --dry-run
+npm run benchmark -- --output validation-benchmark.json
+npm pack --workspaces --dry-run --json
 ```
 
-## Activate producer trust
+## Generate a plan from the embedded protocol
 
-The checked-in `l9-ci-sdk` producer is pending. Activation requires an evidence-backed minimum version, permitted version range, check ownership, optional build digest requirements, architecture review, and security review. Modify `registry/producers.yaml`, regenerate its reviewed digest where the consuming control plane stores one, and rerun the full conformance suite.
+```bash
+npm run build
+mkdir -p artifacts
+node packages/cli/dist/bin.js plan \
+  --profile l9.pull-request@1 \
+  --subject fixtures/valid/subject.json \
+  --output artifacts/assurance-plan.json
+node packages/cli/dist/bin.js verify-plan \
+  --plan artifacts/assurance-plan.json
+```
 
-Never activate trust merely to make an indeterminate decision pass.
+Expected result: exit code `0`; schema `l9.assurance-plan`; schema version `1.0.0`; seven controls; six checks; one producer; protocol digest `46c8328bbdc12452f8c61f6e43c3b3f001189ccf8321a364d4c1f0f79c9d4e2a`.
 
-## Unsupported schema
+## Admit evidence
 
-Containment: reject or quarantine the artifact. Do not reinterpret it. Preserve the artifact digest and admission report. Upgrade only through an approved schema compatibility change.
+```bash
+node packages/cli/dist/bin.js evidence admit \
+  --subject fixtures/valid/subject.json \
+  --input fixtures/valid \
+  --received-at 2026-07-21T00:00:02.000Z \
+  --output artifacts/admission
+```
 
-## Producer version pending or revoked
+The checked-in production registry is pending, so production-shaped observations may be quarantined until trust is approved. For conformance, use the explicit trusted fixture registries.
 
-Containment: quarantine pending producers and reject revoked versions. Do not widen an allowed range during incident response. Preserve affected evidence and issue an indeterminate decision when mandatory evidence cannot be established.
+## Run producer conformance
 
-## Missing evidence
+```bash
+node packages/cli/dist/bin.js conformance producer \
+  --producer l9-ci-sdk \
+  --input fixtures/valid \
+  --subject fixtures/valid/subject.json \
+  --received-at 2026-07-21T00:00:02.000Z \
+  --producer-registry fixtures/compatibility/producer-registry.trusted.json \
+  --check-registry fixtures/compatibility/check-registry.json
+```
 
-Confirm artifact transport first. The semantic decision is indeterminate. Do not synthesize an observation or convert absence into positive failure evidence.
+A pass requires at least one artifact, structural validity for all artifacts, zero rejected evidence, zero quarantined evidence, the expected producer identity, and registry-aware admission success.
 
-## Subject mismatch
+## Evaluate admitted evidence
 
-Reject the evidence with `EVIDENCE_SUBJECT_MISMATCH` or `EVIDENCE_REVISION_MISMATCH`. Trigger fresh producer execution for the exact commit.
+```bash
+node packages/cli/dist/bin.js evaluate \
+  --subject fixtures/valid/subject.json \
+  --profile l9.pull-request@1 \
+  --policy l9.organization-default@1 \
+  --evidence artifacts/admission/accepted \
+  --evaluation-time 2026-07-21T00:00:02.000Z \
+  --output artifacts/assurance
+```
 
-## Replay mismatch
+## Validate standalone packaging
 
-Stop authority promotion, preserve both payloads and fingerprints, and inspect observation identity reuse or tampering. A replay mismatch is not eligible for automatic acceptance.
+```bash
+npm run validate:distribution
+```
 
-## Policy or profile corruption
+This packs all eight workspaces, performs an offline local-tarball installation in a clean consumer, runs `l9-assurance plan` without `--root`, and verifies the result.
 
-Pin to the last verified digest, disable authoritative issuance if the expected digest cannot be established, and preserve the rejected definitions.
+## Failure recovery
 
-## Test signer exposure
+- `Protocol manifest file digest mismatch`: discard the package or regenerate with `npm run generate:protocol`; never bypass validation.
+- `Protocol manifest aggregate digest mismatch`: treat the bundle as corrupted or incoherent.
+- `EVIDENCE_*`: inspect `admission-report.json`; do not feed rejected or quarantined records to evaluation.
+- Exit `41`: profile or policy selection failure.
+- Exit `42`: evidence admission failure.
+- Exit `50`: invariant failure; stop promotion.
 
-Treat as a trust-boundary incident. Remove production reachability, invalidate affected non-production artifacts, rerun architecture and trust-policy tests, and do not claim production signature validity.
+## Promotion guard
 
-## CI-core publication discrepancy
-
-The canonical JSON decision wins. Disable the contradictory projection or publication path, preserve the byte-level decision and rendered output, and correct CI Core without changing the decision.
-
-## Emergency authority disablement
-
-CI Core owns the authority switch. L9 Assurance continues issuing clearly identified decisions, but they remain non-authoritative until governance re-enables publication authority.
-
-## Rewrite rollback
-
-Before merging v2, preserve the final v1 commit through an immutable rollback reference. During review, abandon or close the rewrite branch rather than mutating `main`. After authority promotion, rollback must occur in CI Core without deleting issued decisions.
+Do not make Assurance authoritative until the trusted SDK build identity, hosted CI, shadow-mode comparison, and rollback evidence are approved.

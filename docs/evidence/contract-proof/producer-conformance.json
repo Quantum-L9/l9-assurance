@@ -1,0 +1,995 @@
+{
+  "producerId": "l9-ci-sdk",
+  "passed": true,
+  "cases": [
+    {
+      "index": 0,
+      "status": "pass",
+      "reasons": []
+    },
+    {
+      "index": 1,
+      "status": "pass",
+      "reasons": []
+    },
+    {
+      "index": 2,
+      "status": "pass",
+      "reasons": []
+    },
+    {
+      "index": 3,
+      "status": "pass",
+      "reasons": []
+    },
+    {
+      "index": 4,
+      "status": "pass",
+      "reasons": []
+    },
+    {
+      "index": 5,
+      "status": "pass",
+      "reasons": []
+    }
+  ],
+  "admission": {
+    "subject": {
+      "kind": "git-revision",
+      "repository": {
+        "host": "github.com",
+        "owner": "Quantum-L9",
+        "name": "example"
+      },
+      "revision": {
+        "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "receivedAt": "2026-07-21T00:00:02.000Z",
+    "results": [
+      {
+        "evidenceId": "ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5",
+        "status": "accepted",
+        "reasons": [],
+        "validations": {
+          "schema": {
+            "status": "pass"
+          },
+          "producer": {
+            "status": "pass"
+          },
+          "subject": {
+            "status": "pass"
+          },
+          "integrity": {
+            "status": "pass"
+          },
+          "freshness": {
+            "status": "pass"
+          },
+          "authorization": {
+            "status": "pass"
+          },
+          "replay": {
+            "status": "pass"
+          },
+          "lineage": {
+            "status": "pass"
+          }
+        }
+      },
+      {
+        "evidenceId": "ev_64644e71789da2861babcd8c2dd311aa54db2e97",
+        "status": "accepted",
+        "reasons": [],
+        "validations": {
+          "schema": {
+            "status": "pass"
+          },
+          "producer": {
+            "status": "pass"
+          },
+          "subject": {
+            "status": "pass"
+          },
+          "integrity": {
+            "status": "pass"
+          },
+          "freshness": {
+            "status": "pass"
+          },
+          "authorization": {
+            "status": "pass"
+          },
+          "replay": {
+            "status": "pass"
+          },
+          "lineage": {
+            "status": "pass"
+          }
+        }
+      },
+      {
+        "evidenceId": "ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a",
+        "status": "accepted",
+        "reasons": [],
+        "validations": {
+          "schema": {
+            "status": "pass"
+          },
+          "producer": {
+            "status": "pass"
+          },
+          "subject": {
+            "status": "pass"
+          },
+          "integrity": {
+            "status": "pass"
+          },
+          "freshness": {
+            "status": "pass"
+          },
+          "authorization": {
+            "status": "pass"
+          },
+          "replay": {
+            "status": "pass"
+          },
+          "lineage": {
+            "status": "pass"
+          }
+        }
+      },
+      {
+        "evidenceId": "ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b",
+        "status": "accepted",
+        "reasons": [],
+        "validations": {
+          "schema": {
+            "status": "pass"
+          },
+          "producer": {
+            "status": "pass"
+          },
+          "subject": {
+            "status": "pass"
+          },
+          "integrity": {
+            "status": "pass"
+          },
+          "freshness": {
+            "status": "pass"
+          },
+          "authorization": {
+            "status": "pass"
+          },
+          "replay": {
+            "status": "pass"
+          },
+          "lineage": {
+            "status": "pass"
+          }
+        }
+      },
+      {
+        "evidenceId": "ev_e11f311a92224de3124a92f50a322cb3d6966f0a",
+        "status": "accepted",
+        "reasons": [],
+        "validations": {
+          "schema": {
+            "status": "pass"
+          },
+          "producer": {
+            "status": "pass"
+          },
+          "subject": {
+            "status": "pass"
+          },
+          "integrity": {
+            "status": "pass"
+          },
+          "freshness": {
+            "status": "pass"
+          },
+          "authorization": {
+            "status": "pass"
+          },
+          "replay": {
+            "status": "pass"
+          },
+          "lineage": {
+            "status": "pass"
+          }
+        }
+      },
+      {
+        "evidenceId": "ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5",
+        "status": "accepted",
+        "reasons": [],
+        "validations": {
+          "schema": {
+            "status": "pass"
+          },
+          "producer": {
+            "status": "pass"
+          },
+          "subject": {
+            "status": "pass"
+          },
+          "integrity": {
+            "status": "pass"
+          },
+          "freshness": {
+            "status": "pass"
+          },
+          "authorization": {
+            "status": "pass"
+          },
+          "replay": {
+            "status": "pass"
+          },
+          "lineage": {
+            "status": "pass"
+          }
+        }
+      }
+    ],
+    "accepted": [
+      {
+        "envelope": {
+          "schema": "l9.evidence-envelope",
+          "schemaVersion": "1.0.0",
+          "evidenceId": "ev_64644e71789da2861babcd8c2dd311aa54db2e97",
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "evidenceType": "l9.observation/l9.mandatory-findings",
+          "observedAt": "2026-07-21T00:00:01.000Z",
+          "issuedAt": "2026-07-21T00:00:02.000Z",
+          "payload": {
+            "schema": "l9.observation",
+            "schemaVersion": "1.0.0",
+            "observationId": "obs_l9_mandatory-findings",
+            "producer": {
+              "id": "l9-ci-sdk",
+              "version": "2.0.0",
+              "repository": "Quantum-L9/l9-ci-sdk"
+            },
+            "subject": {
+              "kind": "git-revision",
+              "repository": {
+                "host": "github.com",
+                "owner": "Quantum-L9",
+                "name": "example"
+              },
+              "revision": {
+                "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            },
+            "check": {
+              "id": "l9.mandatory-findings",
+              "version": "1.0.0",
+              "configurationDigest": {
+                "algorithm": "sha256",
+                "value": "0000000000000000000000000000000000000000000000000000000000000000"
+              }
+            },
+            "execution": {
+              "runId": "run_fixture",
+              "attempt": 1,
+              "status": "passed",
+              "startedAt": "2026-07-21T00:00:00.000Z",
+              "completedAt": "2026-07-21T00:00:01.000Z"
+            },
+            "summary": {
+              "findingCount": 0,
+              "errorCount": 0,
+              "warningCount": 0,
+              "informationalCount": 0
+            },
+            "findings": [],
+            "artifacts": []
+          },
+          "payloadDigest": {
+            "algorithm": "sha256",
+            "value": "5ce76e914fec5eb2f3faad226d84fa2cd1e3ffda7c96fd97369ef721fe584f52"
+          },
+          "sourceObservationId": "obs_l9_mandatory-findings",
+          "lineage": [],
+          "admissionContext": {
+            "receivedAt": "2026-07-21T00:00:02.000Z",
+            "channel": "local"
+          }
+        },
+        "observation": {
+          "schema": "l9.observation",
+          "schemaVersion": "1.0.0",
+          "observationId": "obs_l9_mandatory-findings",
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "check": {
+            "id": "l9.mandatory-findings",
+            "version": "1.0.0",
+            "configurationDigest": {
+              "algorithm": "sha256",
+              "value": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "execution": {
+            "runId": "run_fixture",
+            "attempt": 1,
+            "status": "passed",
+            "startedAt": "2026-07-21T00:00:00.000Z",
+            "completedAt": "2026-07-21T00:00:01.000Z"
+          },
+          "summary": {
+            "findingCount": 0,
+            "errorCount": 0,
+            "warningCount": 0,
+            "informationalCount": 0
+          },
+          "findings": [],
+          "artifacts": []
+        },
+        "fingerprint": "64644e71789da2861babcd8c2dd311aa54db2e974e9a04b7f09d82c839a4170d"
+      },
+      {
+        "envelope": {
+          "schema": "l9.evidence-envelope",
+          "schemaVersion": "1.0.0",
+          "evidenceId": "ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5",
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "evidenceType": "l9.observation/l9.lint",
+          "observedAt": "2026-07-21T00:00:01.000Z",
+          "issuedAt": "2026-07-21T00:00:02.000Z",
+          "payload": {
+            "schema": "l9.observation",
+            "schemaVersion": "1.0.0",
+            "observationId": "obs_l9_lint",
+            "producer": {
+              "id": "l9-ci-sdk",
+              "version": "2.0.0",
+              "repository": "Quantum-L9/l9-ci-sdk"
+            },
+            "subject": {
+              "kind": "git-revision",
+              "repository": {
+                "host": "github.com",
+                "owner": "Quantum-L9",
+                "name": "example"
+              },
+              "revision": {
+                "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            },
+            "check": {
+              "id": "l9.lint",
+              "version": "1.0.0",
+              "configurationDigest": {
+                "algorithm": "sha256",
+                "value": "0000000000000000000000000000000000000000000000000000000000000000"
+              }
+            },
+            "execution": {
+              "runId": "run_fixture",
+              "attempt": 1,
+              "status": "passed",
+              "startedAt": "2026-07-21T00:00:00.000Z",
+              "completedAt": "2026-07-21T00:00:01.000Z"
+            },
+            "summary": {
+              "findingCount": 0,
+              "errorCount": 0,
+              "warningCount": 0,
+              "informationalCount": 0
+            },
+            "findings": [],
+            "artifacts": []
+          },
+          "payloadDigest": {
+            "algorithm": "sha256",
+            "value": "9fb22e045c2dc0adbc9e30b67aa986fd60ca45ee376af493a129d3a4381af170"
+          },
+          "sourceObservationId": "obs_l9_lint",
+          "lineage": [],
+          "admissionContext": {
+            "receivedAt": "2026-07-21T00:00:02.000Z",
+            "channel": "local"
+          }
+        },
+        "observation": {
+          "schema": "l9.observation",
+          "schemaVersion": "1.0.0",
+          "observationId": "obs_l9_lint",
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "check": {
+            "id": "l9.lint",
+            "version": "1.0.0",
+            "configurationDigest": {
+              "algorithm": "sha256",
+              "value": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "execution": {
+            "runId": "run_fixture",
+            "attempt": 1,
+            "status": "passed",
+            "startedAt": "2026-07-21T00:00:00.000Z",
+            "completedAt": "2026-07-21T00:00:01.000Z"
+          },
+          "summary": {
+            "findingCount": 0,
+            "errorCount": 0,
+            "warningCount": 0,
+            "informationalCount": 0
+          },
+          "findings": [],
+          "artifacts": []
+        },
+        "fingerprint": "77bf9e3f50c3d561b3dcb2a7f43249154739dfc5dd50560585e7cb61c3fe7fac"
+      },
+      {
+        "envelope": {
+          "schema": "l9.evidence-envelope",
+          "schemaVersion": "1.0.0",
+          "evidenceId": "ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a",
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "evidenceType": "l9.observation/l9.repository-metadata",
+          "observedAt": "2026-07-21T00:00:01.000Z",
+          "issuedAt": "2026-07-21T00:00:02.000Z",
+          "payload": {
+            "schema": "l9.observation",
+            "schemaVersion": "1.0.0",
+            "observationId": "obs_l9_repository-metadata",
+            "producer": {
+              "id": "l9-ci-sdk",
+              "version": "2.0.0",
+              "repository": "Quantum-L9/l9-ci-sdk"
+            },
+            "subject": {
+              "kind": "git-revision",
+              "repository": {
+                "host": "github.com",
+                "owner": "Quantum-L9",
+                "name": "example"
+              },
+              "revision": {
+                "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            },
+            "check": {
+              "id": "l9.repository-metadata",
+              "version": "1.0.0",
+              "configurationDigest": {
+                "algorithm": "sha256",
+                "value": "0000000000000000000000000000000000000000000000000000000000000000"
+              }
+            },
+            "execution": {
+              "runId": "run_fixture",
+              "attempt": 1,
+              "status": "passed",
+              "startedAt": "2026-07-21T00:00:00.000Z",
+              "completedAt": "2026-07-21T00:00:01.000Z"
+            },
+            "summary": {
+              "findingCount": 0,
+              "errorCount": 0,
+              "warningCount": 0,
+              "informationalCount": 0
+            },
+            "findings": [],
+            "artifacts": []
+          },
+          "payloadDigest": {
+            "algorithm": "sha256",
+            "value": "36f6fdfe582f2a3e4b09cf63aa1f65b7b40835acfbca20d6fddeb972a7012836"
+          },
+          "sourceObservationId": "obs_l9_repository-metadata",
+          "lineage": [],
+          "admissionContext": {
+            "receivedAt": "2026-07-21T00:00:02.000Z",
+            "channel": "local"
+          }
+        },
+        "observation": {
+          "schema": "l9.observation",
+          "schemaVersion": "1.0.0",
+          "observationId": "obs_l9_repository-metadata",
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "check": {
+            "id": "l9.repository-metadata",
+            "version": "1.0.0",
+            "configurationDigest": {
+              "algorithm": "sha256",
+              "value": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "execution": {
+            "runId": "run_fixture",
+            "attempt": 1,
+            "status": "passed",
+            "startedAt": "2026-07-21T00:00:00.000Z",
+            "completedAt": "2026-07-21T00:00:01.000Z"
+          },
+          "summary": {
+            "findingCount": 0,
+            "errorCount": 0,
+            "warningCount": 0,
+            "informationalCount": 0
+          },
+          "findings": [],
+          "artifacts": []
+        },
+        "fingerprint": "8f4f05d30975c1bdd559f60b0fc72f7bb031d06aa2ec313e50234bf1ba295bd9"
+      },
+      {
+        "envelope": {
+          "schema": "l9.evidence-envelope",
+          "schemaVersion": "1.0.0",
+          "evidenceId": "ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b",
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "evidenceType": "l9.observation/l9.sdk-validation",
+          "observedAt": "2026-07-21T00:00:01.000Z",
+          "issuedAt": "2026-07-21T00:00:02.000Z",
+          "payload": {
+            "schema": "l9.observation",
+            "schemaVersion": "1.0.0",
+            "observationId": "obs_l9_sdk-validation",
+            "producer": {
+              "id": "l9-ci-sdk",
+              "version": "2.0.0",
+              "repository": "Quantum-L9/l9-ci-sdk"
+            },
+            "subject": {
+              "kind": "git-revision",
+              "repository": {
+                "host": "github.com",
+                "owner": "Quantum-L9",
+                "name": "example"
+              },
+              "revision": {
+                "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            },
+            "check": {
+              "id": "l9.sdk-validation",
+              "version": "1.0.0",
+              "configurationDigest": {
+                "algorithm": "sha256",
+                "value": "0000000000000000000000000000000000000000000000000000000000000000"
+              }
+            },
+            "execution": {
+              "runId": "run_fixture",
+              "attempt": 1,
+              "status": "passed",
+              "startedAt": "2026-07-21T00:00:00.000Z",
+              "completedAt": "2026-07-21T00:00:01.000Z"
+            },
+            "summary": {
+              "findingCount": 0,
+              "errorCount": 0,
+              "warningCount": 0,
+              "informationalCount": 0
+            },
+            "findings": [],
+            "artifacts": []
+          },
+          "payloadDigest": {
+            "algorithm": "sha256",
+            "value": "acdf8a8cbee35601ea7f0aa6b7f6888a48c1b63d2a548508877c33b19c6b9239"
+          },
+          "sourceObservationId": "obs_l9_sdk-validation",
+          "lineage": [],
+          "admissionContext": {
+            "receivedAt": "2026-07-21T00:00:02.000Z",
+            "channel": "local"
+          }
+        },
+        "observation": {
+          "schema": "l9.observation",
+          "schemaVersion": "1.0.0",
+          "observationId": "obs_l9_sdk-validation",
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "check": {
+            "id": "l9.sdk-validation",
+            "version": "1.0.0",
+            "configurationDigest": {
+              "algorithm": "sha256",
+              "value": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "execution": {
+            "runId": "run_fixture",
+            "attempt": 1,
+            "status": "passed",
+            "startedAt": "2026-07-21T00:00:00.000Z",
+            "completedAt": "2026-07-21T00:00:01.000Z"
+          },
+          "summary": {
+            "findingCount": 0,
+            "errorCount": 0,
+            "warningCount": 0,
+            "informationalCount": 0
+          },
+          "findings": [],
+          "artifacts": []
+        },
+        "fingerprint": "ba9c29dd7847b7312fb64f360bd1aa7ad558d25b8c0c984e032938d19773027b"
+      },
+      {
+        "envelope": {
+          "schema": "l9.evidence-envelope",
+          "schemaVersion": "1.0.0",
+          "evidenceId": "ev_e11f311a92224de3124a92f50a322cb3d6966f0a",
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "evidenceType": "l9.observation/l9.tests",
+          "observedAt": "2026-07-21T00:00:01.000Z",
+          "issuedAt": "2026-07-21T00:00:02.000Z",
+          "payload": {
+            "schema": "l9.observation",
+            "schemaVersion": "1.0.0",
+            "observationId": "obs_l9_tests",
+            "producer": {
+              "id": "l9-ci-sdk",
+              "version": "2.0.0",
+              "repository": "Quantum-L9/l9-ci-sdk"
+            },
+            "subject": {
+              "kind": "git-revision",
+              "repository": {
+                "host": "github.com",
+                "owner": "Quantum-L9",
+                "name": "example"
+              },
+              "revision": {
+                "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            },
+            "check": {
+              "id": "l9.tests",
+              "version": "1.0.0",
+              "configurationDigest": {
+                "algorithm": "sha256",
+                "value": "0000000000000000000000000000000000000000000000000000000000000000"
+              }
+            },
+            "execution": {
+              "runId": "run_fixture",
+              "attempt": 1,
+              "status": "passed",
+              "startedAt": "2026-07-21T00:00:00.000Z",
+              "completedAt": "2026-07-21T00:00:01.000Z"
+            },
+            "summary": {
+              "findingCount": 0,
+              "errorCount": 0,
+              "warningCount": 0,
+              "informationalCount": 0
+            },
+            "findings": [],
+            "artifacts": []
+          },
+          "payloadDigest": {
+            "algorithm": "sha256",
+            "value": "d4b01bdcef5d021ceed32a488c9d9e07ef76ec682838d18a3362f4c087cab5b5"
+          },
+          "sourceObservationId": "obs_l9_tests",
+          "lineage": [],
+          "admissionContext": {
+            "receivedAt": "2026-07-21T00:00:02.000Z",
+            "channel": "local"
+          }
+        },
+        "observation": {
+          "schema": "l9.observation",
+          "schemaVersion": "1.0.0",
+          "observationId": "obs_l9_tests",
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "check": {
+            "id": "l9.tests",
+            "version": "1.0.0",
+            "configurationDigest": {
+              "algorithm": "sha256",
+              "value": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "execution": {
+            "runId": "run_fixture",
+            "attempt": 1,
+            "status": "passed",
+            "startedAt": "2026-07-21T00:00:00.000Z",
+            "completedAt": "2026-07-21T00:00:01.000Z"
+          },
+          "summary": {
+            "findingCount": 0,
+            "errorCount": 0,
+            "warningCount": 0,
+            "informationalCount": 0
+          },
+          "findings": [],
+          "artifacts": []
+        },
+        "fingerprint": "e11f311a92224de3124a92f50a322cb3d6966f0a161317f5cd5e830d28b5a93f"
+      },
+      {
+        "envelope": {
+          "schema": "l9.evidence-envelope",
+          "schemaVersion": "1.0.0",
+          "evidenceId": "ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5",
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "evidenceType": "l9.observation/l9.transport-packet",
+          "observedAt": "2026-07-21T00:00:01.000Z",
+          "issuedAt": "2026-07-21T00:00:02.000Z",
+          "payload": {
+            "schema": "l9.observation",
+            "schemaVersion": "1.0.0",
+            "observationId": "obs_l9_transport-packet",
+            "producer": {
+              "id": "l9-ci-sdk",
+              "version": "2.0.0",
+              "repository": "Quantum-L9/l9-ci-sdk"
+            },
+            "subject": {
+              "kind": "git-revision",
+              "repository": {
+                "host": "github.com",
+                "owner": "Quantum-L9",
+                "name": "example"
+              },
+              "revision": {
+                "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            },
+            "check": {
+              "id": "l9.transport-packet",
+              "version": "1.0.0",
+              "configurationDigest": {
+                "algorithm": "sha256",
+                "value": "0000000000000000000000000000000000000000000000000000000000000000"
+              }
+            },
+            "execution": {
+              "runId": "run_fixture",
+              "attempt": 1,
+              "status": "passed",
+              "startedAt": "2026-07-21T00:00:00.000Z",
+              "completedAt": "2026-07-21T00:00:01.000Z"
+            },
+            "summary": {
+              "findingCount": 0,
+              "errorCount": 0,
+              "warningCount": 0,
+              "informationalCount": 0
+            },
+            "findings": [],
+            "artifacts": []
+          },
+          "payloadDigest": {
+            "algorithm": "sha256",
+            "value": "8a97794e8bb5d21af892886d32c21f979bd0bd06131ba181e24669aac470c1e6"
+          },
+          "sourceObservationId": "obs_l9_transport-packet",
+          "lineage": [],
+          "admissionContext": {
+            "receivedAt": "2026-07-21T00:00:02.000Z",
+            "channel": "local"
+          }
+        },
+        "observation": {
+          "schema": "l9.observation",
+          "schemaVersion": "1.0.0",
+          "observationId": "obs_l9_transport-packet",
+          "producer": {
+            "id": "l9-ci-sdk",
+            "version": "2.0.0",
+            "repository": "Quantum-L9/l9-ci-sdk"
+          },
+          "subject": {
+            "kind": "git-revision",
+            "repository": {
+              "host": "github.com",
+              "owner": "Quantum-L9",
+              "name": "example"
+            },
+            "revision": {
+              "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          },
+          "check": {
+            "id": "l9.transport-packet",
+            "version": "1.0.0",
+            "configurationDigest": {
+              "algorithm": "sha256",
+              "value": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "execution": {
+            "runId": "run_fixture",
+            "attempt": 1,
+            "status": "passed",
+            "startedAt": "2026-07-21T00:00:00.000Z",
+            "completedAt": "2026-07-21T00:00:01.000Z"
+          },
+          "summary": {
+            "findingCount": 0,
+            "errorCount": 0,
+            "warningCount": 0,
+            "informationalCount": 0
+          },
+          "findings": [],
+          "artifacts": []
+        },
+        "fingerprint": "f6fecb825aec3e859fefe5372c0582638d1a6cc5985ee811b3209486bc964c93"
+      }
+    ],
+    "rejectedCount": 0,
+    "quarantinedCount": 0,
+    "duplicateCount": 0,
+    "unknowns": []
+  },
+  "files": 6
+}

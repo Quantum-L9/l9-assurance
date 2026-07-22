@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "controls": [
+    {
+      "id": "L9.CI.REPOSITORY_METADATA",
+      "version": "1.0.0",
+      "path": "controls/ci/repository-metadata.yaml",
+      "digest_status": "generated-at-runtime"
+    },
+    {
+      "id": "L9.CI.TRANSPORT_PACKET",
+      "version": "1.0.0",
+      "path": "controls/ci/transport-packet.yaml",
+      "digest_status": "generated-at-runtime"
+    },
+    {
+      "id": "L9.CI.SDK_VALIDATION",
+      "version": "1.0.0",
+      "path": "controls/ci/sdk-validation.yaml",
+      "digest_status": "generated-at-runtime"
+    },
+    {
+      "id": "L9.CI.LINT",
+      "version": "1.0.0",
+      "path": "controls/ci/lint.yaml",
+      "digest_status": "generated-at-runtime"
+    },
+    {
+      "id": "L9.CI.TESTS",
+      "version": "1.0.0",
+      "path": "controls/ci/tests.yaml",
+      "digest_status": "generated-at-runtime"
+    },
+    {
+      "id": "L9.CI.MANDATORY_FINDINGS_ABSENT",
+      "version": "1.0.0",
+      "path": "controls/ci/mandatory-findings.yaml",
+      "digest_status": "generated-at-runtime"
+    },
+    {
+      "id": "L9.CI.EVIDENCE_REVISION_CONSISTENCY",
+      "version": "1.0.0",
+      "path": "controls/ci/evidence-revision-consistency.yaml",
+      "digest_status": "generated-at-runtime"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "@l9/assurance",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "description": "Deterministic evidence admission, control evaluation, and assurance decisions for the Quantum-L9 CI constellation.",
   "license": "UNLICENSED",
@@ -40,7 +40,10 @@
     "ci": "node scripts/ci.mjs ci",
     "benchmark": "node scripts/benchmark.mjs",
     "validate:build-evidence": "node scripts/validate-build-evidence.mjs",
-    "validate:completeness": "node scripts/validate-completeness.mjs"
+    "validate:completeness": "node scripts/validate-completeness.mjs",
+    "generate:protocol": "node scripts/sync-protocol-bundle.mjs --write",
+    "check:protocol": "node scripts/sync-protocol-bundle.mjs --check",
+    "validate:distribution": "node scripts/validate-cli-distribution.mjs"
   },
   "devDependencies": {
     "typescript": "5.8.3"

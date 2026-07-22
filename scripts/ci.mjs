@@ -4,6 +4,7 @@ import { ROOT } from './lib/files.mjs';
 const mode = process.argv[2] ?? 'ci';
 const common = [
   'check:generated',
+  'check:protocol',
   'format:check',
   'lint',
   'validate:schemas',
@@ -14,6 +15,7 @@ const common = [
   'validate:completeness',
   'typecheck',
   'build',
+  'validate:distribution',
   'test',
 ];
 const commands = mode === 'validate' ? common : [...common, 'verify:replay'];

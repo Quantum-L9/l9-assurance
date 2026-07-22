@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "checks": [
+    {
+      "id": "l9.repository-metadata",
+      "version": "1.0.0",
+      "owner": "l9-ci-sdk",
+      "output_schema": "l9.observation/v1",
+      "meaning": "repository metadata validation",
+      "deterministic": true,
+      "revision_bound": true,
+      "accepted_execution_statuses": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "configuration_digest_required": true,
+      "superseded_versions": [],
+      "revoked_versions": []
+    },
+    {
+      "id": "l9.transport-packet",
+      "version": "1.0.0",
+      "owner": "l9-ci-sdk",
+      "output_schema": "l9.observation/v1",
+      "meaning": "repository transport packet validation",
+      "deterministic": true,
+      "revision_bound": true,
+      "accepted_execution_statuses": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "configuration_digest_required": true,
+      "superseded_versions": [],
+      "revoked_versions": []
+    },
+    {
+      "id": "l9.sdk-validation",
+      "version": "1.0.0",
+      "owner": "l9-ci-sdk",
+      "output_schema": "l9.observation/v1",
+      "meaning": "canonical SDK validation stage",
+      "deterministic": true,
+      "revision_bound": true,
+      "accepted_execution_statuses": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "configuration_digest_required": true,
+      "superseded_versions": [],
+      "revoked_versions": []
+    },
+    {
+      "id": "l9.lint",
+      "version": "1.0.0",
+      "owner": "l9-ci-sdk",
+      "output_schema": "l9.observation/v1",
+      "meaning": "lint and static validation stage",
+      "deterministic": true,
+      "revision_bound": true,
+      "accepted_execution_statuses": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "configuration_digest_required": true,
+      "superseded_versions": [],
+      "revoked_versions": []
+    },
+    {
+      "id": "l9.tests",
+      "version": "1.0.0",
+      "owner": "l9-ci-sdk",
+      "output_schema": "l9.observation/v1",
+      "meaning": "test stage execution result",
+      "deterministic": true,
+      "revision_bound": true,
+      "accepted_execution_statuses": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "configuration_digest_required": true,
+      "superseded_versions": [],
+      "revoked_versions": []
+    },
+    {
+      "id": "l9.mandatory-findings",
+      "version": "1.0.0",
+      "owner": "l9-ci-sdk",
+      "output_schema": "l9.observation/v1",
+      "meaning": "mandatory finding inventory",
+      "deterministic": true,
+      "revision_bound": true,
+      "accepted_execution_statuses": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "configuration_digest_required": true,
+      "superseded_versions": [],
+      "revoked_versions": []
+    }
+  ]
+}

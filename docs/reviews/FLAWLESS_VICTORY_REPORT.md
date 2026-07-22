@@ -2,24 +2,24 @@
 
 ## Result
 
-The Release-zero repository is complete for branch review and shadow-mode integration. Confirmed implementation gaps were repaired, behavior tests were expanded, completeness became machine-enforced, and the final source is independently rebuildable.
+Release 2.0.1 resolves the five Assurance-to-Harness seam findings without expanding Assurance ownership. The plan, distribution bundle, canonicalization, artifact layout, and producer conformance are now executable contracts rather than documentation assumptions.
 
 ## Proof layers
 
-- strict TypeScript typecheck;
-- eight-workspace build;
-- generated binding drift check;
-- schema, registry, boundary, fixture, build-evidence, and completeness validators;
-- eight test categories;
-- dedicated deterministic replay gate;
-- performance benchmark;
-- eight workspace package dry-runs;
+- plan schema and digest verification;
+- per-file and aggregate embedded protocol verification;
+- TypeScript/Python canonicalization vectors;
+- offline local-tarball clean-consumer installation;
+- registry-aware producer conformance;
+- strict typecheck and eight-workspace build;
+- 67 tests across eight categories;
+- replay and performance gates;
 - source-only clean-room CI;
-- source checksum convergence;
-- final archive integrity and no-nested-archive check.
+- consolidated archive integrity.
 
 ## Release decision
 
 - Source implementation: PASS.
-- Branch review and shadow-mode integration: GO.
-- Production authority promotion: NO_GO pending UNKNOWN-001 through UNKNOWN-003.
+- Harness locked-seam integration: GO.
+- Production adapters: NO_GO until SDK contract and trust are locked.
+- Production authority promotion: NO_GO pending external Unknowns.

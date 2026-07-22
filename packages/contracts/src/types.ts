@@ -98,14 +98,6 @@ export interface VerificationReport {
   readonly reasons: readonly string[];
 }
 
-export interface AssurancePlan {
-  readonly subject: SubjectReference;
-  readonly profile: { readonly id: string; readonly version: string };
-  readonly controls: readonly { readonly id: string; readonly version: string; readonly severity: string }[];
-  readonly requiredProducers: readonly string[];
-  readonly requiredChecks: readonly string[];
-  readonly waiverRules: readonly { readonly controlId: string; readonly allowed: boolean }[];
-}
 
 export interface EvidenceReferenceRecord {
   readonly evidenceId: string;

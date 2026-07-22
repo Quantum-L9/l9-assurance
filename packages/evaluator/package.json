@@ -1,6 +1,6 @@
 {
   "name": "@l9/assurance-evaluator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Pure deterministic assurance control evaluation and decision issuance.",
   "license": "UNLICENSED",
   "type": "module",
@@ -25,9 +25,9 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@l9/assurance-contracts": "2.0.0",
-    "@l9/assurance-evidence": "2.0.0",
-    "@l9/assurance-controls": "2.0.0",
-    "@l9/assurance-policy": "2.0.0"
+    "@l9/assurance-contracts": "2.0.1",
+    "@l9/assurance-evidence": "2.0.1",
+    "@l9/assurance-controls": "2.0.1",
+    "@l9/assurance-policy": "2.0.1"
   }
 }

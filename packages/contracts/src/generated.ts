@@ -8,6 +8,90 @@ export interface ArtifactReference {
   readonly uri?: string;
 }
 
+export interface AssurancePlan {
+  readonly schema: "l9.assurance-plan";
+  readonly schemaVersion: "1.0.0";
+  readonly planId: string;
+  readonly subject: SubjectReference;
+  readonly profile: {
+    readonly id: string;
+    readonly version: string;
+    readonly digest: Digest;
+  };
+  readonly policy: {
+    readonly id: string;
+    readonly version: string;
+    readonly digest: Digest;
+  };
+  readonly protocol: {
+    readonly assuranceVersion: string;
+    readonly schemaVersion: "1.0.0";
+    readonly canonicalization: "l9.canonical-json/v1";
+    readonly digestAlgorithm: "sha256";
+    readonly bundleDigest: Digest;
+  };
+  readonly controls: readonly ({
+    readonly id: string;
+    readonly version: string;
+    readonly severity: "mandatory" | "advisory";
+    readonly evidenceRequirements: readonly ({
+      readonly producer: string;
+      readonly check: string;
+      readonly checkVersion: string;
+      readonly outputSchema: string;
+      readonly acceptedExecutionStatuses: readonly ("passed" | "failed" | "error" | "skipped")[];
+      readonly cardinality: {
+        readonly minimum: number;
+        readonly maximum: number;
+      };
+      readonly subjectBinding: {
+        readonly exactRevision: boolean;
+      };
+      readonly configurationDigestRequired: boolean;
+      readonly freshness: {
+        readonly mode: "revision-bound" | "duration";
+        readonly maximumAgeSeconds?: number;
+      };
+    })[];
+    readonly waiver: {
+      readonly allowed: boolean;
+      readonly requiredRoles: readonly string[];
+      readonly maximumDurationSeconds?: number;
+    };
+  })[];
+  readonly requiredProducers: readonly ({
+    readonly id: string;
+    readonly repository: string;
+    readonly authorizationStatus: "trusted" | "pending" | "revoked";
+    readonly candidateVersionRange: string | null;
+    readonly allowedVersions: string | null;
+    readonly subjectKinds: readonly string[];
+    readonly checks: readonly string[];
+  })[];
+  readonly requiredChecks: readonly ({
+    readonly id: string;
+    readonly version: string;
+    readonly owner: string;
+    readonly outputSchema: string;
+    readonly deterministic: boolean;
+    readonly revisionBound: boolean;
+    readonly acceptedExecutionStatuses: readonly ("passed" | "failed" | "error" | "skipped")[];
+    readonly configurationDigestRequired: boolean;
+  })[];
+  readonly waiverRules: readonly ({
+    readonly controlId: string;
+    readonly allowed: boolean;
+    readonly requiredRoles: readonly string[];
+    readonly maximumDurationSeconds: number | null;
+  })[];
+  readonly sourceDigests: {
+    readonly producerRegistry: Digest;
+    readonly checkRegistry: Digest;
+    readonly controls: Digest;
+  };
+  readonly planDigest: Digest;
+}
+
 export interface AuditBundleManifest {
   readonly schema: "l9.audit-bundle-manifest";
   readonly schemaVersion: "1.0.0";

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "claims": [
+    {
+      "id": "l9.claim.repository-metadata-valid",
+      "version": "1.0.0",
+      "title": "Repository metadata is valid",
+      "description": "Repository metadata is valid.",
+      "subjectKinds": [
+        "git-revision"
+      ]
+    },
+    {
+      "id": "l9.claim.transport-packet-valid",
+      "version": "1.0.0",
+      "title": "Transport packet is valid",
+      "description": "Transport packet is valid.",
+      "subjectKinds": [
+        "git-revision"
+      ]
+    },
+    {
+      "id": "l9.claim.sdk-validation-satisfied",
+      "version": "1.0.0",
+      "title": "SDK validation is satisfied",
+      "description": "SDK validation is satisfied.",
+      "subjectKinds": [
+        "git-revision"
+      ]
+    },
+    {
+      "id": "l9.claim.lint-satisfied",
+      "version": "1.0.0",
+      "title": "Lint policy is satisfied",
+      "description": "Lint policy is satisfied.",
+      "subjectKinds": [
+        "git-revision"
+      ]
+    },
+    {
+      "id": "l9.claim.tests-satisfied",
+      "version": "1.0.0",
+      "title": "Tests policy is satisfied",
+      "description": "Tests policy is satisfied.",
+      "subjectKinds": [
+        "git-revision"
+      ]
+    },
+    {
+      "id": "l9.claim.mandatory-findings-absent",
+      "version": "1.0.0",
+      "title": "Mandatory findings are absent",
+      "description": "Mandatory findings are absent.",
+      "subjectKinds": [
+        "git-revision"
+      ]
+    },
+    {
+      "id": "l9.claim.evidence-revision-consistent",
+      "version": "1.0.0",
+      "title": "Mandatory evidence is revision-consistent",
+      "description": "Mandatory evidence is revision-consistent.",
+      "subjectKinds": [
+        "git-revision"
+      ]
+    },
+    {
+      "id": "l9.claim.pull-request-controls-satisfied",
+      "version": "1.0.0",
+      "title": "Pull-request controls are satisfied",
+      "description": "Pull-request controls are satisfied.",
+      "subjectKinds": [
+        "git-revision"
+      ]
+    }
+  ]
+}

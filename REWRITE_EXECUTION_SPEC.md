@@ -1,3 +1,5 @@
+> Historical execution authority: this locked specification governed the 2.0.0 clean rewrite. The compatible 2.0.1 Assurance-to-Harness seam repair is governed by `SPECIFICATION.md`, `CHANGELOG.md`, and `TRACEABILITY_MAP.yaml`.
+
 # L9 Assurance v2 Clean Rewrite Execution Specification
 
 ## 0. Specification identity

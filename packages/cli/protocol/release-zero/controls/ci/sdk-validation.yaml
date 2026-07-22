@@ -1,0 +1,44 @@
+{
+  "id": "L9.CI.SDK_VALIDATION",
+  "version": "1.0.0",
+  "claim": "l9.claim.sdk-validation-satisfied",
+  "title": "SDK validation passed",
+  "description": "SDK validation passed.",
+  "severity": "mandatory",
+  "applicability": {
+    "subjectKind": "git-revision"
+  },
+  "evidenceRequirements": [
+    {
+      "producer": "l9-ci-sdk",
+      "check": "l9.sdk-validation",
+      "minimumCheckVersion": "1.0.0",
+      "acceptedExecutionStatus": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "cardinality": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "subjectBinding": {
+        "exactRevision": true
+      },
+      "freshness": {
+        "mode": "revision-bound"
+      }
+    }
+  ],
+  "dependencies": [],
+  "evaluation": {
+    "type": "all-requirements-satisfied"
+  },
+  "freshness": {
+    "mode": "revision-bound"
+  },
+  "waiver": {
+    "allowed": false
+  }
+}

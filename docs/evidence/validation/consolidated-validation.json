@@ -1,0 +1,49 @@
+{
+  "schema": "l9.consolidated-validation/v1",
+  "version": "1.3.0",
+  "status": "PASS_WITH_EXTERNAL_UNKNOWNS",
+  "resolvedItems": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "assurance": {
+    "release": "2.0.1",
+    "sourceFiles": 250,
+    "workspaces": 8,
+    "schemas": 19,
+    "protocolBundleFiles": 37,
+    "tests": 67,
+    "ciCommands": 15,
+    "ci": "PASS",
+    "cleanRoomCi": "PASS"
+  },
+  "contracts": {
+    "plan": "PASS",
+    "distribution": "PASS",
+    "canonicalizationTypeScript": "PASS",
+    "canonicalizationPython": "PASS",
+    "artifactLayout": "PASS",
+    "producerConformance": "PASS"
+  },
+  "packageDryRun": {
+    "packages": 8,
+    "files": 218,
+    "status": "PASS"
+  },
+  "archiveHygiene": {
+    "nestedArchives": 0,
+    "dependencyTrees": 0,
+    "buildOutputDirectories": 0,
+    "unfinishedExecutableMarkers": 0
+  },
+  "releaseDecision": {
+    "harnessPhase0And1": "GO",
+    "harnessPhase2": "GO_WITH_IMMUTABLE_ASSURANCE_PIN",
+    "productionAdapters": "NO_GO",
+    "authorityPromotion": "NO_GO"
+  },
+  "unknownRegister": "UNKNOWN_REGISTER.md"
+}

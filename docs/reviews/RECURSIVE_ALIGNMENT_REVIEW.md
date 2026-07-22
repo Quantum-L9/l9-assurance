@@ -2,29 +2,19 @@
 
 ## Architecture alignment
 
-L9 Assurance is a protocol and trust-plane utility library, not a runnable constellation node. TransportPacket and Gate routing rules therefore apply only at external constellation seams, not as internal package wire formats.
+L9 Assurance remains a protocol and trust-plane library, not a runnable constellation node. Harness may coordinate invocation and replay but cannot admit evidence or recreate Assurance decisions.
 
-The rewrite preserves the governing responsibility split:
+## Seam alignment
 
-- CI Core orchestrates and publishes.
-- CI SDK observes.
-- Debt Resolver diagnoses.
-- PR Repair mutates.
-- Debt Intelligence learns.
-- Debt LSP prevents.
-- Assurance admits evidence, evaluates controls, and decides.
-
-## Boundary checks
-
-- No scanner, test execution, GitHub check publication, mutation, LSP, debt mining, or arbitrary validator plugin ownership.
-- Evaluator remains offline and deterministic.
-- Runtime configuration is validated before use.
-- Evidence must be admitted before control evaluation.
-- Exact revision binding is preserved.
-- Test signer remains testing-only.
-- Unknowns remain explicit and authority promotion remains fail-closed.
+- Plans are strict, versioned, complete, canonical, and digest bound.
+- Packaged CLI assets are generated from repository authority and verified before load.
+- Canonicalization is shared across TypeScript and Python through executable vectors.
+- Admission artifacts and decision artifacts have separate canonical roots.
+- Producer conformance invokes actual admission semantics.
+- Harness metadata remains outside canonical Assurance decisions.
 
 ## Alignment result
 
-Release-zero source alignment: PASS.
-Authority promotion: NO_GO until the external Unknown register is resolved.
+Assurance-to-Harness contract alignment: PASS.
+Harness implementation conformance: UNKNOWN because the repository is unavailable.
+Authority promotion: NO_GO until external trust and operational evidence converge.

@@ -1,6 +1,6 @@
 {
   "name": "@l9/assurance-controls",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Declarative control loading, ordering, and evidence matching.",
   "license": "UNLICENSED",
   "type": "module",
@@ -25,6 +25,6 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@l9/assurance-contracts": "2.0.0"
+    "@l9/assurance-contracts": "2.0.1"
   }
 }

@@ -1,7 +1,7 @@
 import { join, relative } from 'node:path';
 import { ROOT, readJson, readText, walkFiles } from './lib/files.mjs';
 const expected=['contracts','evidence','controls','policy','evaluator','conformance','cli','testing'];
-const allowed={contracts:[],evidence:['contracts'],controls:['contracts'],policy:['contracts'],evaluator:['contracts','evidence','controls','policy'],conformance:['contracts','evidence','evaluator'],cli:['contracts','evidence','controls','policy','evaluator'],testing:['contracts']};
+const allowed={contracts:[],evidence:['contracts'],controls:['contracts'],policy:['contracts'],evaluator:['contracts','evidence','controls','policy'],conformance:['contracts','evidence','evaluator'],cli:['contracts','evidence','controls','policy','evaluator','conformance'],testing:['contracts']};
 const packageName=Object.fromEntries(expected.map((name)=>[name,readJson(join(ROOT,'packages',name,'package.json')).name]));
 const keyByName=Object.fromEntries(Object.entries(packageName).map(([k,v])=>[v,k]));
 const errors=[];

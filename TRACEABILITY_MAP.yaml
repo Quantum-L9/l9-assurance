@@ -1,5 +1,5 @@
 schema: l9.assurance.traceability/v1
-release: 2.0.0
+release: 2.0.1
 entries:
   - id: TRACE-001
     defect: nested observation objects were only partially validated
@@ -87,3 +87,35 @@ entries:
     correction: required-artifact, empty-file, unfinished-marker, workspace identity, cache, and nested-archive gate
     validation:
       - npm run validate:completeness
+  - id: TRACE-015
+    defect: Assurance plan lacked a locked schema, complete execution requirements, and digest binding
+    source: packages/cli/src/engine.ts
+    correction: strict assurance-plan schema, resolved control requirements, source/protocol digests, plan digest, and verifyPlan
+    validation:
+      - tests/contract/plan-schema.test.mjs
+  - id: TRACE-016
+    defect: CLI distribution required repository-relative protocol files
+    source: packages/cli/src/config.ts
+    correction: generated 37-file embedded protocol bundle with per-file and aggregate digest verification
+    validation:
+      - scripts/validate-cli-distribution.mjs
+      - tests/security/security.test.mjs
+  - id: TRACE-017
+    defect: Python canonicalization diverged from TypeScript for negative zero and number formatting
+    source: scripts/generate-bindings.mjs
+    correction: generated Python implementation of l9.canonical-json/v1 and shared authority vectors
+    validation:
+      - tests/contract/python-bindings.test.mjs
+      - fixtures/conformance/canonicalization-v1.json
+  - id: TRACE-018
+    defect: public producer conformance was structural-only
+    source: packages/cli/src/commands.ts
+    correction: invoke registry-aware conformance admission with explicit subject, registries, and received time
+    validation:
+      - tests/conformance/conformance.test.mjs
+  - id: TRACE-019
+    defect: Harness artifact layout placed admission output inconsistently
+    source: harness/spec-pack/L9_HARNESS_V2_LOCKED_ASSURANCE_ALIGNMENT_BUILD_SPEC_v1.3.0.md
+    correction: admission artifacts under artifacts/admission and decisions under artifacts/assurance
+    validation:
+      - harness/spec-pack/VALIDATION.md

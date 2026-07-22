@@ -1,0 +1,63 @@
+{
+  "algorithm": "l9.canonical-json/v1",
+  "implementation": "python",
+  "passed": true,
+  "results": [
+    {
+      "id": "negative-zero",
+      "inputJson": "-0.0",
+      "expected": "0",
+      "actual": "0",
+      "passed": true
+    },
+    {
+      "id": "small-exponent",
+      "inputJson": "1e-7",
+      "expected": "1e-7",
+      "actual": "1e-7",
+      "passed": true
+    },
+    {
+      "id": "fixed-upper-bound",
+      "inputJson": "1e20",
+      "expected": "100000000000000000000",
+      "actual": "100000000000000000000",
+      "passed": true
+    },
+    {
+      "id": "scientific-lower-bound",
+      "inputJson": "1e21",
+      "expected": "1e+21",
+      "actual": "1e+21",
+      "passed": true
+    },
+    {
+      "id": "fraction-shortest-roundtrip",
+      "inputJson": "333333333.33333329",
+      "expected": "333333333.3333333",
+      "actual": "333333333.3333333",
+      "passed": true
+    },
+    {
+      "id": "unicode-code-point-key-order",
+      "inputJson": "{\"😀\":1,\"a\":2,\"é\":3}",
+      "expected": "{\"a\":2,\"é\":3,\"😀\":1}",
+      "actual": "{\"a\":2,\"é\":3,\"😀\":1}",
+      "passed": true
+    },
+    {
+      "id": "nested-object-order",
+      "inputJson": "{\"z\":[3,{\"b\":1,\"a\":2}],\"a\":true}",
+      "expected": "{\"a\":true,\"z\":[3,{\"a\":2,\"b\":1}]}",
+      "actual": "{\"a\":true,\"z\":[3,{\"a\":2,\"b\":1}]}",
+      "passed": true
+    },
+    {
+      "id": "escaped-control",
+      "inputJson": "{\"line\":\"a\\nb\"}",
+      "expected": "{\"line\":\"a\\nb\"}",
+      "actual": "{\"line\":\"a\\nb\"}",
+      "passed": true
+    }
+  ]
+}

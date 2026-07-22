@@ -63,10 +63,15 @@ export async function runProducerConformance(
 ): Promise<ProducerConformanceReport> {
   const cases = values.map((value, index) => {
     const validation = validateObservation(value);
+    const producerMatches = validation.observation?.producer.id === options.producerId;
+    const reasons = [
+      ...validation.errors,
+      ...(producerMatches ? [] : [`Expected producer ${options.producerId}.`]),
+    ];
     return {
       index,
-      status: validation.valid ? 'pass' : 'fail',
-      reasons: validation.errors,
+      status: validation.valid && producerMatches ? 'pass' : 'fail',
+      reasons: Object.freeze(reasons),
     } as const;
   });
   const admission = await admitObservations(values, admissionContext(options));

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "profiles": [
+    {
+      "id": "l9.pull-request",
+      "version": "1.0.0",
+      "path": "profiles/pull-request/profile.yaml",
+      "policy_path": "profiles/pull-request/policy.yaml"
+    }
+  ]
+}

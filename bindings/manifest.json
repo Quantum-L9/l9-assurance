@@ -8,6 +8,12 @@
       "version": "1.0.0"
     },
     {
+      "file": "assurance-plan.schema.json",
+      "id": "https://schemas.quantum-l9.dev/assurance/v1/assuranceplan.schema.json",
+      "title": "AssurancePlan",
+      "version": "1.0.0"
+    },
+    {
       "file": "audit-bundle-manifest.schema.json",
       "id": "https://schemas.quantum-l9.dev/assurance/v1/auditbundlemanifest.schema.json",
       "title": "AuditBundleManifest",

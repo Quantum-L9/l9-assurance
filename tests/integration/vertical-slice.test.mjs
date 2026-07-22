@@ -115,3 +115,19 @@ test('CLI and programmatic API issue byte-equivalent decisions', async () => {
 
 test('mandatory unknown policy can convert missing evidence to fail',async()=>{const base=engine();const report=await base.admit({subject:subject(),observations:validObservations().filter((item)=>item.check.id!=='l9.tests'),receivedAt:FIXED_TIME});const config=(await import('../helpers/fixtures.mjs')).trustedConfiguration();const {AssuranceEngine}=await import('@l9/assurance-cli');const strict=new AssuranceEngine({...config,policy:{...config.policy,unknownHandling:{...config.policy.unknownHandling,mandatory:'fail'}}});const decision=await strict.evaluate({subject:subject(),acceptedEvidence:report.accepted,evaluationTime:FIXED_TIME,decisionId:'dec_unknown_fail'});assert.equal(decision.verdict,'fail');assert.match(decision.controlResults.find((item)=>item.controlId==='L9.CI.TESTS').reasons.map((item)=>item.code).join(' '),/CONTROL_POLICY_UNKNOWN_FAIL/);});
 test('policy mandatory finding severities override control defaults',async()=>{const observations=validObservations().map((item)=>item.check.id==='l9.mandatory-findings'?{...item,summary:{findingCount:1,errorCount:0,warningCount:1,informationalCount:0},findings:[{findingId:'medium',ruleId:'x',severity:'medium',disposition:'open',message:'medium'}]}:item);const config=(await import('../helpers/fixtures.mjs')).trustedConfiguration();const {AssuranceEngine}=await import('@l9/assurance-cli');const strict=new AssuranceEngine({...config,policy:{...config.policy,mandatoryFindingSeverities:['critical','high','medium']}});const report=await strict.admit({subject:subject(),observations,receivedAt:FIXED_TIME});const decision=await strict.evaluate({subject:subject(),acceptedEvidence:report.accepted,evaluationTime:FIXED_TIME,decisionId:'dec_medium_fail'});assert.equal(decision.verdict,'fail');});
+
+test('assurance plan is self-describing, complete, and digest-bound', async () => {
+  const { verifyPlan } = await import('@l9/assurance-cli');
+  const plan = await engine().plan({ subject: subject() });
+  assert.equal(plan.schema, 'l9.assurance-plan');
+  assert.equal(plan.schemaVersion, '1.0.0');
+  assert.equal(plan.protocol.canonicalization, 'l9.canonical-json/v1');
+  assert.equal(plan.controls.length, 7);
+  assert.equal(plan.requiredChecks.length, 6);
+  assert.equal(plan.requiredProducers.length, 1);
+  assert.ok(plan.controls.every((control) => control.evidenceRequirements.every((requirement) => requirement.checkVersion === '1.0.0')));
+  assert.ok(plan.controls.every((control) => control.evidenceRequirements.every((requirement) => typeof requirement.configurationDigestRequired === 'boolean')));
+  assert.equal(verifyPlan(plan).valid, true);
+  const mutated = { ...plan, requiredChecks: plan.requiredChecks.slice(1) };
+  assert.equal(verifyPlan(mutated).valid, false);
+});

@@ -1,0 +1,450 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/assuranceplan.schema.json",
+  "title": "AssurancePlan",
+  "description": "Digest-bound execution contract describing the exact Assurance profile, policy, controls, producers, checks, and evidence requirements for a subject.",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "l9.assurance-plan"
+    },
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "planId": {
+      "type": "string",
+      "pattern": "^plan_[a-f0-9]{40}$"
+    },
+    "subject": {
+      "$ref": "./subject.schema.json"
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "digest": {
+          "$ref": "./digest.schema.json"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "digest"
+      ],
+      "unevaluatedProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "digest": {
+          "$ref": "./digest.schema.json"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "digest"
+      ],
+      "unevaluatedProperties": false
+    },
+    "protocol": {
+      "type": "object",
+      "properties": {
+        "assuranceVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "canonicalization": {
+          "const": "l9.canonical-json/v1"
+        },
+        "digestAlgorithm": {
+          "const": "sha256"
+        },
+        "bundleDigest": {
+          "$ref": "./digest.schema.json"
+        }
+      },
+      "required": [
+        "assuranceVersion",
+        "schemaVersion",
+        "canonicalization",
+        "digestAlgorithm",
+        "bundleDigest"
+      ],
+      "unevaluatedProperties": false
+    },
+    "controls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "mandatory",
+              "advisory"
+            ]
+          },
+          "evidenceRequirements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "producer": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "check": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "checkVersion": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d+\\.\\d+$"
+                },
+                "outputSchema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "acceptedExecutionStatuses": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "passed",
+                      "failed",
+                      "error",
+                      "skipped"
+                    ]
+                  }
+                },
+                "cardinality": {
+                  "type": "object",
+                  "properties": {
+                    "minimum": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "maximum": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "minimum",
+                    "maximum"
+                  ],
+                  "unevaluatedProperties": false
+                },
+                "subjectBinding": {
+                  "type": "object",
+                  "properties": {
+                    "exactRevision": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "exactRevision"
+                  ],
+                  "unevaluatedProperties": false
+                },
+                "configurationDigestRequired": {
+                  "type": "boolean"
+                },
+                "freshness": {
+                  "type": "object",
+                  "properties": {
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "revision-bound",
+                        "duration"
+                      ]
+                    },
+                    "maximumAgeSeconds": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ],
+                  "unevaluatedProperties": false
+                }
+              },
+              "required": [
+                "producer",
+                "check",
+                "checkVersion",
+                "outputSchema",
+                "acceptedExecutionStatuses",
+                "cardinality",
+                "subjectBinding",
+                "configurationDigestRequired",
+                "freshness"
+              ],
+              "unevaluatedProperties": false
+            }
+          },
+          "waiver": {
+            "type": "object",
+            "properties": {
+              "allowed": {
+                "type": "boolean"
+              },
+              "requiredRoles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "maximumDurationSeconds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "allowed",
+              "requiredRoles"
+            ],
+            "unevaluatedProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "severity",
+          "evidenceRequirements",
+          "waiver"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "requiredProducers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repository": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorizationStatus": {
+            "type": "string",
+            "enum": [
+              "trusted",
+              "pending",
+              "revoked"
+            ]
+          },
+          "candidateVersionRange": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "allowedVersions": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "subjectKinds": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "checks": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "id",
+          "repository",
+          "authorizationStatus",
+          "candidateVersionRange",
+          "allowedVersions",
+          "subjectKinds",
+          "checks"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "requiredChecks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outputSchema": {
+            "type": "string",
+            "minLength": 1
+          },
+          "deterministic": {
+            "type": "boolean"
+          },
+          "revisionBound": {
+            "type": "boolean"
+          },
+          "acceptedExecutionStatuses": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "passed",
+                "failed",
+                "error",
+                "skipped"
+              ]
+            }
+          },
+          "configurationDigestRequired": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "owner",
+          "outputSchema",
+          "deterministic",
+          "revisionBound",
+          "acceptedExecutionStatuses",
+          "configurationDigestRequired"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "waiverRules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "controlId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "allowed": {
+            "type": "boolean"
+          },
+          "requiredRoles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "maximumDurationSeconds": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          }
+        },
+        "required": [
+          "controlId",
+          "allowed",
+          "requiredRoles",
+          "maximumDurationSeconds"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "sourceDigests": {
+      "type": "object",
+      "properties": {
+        "producerRegistry": {
+          "$ref": "./digest.schema.json"
+        },
+        "checkRegistry": {
+          "$ref": "./digest.schema.json"
+        },
+        "controls": {
+          "$ref": "./digest.schema.json"
+        }
+      },
+      "required": [
+        "producerRegistry",
+        "checkRegistry",
+        "controls"
+      ],
+      "unevaluatedProperties": false
+    },
+    "planDigest": {
+      "$ref": "./digest.schema.json"
+    }
+  },
+  "required": [
+    "schema",
+    "schemaVersion",
+    "planId",
+    "subject",
+    "profile",
+    "policy",
+    "protocol",
+    "controls",
+    "requiredProducers",
+    "requiredChecks",
+    "waiverRules",
+    "sourceDigests",
+    "planDigest"
+  ],
+  "unevaluatedProperties": false
+}

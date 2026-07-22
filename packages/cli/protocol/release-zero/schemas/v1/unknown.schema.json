@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/unknown.schema.json",
+  "title": "Unknown",
+  "description": "Unknown",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "unknownId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "missing-evidence",
+        "invalid-evidence",
+        "stale-evidence",
+        "unsupported-check",
+        "unverified-producer",
+        "policy-ambiguity",
+        "environment-uncertainty",
+        "external-dependency",
+        "other"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "impact": {
+      "type": "string",
+      "enum": [
+        "none",
+        "advisory",
+        "control",
+        "decision"
+      ]
+    },
+    "relatedControls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resolvableBy": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "unknownId",
+    "category",
+    "description",
+    "impact",
+    "relatedControls"
+  ],
+  "unevaluatedProperties": false
+}
