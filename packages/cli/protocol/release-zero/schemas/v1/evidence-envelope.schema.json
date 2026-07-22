@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/evidenceenvelope.schema.json",
+  "title": "EvidenceEnvelope",
+  "description": "EvidenceEnvelope",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "l9.evidence-envelope"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "evidenceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "$ref": "./subject.schema.json"
+    },
+    "producer": {
+      "$ref": "./producer.schema.json"
+    },
+    "evidenceType": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {},
+    "payloadDigest": {
+      "$ref": "./digest.schema.json"
+    },
+    "sourceObservationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lineage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidenceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "digest": {
+            "$ref": "./digest.schema.json"
+          },
+          "evidenceType": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "evidenceId",
+          "digest"
+        ],
+        "unevaluatedProperties": false
+      },
+      "maxItems": 32
+    },
+    "admissionContext": {
+      "type": "object",
+      "properties": {
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "channel": {
+          "type": "string",
+          "enum": [
+            "local",
+            "ci-artifact",
+            "api",
+            "bundle"
+          ]
+        },
+        "transportDigest": {
+          "$ref": "./digest.schema.json"
+        }
+      },
+      "required": [
+        "receivedAt",
+        "channel"
+      ],
+      "unevaluatedProperties": false
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "keyId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "algorithm": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "context": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "keyId",
+        "algorithm",
+        "value",
+        "signedAt"
+      ],
+      "unevaluatedProperties": false
+    },
+    "redaction": {
+      "type": "object",
+      "properties": {
+        "sourceEvidenceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transformationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transformationVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "removedFields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "replacedFields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sourceDigest": {
+          "$ref": "./digest.schema.json"
+        },
+        "derivativeDigest": {
+          "$ref": "./digest.schema.json"
+        },
+        "performedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "performedBy": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "unevaluatedProperties": false
+        }
+      },
+      "required": [
+        "sourceEvidenceId",
+        "transformationId",
+        "transformationVersion",
+        "removedFields",
+        "replacedFields",
+        "sourceDigest",
+        "derivativeDigest",
+        "performedAt",
+        "performedBy"
+      ],
+      "unevaluatedProperties": false
+    },
+    "extensions": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z0-9]+(?:\\.[a-z0-9-]+)+$"
+      },
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "schema",
+    "schemaVersion",
+    "evidenceId",
+    "subject",
+    "producer",
+    "evidenceType",
+    "observedAt",
+    "issuedAt",
+    "payload",
+    "payloadDigest",
+    "lineage"
+  ],
+  "unevaluatedProperties": false
+}

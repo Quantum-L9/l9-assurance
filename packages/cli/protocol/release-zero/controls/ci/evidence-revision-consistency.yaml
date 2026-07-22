@@ -1,0 +1,22 @@
+{
+  "id": "L9.CI.EVIDENCE_REVISION_CONSISTENCY",
+  "version": "1.0.0",
+  "claim": "l9.claim.evidence-revision-consistent",
+  "title": "Evidence revision is consistent",
+  "description": "Evidence revision is consistent.",
+  "severity": "mandatory",
+  "applicability": {
+    "subjectKind": "git-revision"
+  },
+  "evidenceRequirements": [],
+  "dependencies": [],
+  "evaluation": {
+    "type": "exact-subject-consistency"
+  },
+  "freshness": {
+    "mode": "revision-bound"
+  },
+  "waiver": {
+    "allowed": false
+  }
+}

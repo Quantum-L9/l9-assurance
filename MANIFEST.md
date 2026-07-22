@@ -3,11 +3,12 @@
 ## Identity
 
 - Repository: `Quantum-L9/l9-assurance`
-- Target branch: `rewrite/v2-assurance-plane`
-- Release: `2.0.0`
-- Legacy baseline: `af79053c5b7f9c0338edf5f1ff7253f429646cf9`
-- Build mode: clean rewrite in place
-- Validated source files: 207
+- Baseline commit: `be8100797cae30eeca31763ea74c5f7eca7bde82`
+- Aligned candidate release: `2.0.1`
+- Plan schema: `l9.assurance-plan@1.0.0`
+- Canonicalization: `l9.canonical-json/v1`
+- Protocol bundle digest: `46c8328bbdc12452f8c61f6e43c3b3f001189ccf8321a364d4c1f0f79c9d4e2a`
+- Validated source files: 250
 
 ## Active workspaces
 
@@ -22,26 +23,27 @@
 
 ## Protocol inventory
 
-- 18 strict JSON Schema Draft 2020-12 contracts
+- 19 strict JSON Schema Draft 2020-12 contracts
+- 37 digest-bound embedded protocol authority files
 - four reproducible generated binding artifacts
-- TypeScript and Python bindings
-- one producer registry entry, intentionally pending
+- TypeScript and Python canonicalization authority implementations
+- one producer registry entry, intentionally pending in production
 - six Release-zero check identities
 - seven declarative pull-request controls
 - one profile and one default policy
 
 ## Validation inventory
 
-- 13 CI-equivalent repository gates
-- 62 behavior tests across eight categories
-- two dedicated replay cases rerun by the replay gate
-- six valid and eight invalid structural observation fixtures
-- producer and consumer conformance
-- security and adversarial trust-boundary coverage
+- 15 CI commands
+- 67 behavior tests across eight categories
+- two replay cases
+- six valid and eight invalid observation fixtures
+- full producer and consumer conformance
+- plan schema, digest, and tamper tests
 - six performance objectives
-- eight workspace package dry-runs containing 180 files
+- eight package dry-runs containing 218 files
+- clean offline local-tarball consumer installation
 - source-only clean-room CI
-- two-pass source checksum convergence
 
 ## Operator artifacts
 

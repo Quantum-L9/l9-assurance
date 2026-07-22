@@ -28,7 +28,7 @@ function configuration() {
     clock: () => FIXED_TIME,
     evaluator: {
       id: 'l9-assurance',
-      version: '2.0.0',
+      version: '2.0.1',
       repository: 'Quantum-L9/l9-assurance',
     },
   };

@@ -1,0 +1,1204 @@
+[
+  {
+    "id": "@l9/assurance-cli@2.0.1",
+    "name": "@l9/assurance-cli",
+    "version": "2.0.1",
+    "size": 36354,
+    "unpackedSize": 198563,
+    "shasum": "a8ce591508e8046a78bcfe44b8de93fbfe983234",
+    "integrity": "sha512-dVK3hGDuvkiepkaqjMACq/v66IWpgok5ijcbhm6qqK/txb6f3cLHucaz1lqT9IvP8qGbI+Ox6PwnXmjbffcV1Q==",
+    "filename": "l9-assurance-cli-2.0.1.tgz",
+    "files": [
+      {
+        "path": "dist/.tsbuildinfo",
+        "size": 19653,
+        "mode": 420
+      },
+      {
+        "path": "dist/args.d.ts",
+        "size": 510,
+        "mode": 420
+      },
+      {
+        "path": "dist/args.d.ts.map",
+        "size": 564,
+        "mode": 420
+      },
+      {
+        "path": "dist/args.js",
+        "size": 2130,
+        "mode": 420
+      },
+      {
+        "path": "dist/args.js.map",
+        "size": 2668,
+        "mode": 420
+      },
+      {
+        "path": "dist/bin.d.ts",
+        "size": 64,
+        "mode": 420
+      },
+      {
+        "path": "dist/bin.d.ts.map",
+        "size": 100,
+        "mode": 420
+      },
+      {
+        "path": "dist/bin.js",
+        "size": 166,
+        "mode": 493
+      },
+      {
+        "path": "dist/bin.js.map",
+        "size": 260,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands.d.ts",
+        "size": 241,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands.d.ts.map",
+        "size": 358,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands.js",
+        "size": 14178,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands.js.map",
+        "size": 13124,
+        "mode": 420
+      },
+      {
+        "path": "dist/config.d.ts",
+        "size": 1136,
+        "mode": 420
+      },
+      {
+        "path": "dist/config.d.ts.map",
+        "size": 1023,
+        "mode": 420
+      },
+      {
+        "path": "dist/config.js",
+        "size": 12643,
+        "mode": 420
+      },
+      {
+        "path": "dist/config.js.map",
+        "size": 12132,
+        "mode": 420
+      },
+      {
+        "path": "dist/engine.d.ts",
+        "size": 2309,
+        "mode": 420
+      },
+      {
+        "path": "dist/engine.d.ts.map",
+        "size": 2135,
+        "mode": 420
+      },
+      {
+        "path": "dist/engine.js",
+        "size": 11101,
+        "mode": 420
+      },
+      {
+        "path": "dist/engine.js.map",
+        "size": 10053,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 151,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 186,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 149,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 184,
+        "mode": 420
+      },
+      {
+        "path": "dist/io.d.ts",
+        "size": 435,
+        "mode": 420
+      },
+      {
+        "path": "dist/io.d.ts.map",
+        "size": 515,
+        "mode": 420
+      },
+      {
+        "path": "dist/io.js",
+        "size": 734,
+        "mode": 420
+      },
+      {
+        "path": "dist/io.js.map",
+        "size": 1007,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 1094,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/controls/ci/evidence-revision-consistency.yaml",
+        "size": 516,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/controls/ci/lint.yaml",
+        "size": 981,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/controls/ci/mandatory-findings.yaml",
+        "size": 1131,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/controls/ci/repository-metadata.yaml",
+        "size": 940,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/controls/ci/sdk-validation.yaml",
+        "size": 915,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/controls/ci/tests.yaml",
+        "size": 986,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/controls/ci/transport-packet.yaml",
+        "size": 925,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/fixtures/compatibility/check-registry.json",
+        "size": 2926,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/fixtures/compatibility/producer-registry.trusted.json",
+        "size": 561,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/fixtures/conformance/canonicalization-v1.json",
+        "size": 1169,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/manifest.json",
+        "size": 5828,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/profiles/pull-request/policy.yaml",
+        "size": 585,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/profiles/pull-request/profile.yaml",
+        "size": 994,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/registry/checks.yaml",
+        "size": 2926,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/registry/claims.yaml",
+        "size": 2014,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/registry/controls.yaml",
+        "size": 1263,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/registry/producers.yaml",
+        "size": 549,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/registry/profiles.yaml",
+        "size": 231,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/registry.json",
+        "size": 4473,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/artifact-reference.schema.json",
+        "size": 704,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/assurance-plan.schema.json",
+        "size": 11199,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/audit-bundle-manifest.schema.json",
+        "size": 1785,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/check.schema.json",
+        "size": 721,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/claim.schema.json",
+        "size": 985,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/control-result.schema.json",
+        "size": 1742,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/control.schema.json",
+        "size": 5468,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/decision.schema.json",
+        "size": 6066,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/digest.schema.json",
+        "size": 501,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/evidence-admission.schema.json",
+        "size": 6199,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/evidence-envelope.schema.json",
+        "size": 4677,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/finding.schema.json",
+        "size": 2404,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/observation.schema.json",
+        "size": 3441,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/policy.schema.json",
+        "size": 3193,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/producer.schema.json",
+        "size": 780,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/profile.schema.json",
+        "size": 2367,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/subject.schema.json",
+        "size": 1382,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/unknown.schema.json",
+        "size": 1230,
+        "mode": 420
+      },
+      {
+        "path": "protocol/release-zero/schemas/v1/waiver.schema.json",
+        "size": 2803,
+        "mode": 420
+      }
+    ],
+    "entryCount": 68,
+    "bundled": []
+  },
+  {
+    "id": "@l9/assurance-conformance@2.0.1",
+    "name": "@l9/assurance-conformance",
+    "version": "2.0.1",
+    "size": 8991,
+    "unpackedSize": 33318,
+    "shasum": "4bce04bb6e5dd5d93fd934f502c8a5e188fff659",
+    "integrity": "sha512-NJ7XuUSK4yu6dDEygCfRtrNeZsY/cPBTM1UE5b4PteucXK0jaNunm2mFeSNJjxn8YNVkq7Wlg44ils1pxRfqqQ==",
+    "filename": "l9-assurance-conformance-2.0.1.tgz",
+    "files": [
+      {
+        "path": "dist/.tsbuildinfo",
+        "size": 17211,
+        "mode": 420
+      },
+      {
+        "path": "dist/consumer.d.ts",
+        "size": 638,
+        "mode": 420
+      },
+      {
+        "path": "dist/consumer.d.ts.map",
+        "size": 662,
+        "mode": 420
+      },
+      {
+        "path": "dist/consumer.js",
+        "size": 2388,
+        "mode": 420
+      },
+      {
+        "path": "dist/consumer.js.map",
+        "size": 2318,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 97,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 144,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 95,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 142,
+        "mode": 420
+      },
+      {
+        "path": "dist/producer.d.ts",
+        "size": 2024,
+        "mode": 420
+      },
+      {
+        "path": "dist/producer.d.ts.map",
+        "size": 1760,
+        "mode": 420
+      },
+      {
+        "path": "dist/producer.js",
+        "size": 2471,
+        "mode": 420
+      },
+      {
+        "path": "dist/producer.js.map",
+        "size": 2569,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 799,
+        "mode": 420
+      }
+    ],
+    "entryCount": 14,
+    "bundled": []
+  },
+  {
+    "id": "@l9/assurance-contracts@2.0.1",
+    "name": "@l9/assurance-contracts",
+    "version": "2.0.1",
+    "size": 12668,
+    "unpackedSize": 63035,
+    "shasum": "44deb4bd234009f3bc7b78d6be1a76bbaa416131",
+    "integrity": "sha512-UlolCynPOaVrOEnXrVQGz2c2peqDBF2UaoVmoI6pKE25bV8XmA/xDkE9qh49LntAPSi6RnLHk2Jgj5o6Ng0TmQ==",
+    "filename": "l9-assurance-contracts-2.0.1.tgz",
+    "files": [
+      {
+        "path": "dist/.tsbuildinfo",
+        "size": 14829,
+        "mode": 420
+      },
+      {
+        "path": "dist/constants.d.ts",
+        "size": 2004,
+        "mode": 420
+      },
+      {
+        "path": "dist/constants.d.ts.map",
+        "size": 593,
+        "mode": 420
+      },
+      {
+        "path": "dist/constants.js",
+        "size": 1842,
+        "mode": 420
+      },
+      {
+        "path": "dist/constants.js.map",
+        "size": 1160,
+        "mode": 420
+      },
+      {
+        "path": "dist/generated.d.ts",
+        "size": 17086,
+        "mode": 420
+      },
+      {
+        "path": "dist/generated.d.ts.map",
+        "size": 17192,
+        "mode": 420
+      },
+      {
+        "path": "dist/generated.js",
+        "size": 124,
+        "mode": 420
+      },
+      {
+        "path": "dist/generated.js.map",
+        "size": 121,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 137,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 173,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 65,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 123,
+        "mode": 420
+      },
+      {
+        "path": "dist/types.d.ts",
+        "size": 3519,
+        "mode": 420
+      },
+      {
+        "path": "dist/types.d.ts.map",
+        "size": 3263,
+        "mode": 420
+      },
+      {
+        "path": "dist/types.js",
+        "size": 44,
+        "mode": 420
+      },
+      {
+        "path": "dist/types.js.map",
+        "size": 102,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 658,
+        "mode": 420
+      }
+    ],
+    "entryCount": 18,
+    "bundled": []
+  },
+  {
+    "id": "@l9/assurance-controls@2.0.1",
+    "name": "@l9/assurance-controls",
+    "version": "2.0.1",
+    "size": 14451,
+    "unpackedSize": 61382,
+    "shasum": "67ce9a835fa5793a6aa1c76adfa636117230e6c8",
+    "integrity": "sha512-q8EmyFAvIJmp2F03PUQR/CcStGAF2xkauk90Nq4rG3jAWqW7n13hQ7UkxUIau3kLvsF0U4KexU61ckfOn3kmKg==",
+    "filename": "l9-assurance-controls-2.0.1.tgz",
+    "files": [
+      {
+        "path": "dist/.tsbuildinfo",
+        "size": 15405,
+        "mode": 420
+      },
+      {
+        "path": "dist/evaluate.d.ts",
+        "size": 809,
+        "mode": 420
+      },
+      {
+        "path": "dist/evaluate.d.ts.map",
+        "size": 707,
+        "mode": 420
+      },
+      {
+        "path": "dist/evaluate.js",
+        "size": 8638,
+        "mode": 420
+      },
+      {
+        "path": "dist/evaluate.js.map",
+        "size": 8918,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 123,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 165,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 121,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 163,
+        "mode": 420
+      },
+      {
+        "path": "dist/load.d.ts",
+        "size": 278,
+        "mode": 420
+      },
+      {
+        "path": "dist/load.d.ts.map",
+        "size": 277,
+        "mode": 420
+      },
+      {
+        "path": "dist/load.js",
+        "size": 9842,
+        "mode": 420
+      },
+      {
+        "path": "dist/load.js.map",
+        "size": 9560,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve.d.ts",
+        "size": 488,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve.d.ts.map",
+        "size": 404,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve.js",
+        "size": 2161,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve.js.map",
+        "size": 2592,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 731,
+        "mode": 420
+      }
+    ],
+    "entryCount": 18,
+    "bundled": []
+  },
+  {
+    "id": "@l9/assurance-evaluator@2.0.1",
+    "name": "@l9/assurance-evaluator",
+    "version": "2.0.1",
+    "size": 18298,
+    "unpackedSize": 82627,
+    "shasum": "fa2f129086ed56c201be45631254febeb61f5fdd",
+    "integrity": "sha512-pCcyglJDOVh0qwl9yyoDm3wDRWF11LqH7NdWELkLlZ/15NLV+W1D4AbQ/SJhGnfcBznkumNEpmb7A0Wz3x9F3w==",
+    "filename": "l9-assurance-evaluator-2.0.1.tgz",
+    "files": [
+      {
+        "path": "dist/.tsbuildinfo",
+        "size": 17971,
+        "mode": 420
+      },
+      {
+        "path": "dist/evaluate.d.ts",
+        "size": 544,
+        "mode": 420
+      },
+      {
+        "path": "dist/evaluate.d.ts.map",
+        "size": 477,
+        "mode": 420
+      },
+      {
+        "path": "dist/evaluate.js",
+        "size": 9595,
+        "mode": 420
+      },
+      {
+        "path": "dist/evaluate.js.map",
+        "size": 11092,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 125,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 165,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 123,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 163,
+        "mode": 420
+      },
+      {
+        "path": "dist/summary.d.ts",
+        "size": 250,
+        "mode": 420
+      },
+      {
+        "path": "dist/summary.d.ts.map",
+        "size": 267,
+        "mode": 420
+      },
+      {
+        "path": "dist/summary.js",
+        "size": 1793,
+        "mode": 420
+      },
+      {
+        "path": "dist/summary.js.map",
+        "size": 2057,
+        "mode": 420
+      },
+      {
+        "path": "dist/verify.d.ts",
+        "size": 179,
+        "mode": 420
+      },
+      {
+        "path": "dist/verify.d.ts.map",
+        "size": 212,
+        "mode": 420
+      },
+      {
+        "path": "dist/verify.js",
+        "size": 17965,
+        "mode": 420
+      },
+      {
+        "path": "dist/verify.js.map",
+        "size": 18793,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 856,
+        "mode": 420
+      }
+    ],
+    "entryCount": 18,
+    "bundled": []
+  },
+  {
+    "id": "@l9/assurance-evidence@2.0.1",
+    "name": "@l9/assurance-evidence",
+    "version": "2.0.1",
+    "size": 25399,
+    "unpackedSize": 116758,
+    "shasum": "99f1eb1f06cc4536bf50abbc78c8234997cc1bee",
+    "integrity": "sha512-6ARaDbnw4/l2GU00uX1kyshtwxsShZ/S2rRTmCIfV40IOcEOXxSL0e6Jbvzafdl1nNiTHQEq1i8eyH+wQ6HhYw==",
+    "filename": "l9-assurance-evidence-2.0.1.tgz",
+    "files": [
+      {
+        "path": "dist/.tsbuildinfo",
+        "size": 16679,
+        "mode": 420
+      },
+      {
+        "path": "dist/admission.d.ts",
+        "size": 1288,
+        "mode": 420
+      },
+      {
+        "path": "dist/admission.d.ts.map",
+        "size": 1188,
+        "mode": 420
+      },
+      {
+        "path": "dist/admission.js",
+        "size": 15269,
+        "mode": 420
+      },
+      {
+        "path": "dist/admission.js.map",
+        "size": 14015,
+        "mode": 420
+      },
+      {
+        "path": "dist/canonical.d.ts",
+        "size": 197,
+        "mode": 420
+      },
+      {
+        "path": "dist/canonical.d.ts.map",
+        "size": 220,
+        "mode": 420
+      },
+      {
+        "path": "dist/canonical.js",
+        "size": 2855,
+        "mode": 420
+      },
+      {
+        "path": "dist/canonical.js.map",
+        "size": 3432,
+        "mode": 420
+      },
+      {
+        "path": "dist/digest.d.ts",
+        "size": 305,
+        "mode": 420
+      },
+      {
+        "path": "dist/digest.d.ts.map",
+        "size": 343,
+        "mode": 420
+      },
+      {
+        "path": "dist/digest.js",
+        "size": 652,
+        "mode": 420
+      },
+      {
+        "path": "dist/digest.js.map",
+        "size": 797,
+        "mode": 420
+      },
+      {
+        "path": "dist/discovery.d.ts",
+        "size": 416,
+        "mode": 420
+      },
+      {
+        "path": "dist/discovery.d.ts.map",
+        "size": 461,
+        "mode": 420
+      },
+      {
+        "path": "dist/discovery.js",
+        "size": 3638,
+        "mode": 420
+      },
+      {
+        "path": "dist/discovery.js.map",
+        "size": 3501,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 310,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 299,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 308,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 297,
+        "mode": 420
+      },
+      {
+        "path": "dist/limits.d.ts",
+        "size": 585,
+        "mode": 420
+      },
+      {
+        "path": "dist/limits.d.ts.map",
+        "size": 560,
+        "mode": 420
+      },
+      {
+        "path": "dist/limits.js",
+        "size": 1323,
+        "mode": 420
+      },
+      {
+        "path": "dist/limits.js.map",
+        "size": 1400,
+        "mode": 420
+      },
+      {
+        "path": "dist/replay.d.ts",
+        "size": 656,
+        "mode": 420
+      },
+      {
+        "path": "dist/replay.d.ts.map",
+        "size": 606,
+        "mode": 420
+      },
+      {
+        "path": "dist/replay.js",
+        "size": 440,
+        "mode": 420
+      },
+      {
+        "path": "dist/replay.js.map",
+        "size": 557,
+        "mode": 420
+      },
+      {
+        "path": "dist/semver.d.ts",
+        "size": 399,
+        "mode": 420
+      },
+      {
+        "path": "dist/semver.d.ts.map",
+        "size": 489,
+        "mode": 420
+      },
+      {
+        "path": "dist/semver.js",
+        "size": 2605,
+        "mode": 420
+      },
+      {
+        "path": "dist/semver.js.map",
+        "size": 3047,
+        "mode": 420
+      },
+      {
+        "path": "dist/subject.d.ts",
+        "size": 367,
+        "mode": 420
+      },
+      {
+        "path": "dist/subject.d.ts.map",
+        "size": 370,
+        "mode": 420
+      },
+      {
+        "path": "dist/subject.js",
+        "size": 1803,
+        "mode": 420
+      },
+      {
+        "path": "dist/subject.js.map",
+        "size": 2231,
+        "mode": 420
+      },
+      {
+        "path": "dist/validation.d.ts",
+        "size": 428,
+        "mode": 420
+      },
+      {
+        "path": "dist/validation.d.ts.map",
+        "size": 454,
+        "mode": 420
+      },
+      {
+        "path": "dist/validation.js",
+        "size": 15235,
+        "mode": 420
+      },
+      {
+        "path": "dist/validation.js.map",
+        "size": 16000,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 733,
+        "mode": 420
+      }
+    ],
+    "entryCount": 42,
+    "bundled": []
+  },
+  {
+    "id": "@l9/assurance-policy@2.0.1",
+    "name": "@l9/assurance-policy",
+    "version": "2.0.1",
+    "size": 11971,
+    "unpackedSize": 48459,
+    "shasum": "92c7a11032af49c7d619898763bb08d1a71a32b0",
+    "integrity": "sha512-kP/ghIgCzBgJ7opKjzdHWq6JxlOlObpd4bDGpjCIwxNCu1/SZtpBs1YPJyovyEn2Dpch8wNZZIFFMRj127fkuQ==",
+    "filename": "l9-assurance-policy-2.0.1.tgz",
+    "files": [
+      {
+        "path": "dist/.tsbuildinfo",
+        "size": 15403,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 121,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 165,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 119,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 163,
+        "mode": 420
+      },
+      {
+        "path": "dist/load.d.ts",
+        "size": 242,
+        "mode": 420
+      },
+      {
+        "path": "dist/load.d.ts.map",
+        "size": 267,
+        "mode": 420
+      },
+      {
+        "path": "dist/load.js",
+        "size": 7742,
+        "mode": 420
+      },
+      {
+        "path": "dist/load.js.map",
+        "size": 7638,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve.d.ts",
+        "size": 522,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve.d.ts.map",
+        "size": 494,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve.js",
+        "size": 3825,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve.js.map",
+        "size": 4559,
+        "mode": 420
+      },
+      {
+        "path": "dist/waiver.d.ts",
+        "size": 752,
+        "mode": 420
+      },
+      {
+        "path": "dist/waiver.d.ts.map",
+        "size": 661,
+        "mode": 420
+      },
+      {
+        "path": "dist/waiver.js",
+        "size": 2291,
+        "mode": 420
+      },
+      {
+        "path": "dist/waiver.js.map",
+        "size": 2774,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 721,
+        "mode": 420
+      }
+    ],
+    "entryCount": 18,
+    "bundled": []
+  },
+  {
+    "id": "@l9/assurance-testing@2.0.1",
+    "name": "@l9/assurance-testing",
+    "version": "2.0.1",
+    "size": 7928,
+    "unpackedSize": 27006,
+    "shasum": "d568b5a54911ee46e12bbfddc0214f4732e9777b",
+    "integrity": "sha512-DPJbZUpJrJ5s6SBylZBN74fjC0omfk4Swwn3GXF6+vp0JHHL8ZZ8C+D+RVTdirlModZllkx37fr7DYYTYUEF+A==",
+    "filename": "l9-assurance-testing-2.0.1.tgz",
+    "files": [
+      {
+        "path": "dist/.tsbuildinfo",
+        "size": 15599,
+        "mode": 420
+      },
+      {
+        "path": "dist/builders.d.ts",
+        "size": 701,
+        "mode": 420
+      },
+      {
+        "path": "dist/builders.d.ts.map",
+        "size": 733,
+        "mode": 420
+      },
+      {
+        "path": "dist/builders.js",
+        "size": 1893,
+        "mode": 420
+      },
+      {
+        "path": "dist/builders.js.map",
+        "size": 2004,
+        "mode": 420
+      },
+      {
+        "path": "dist/clock.d.ts",
+        "size": 230,
+        "mode": 420
+      },
+      {
+        "path": "dist/clock.d.ts.map",
+        "size": 292,
+        "mode": 420
+      },
+      {
+        "path": "dist/clock.js",
+        "size": 491,
+        "mode": 420
+      },
+      {
+        "path": "dist/clock.js.map",
+        "size": 625,
+        "mode": 420
+      },
+      {
+        "path": "dist/ids.d.ts",
+        "size": 118,
+        "mode": 420
+      },
+      {
+        "path": "dist/ids.d.ts.map",
+        "size": 154,
+        "mode": 420
+      },
+      {
+        "path": "dist/ids.js",
+        "size": 176,
+        "mode": 420
+      },
+      {
+        "path": "dist/ids.js.map",
+        "size": 289,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 149,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 186,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 147,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 184,
+        "mode": 420
+      },
+      {
+        "path": "dist/signer.d.ts",
+        "size": 490,
+        "mode": 420
+      },
+      {
+        "path": "dist/signer.d.ts.map",
+        "size": 511,
+        "mode": 420
+      },
+      {
+        "path": "dist/signer.js",
+        "size": 570,
+        "mode": 420
+      },
+      {
+        "path": "dist/signer.js.map",
+        "size": 682,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 782,
+        "mode": 420
+      }
+    ],
+    "entryCount": 22,
+    "bundled": []
+  }
+]

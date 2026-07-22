@@ -1,275 +1,332 @@
 # Final Source Tree
 
-Generated from the source-only release tree. Build output, dependencies, caches, and temporary files are excluded.
+Source-only tree. Dependencies, build output, caches, logs, and temporary artifacts are excluded.
 
 ```text
-.github
-.github/workflows
-.github/workflows/ci.yml
-.gitignore
-.npmrc
-ARCHITECTURE.md
-CHANGELOG.md
-CHANGE_SUMMARY.md
-CONTRIBUTING.md
-FINAL_TREE.md
-LICENSE
-MANIFEST.md
-README.md
-REGRESSION_GUARD.md
-REWRITE_EXECUTION_SPEC.md
-RUNBOOK.md
-SECURITY.md
-SPECIFICATION.md
-TRACEABILITY_MAP.yaml
-UNKNOWN_REGISTER.md
-VALIDATION.md
-bindings
-bindings/manifest.json
-bindings/python
-bindings/python/l9_assurance_types.py
-bindings/typescript
-bindings/typescript/index.ts
-controls
-controls/ci
-controls/ci/evidence-revision-consistency.yaml
-controls/ci/lint.yaml
-controls/ci/mandatory-findings.yaml
-controls/ci/repository-metadata.yaml
-controls/ci/sdk-validation.yaml
-controls/ci/tests.yaml
-controls/ci/transport-packet.yaml
-docs
-docs/adr
-docs/adr/ADR-0001-clean-rewrite.md
-docs/decisions
-docs/decisions/verdicts.md
-docs/legacy
-docs/legacy/README.md
-docs/migration
-docs/migration/legacy-extraction-ledger.md
-docs/migration/legacy-source-quarry.md
-docs/operations
-docs/operations/authority-promotion.md
-docs/producers
-docs/producers/l9-ci-sdk.md
-docs/profiles
-docs/profiles/pull-request.md
-docs/protocol
-docs/protocol/README.md
-docs/reviews
-docs/reviews/FINAL_ARCHITECTURE_REVIEW.md
-docs/reviews/FLAWLESS_VICTORY_REPORT.md
-docs/reviews/RECURSIVE_ALIGNMENT_REVIEW.md
-docs/reviews/STUB_GAP_AUDIT.md
-eslint.config.js
-fixtures
-fixtures/adversarial
-fixtures/adversarial/duplicate-a.observation.json
-fixtures/adversarial/duplicate-b.observation.json
-fixtures/adversarial/lint-failed.observation.json
-fixtures/adversarial/malicious-markdown.observation.json
-fixtures/adversarial/mandatory-finding.observation.json
-fixtures/adversarial/revision-substitution.observation.json
-fixtures/adversarial/stale.observation.json
-fixtures/adversarial/unauthorized-check.observation.json
-fixtures/compatibility
-fixtures/compatibility/check-registry.json
-fixtures/compatibility/consumer-pass
-fixtures/compatibility/consumer-pass/decision.json
-fixtures/compatibility/consumer-pass/decision.summary.md
-fixtures/compatibility/consumer-pass/published-verdict.txt
-fixtures/compatibility/consumer-pass/transported-decision.json
-fixtures/compatibility/policy.json
-fixtures/compatibility/producer-registry.trusted.json
-fixtures/compatibility/profile.json
-fixtures/compatibility/unsupported-decision.json
-fixtures/invalid
-fixtures/invalid/invalid-extension.observation.json
-fixtures/invalid/invalid-status.observation.json
-fixtures/invalid/malformed-location.observation.json
-fixtures/invalid/missing-configuration-digest.observation.json
-fixtures/invalid/missing-subject.observation.json
-fixtures/invalid/summary-mismatch.observation.json
-fixtures/invalid/unknown-top-level.observation.json
-fixtures/invalid/unsupported-schema.observation.json
-fixtures/replay
-fixtures/replay/pull-request-pass
-fixtures/replay/pull-request-pass/accepted-evidence
-fixtures/replay/pull-request-pass/accepted-evidence/ev_64644e71789da2861babcd8c2dd311aa54db2e97.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_e11f311a92224de3124a92f50a322cb3d6966f0a.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5.json
-fixtures/replay/pull-request-pass/expected-decision.canonical.json
-fixtures/replay/pull-request-pass/expected-summary.md
-fixtures/replay/pull-request-pass/policy.yaml
-fixtures/replay/pull-request-pass/profile.yaml
-fixtures/replay/pull-request-pass/subject.json
-fixtures/valid
-fixtures/valid/lint-waiver.json
-fixtures/valid/lint.observation.json
-fixtures/valid/mandatory-findings.observation.json
-fixtures/valid/repository-metadata.observation.json
-fixtures/valid/sdk-validation.observation.json
-fixtures/valid/subject.json
-fixtures/valid/tests.observation.json
-fixtures/valid/transport-packet.observation.json
-package-lock.json
-package.json
-packages
-packages/cli
-packages/cli/package.json
-packages/cli/src
-packages/cli/src/args.ts
-packages/cli/src/bin.ts
-packages/cli/src/commands.ts
-packages/cli/src/config.ts
-packages/cli/src/engine.ts
-packages/cli/src/index.ts
-packages/cli/src/io.ts
-packages/cli/tsconfig.json
-packages/conformance
-packages/conformance/package.json
-packages/conformance/src
-packages/conformance/src/consumer.ts
-packages/conformance/src/index.ts
-packages/conformance/src/producer.ts
-packages/conformance/tsconfig.json
-packages/contracts
-packages/contracts/package.json
-packages/contracts/src
-packages/contracts/src/constants.ts
-packages/contracts/src/generated.ts
-packages/contracts/src/index.ts
-packages/contracts/src/types.ts
-packages/contracts/tsconfig.json
-packages/controls
-packages/controls/package.json
-packages/controls/src
-packages/controls/src/evaluate.ts
-packages/controls/src/index.ts
-packages/controls/src/load.ts
-packages/controls/src/resolve.ts
-packages/controls/tsconfig.json
-packages/evaluator
-packages/evaluator/package.json
-packages/evaluator/src
-packages/evaluator/src/evaluate.ts
-packages/evaluator/src/index.ts
-packages/evaluator/src/summary.ts
-packages/evaluator/src/verify.ts
-packages/evaluator/tsconfig.json
-packages/evidence
-packages/evidence/package.json
-packages/evidence/src
-packages/evidence/src/admission.ts
-packages/evidence/src/canonical.ts
-packages/evidence/src/digest.ts
-packages/evidence/src/discovery.ts
-packages/evidence/src/index.ts
-packages/evidence/src/limits.ts
-packages/evidence/src/replay.ts
-packages/evidence/src/semver.ts
-packages/evidence/src/subject.ts
-packages/evidence/src/validation.ts
-packages/evidence/tsconfig.json
-packages/policy
-packages/policy/package.json
-packages/policy/src
-packages/policy/src/index.ts
-packages/policy/src/load.ts
-packages/policy/src/resolve.ts
-packages/policy/src/waiver.ts
-packages/policy/tsconfig.json
-packages/testing
-packages/testing/package.json
-packages/testing/src
-packages/testing/src/builders.ts
-packages/testing/src/clock.ts
-packages/testing/src/ids.ts
-packages/testing/src/index.ts
-packages/testing/src/signer.ts
-packages/testing/tsconfig.json
-profiles
-profiles/pull-request
-profiles/pull-request/policy.yaml
-profiles/pull-request/profile.yaml
-registry
-registry/checks.yaml
-registry/claims.yaml
-registry/controls.yaml
-registry/producers.yaml
-registry/profiles.yaml
-schemas
-schemas/registry.json
-schemas/v1
-schemas/v1/artifact-reference.schema.json
-schemas/v1/audit-bundle-manifest.schema.json
-schemas/v1/check.schema.json
-schemas/v1/claim.schema.json
-schemas/v1/control-result.schema.json
-schemas/v1/control.schema.json
-schemas/v1/decision.schema.json
-schemas/v1/digest.schema.json
-schemas/v1/evidence-admission.schema.json
-schemas/v1/evidence-envelope.schema.json
-schemas/v1/finding.schema.json
-schemas/v1/observation.schema.json
-schemas/v1/policy.schema.json
-schemas/v1/producer.schema.json
-schemas/v1/profile.schema.json
-schemas/v1/subject.schema.json
-schemas/v1/unknown.schema.json
-schemas/v1/waiver.schema.json
-scripts
-scripts/benchmark.mjs
-scripts/build.mjs
-scripts/ci.mjs
-scripts/clean.mjs
-scripts/format.mjs
-scripts/generate-bindings.mjs
-scripts/lib
-scripts/lib/files.mjs
-scripts/lib/schema-validator.mjs
-scripts/lint.mjs
-scripts/run-tests.mjs
-scripts/validate-boundaries.mjs
-scripts/validate-build-evidence.mjs
-scripts/validate-completeness.mjs
-scripts/validate-fixtures.mjs
-scripts/validate-registries.mjs
-scripts/validate-schemas.mjs
-scripts/verify-replay.mjs
-tests
-tests/architecture
-tests/architecture/architecture.test.mjs
-tests/conformance
-tests/conformance/conformance.test.mjs
-tests/contract
-tests/contract/contracts.test.mjs
-tests/contract/python-bindings.test.mjs
-tests/helpers
-tests/helpers/fixtures.mjs
-tests/integration
-tests/integration/vertical-slice.test.mjs
-tests/performance
-tests/performance/performance.test.mjs
-tests/replay
-tests/replay/replay.test.mjs
-tests/security
-tests/security/security.test.mjs
-tests/unit
-tests/unit/controls-policy.test.mjs
-tests/unit/evaluator.test.mjs
-tests/unit/evidence.test.mjs
-tsconfig.base.json
-tsconfig.json
-tsconfig.typecheck.json
-types
-types/node-shims
-types/node-shims/index.d.ts
-validation-benchmark.json
-validation-report.json
+l9-assurance
+├── .github
+│   └── workflows
+│       └── ci.yml
+├── .gitignore
+├── .npmrc
+├── ARCHITECTURE.md
+├── CHANGELOG.md
+├── CHANGE_SUMMARY.md
+├── CONTRIBUTING.md
+├── FINAL_TREE.md
+├── LICENSE
+├── MANIFEST.md
+├── README.md
+├── REGRESSION_GUARD.md
+├── REWRITE_EXECUTION_SPEC.md
+├── RUNBOOK.md
+├── SECURITY.md
+├── SPECIFICATION.md
+├── TRACEABILITY_MAP.yaml
+├── UNKNOWN_REGISTER.md
+├── VALIDATION.md
+├── bindings
+│   ├── manifest.json
+│   ├── python
+│   │   └── l9_assurance_types.py
+│   └── typescript
+│       └── index.ts
+├── controls
+│   └── ci
+│       ├── evidence-revision-consistency.yaml
+│       ├── lint.yaml
+│       ├── mandatory-findings.yaml
+│       ├── repository-metadata.yaml
+│       ├── sdk-validation.yaml
+│       ├── tests.yaml
+│       └── transport-packet.yaml
+├── docs
+│   ├── adr
+│   │   └── ADR-0001-clean-rewrite.md
+│   ├── decisions
+│   │   └── verdicts.md
+│   ├── legacy
+│   │   └── README.md
+│   ├── migration
+│   │   ├── legacy-extraction-ledger.md
+│   │   └── legacy-source-quarry.md
+│   ├── operations
+│   │   └── authority-promotion.md
+│   ├── producers
+│   │   └── l9-ci-sdk.md
+│   ├── profiles
+│   │   └── pull-request.md
+│   ├── protocol
+│   │   └── README.md
+│   └── reviews
+│       ├── FINAL_ARCHITECTURE_REVIEW.md
+│       ├── FLAWLESS_VICTORY_REPORT.md
+│       ├── RECURSIVE_ALIGNMENT_REVIEW.md
+│       └── STUB_GAP_AUDIT.md
+├── eslint.config.js
+├── fixtures
+│   ├── adversarial
+│   │   ├── duplicate-a.observation.json
+│   │   ├── duplicate-b.observation.json
+│   │   ├── lint-failed.observation.json
+│   │   ├── malicious-markdown.observation.json
+│   │   ├── mandatory-finding.observation.json
+│   │   ├── revision-substitution.observation.json
+│   │   ├── stale.observation.json
+│   │   └── unauthorized-check.observation.json
+│   ├── compatibility
+│   │   ├── check-registry.json
+│   │   ├── consumer-pass
+│   │   │   ├── decision.json
+│   │   │   ├── decision.summary.md
+│   │   │   ├── published-verdict.txt
+│   │   │   └── transported-decision.json
+│   │   ├── policy.json
+│   │   ├── producer-registry.trusted.json
+│   │   ├── profile.json
+│   │   └── unsupported-decision.json
+│   ├── conformance
+│   │   └── canonicalization-v1.json
+│   ├── invalid
+│   │   ├── invalid-extension.observation.json
+│   │   ├── invalid-status.observation.json
+│   │   ├── malformed-location.observation.json
+│   │   ├── missing-configuration-digest.observation.json
+│   │   ├── missing-subject.observation.json
+│   │   ├── summary-mismatch.observation.json
+│   │   ├── unknown-top-level.observation.json
+│   │   └── unsupported-schema.observation.json
+│   ├── replay
+│   │   └── pull-request-pass
+│   │       ├── accepted-evidence
+│   │       │   ├── ev_64644e71789da2861babcd8c2dd311aa54db2e97.json
+│   │       │   ├── ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5.json
+│   │       │   ├── ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a.json
+│   │       │   ├── ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b.json
+│   │       │   ├── ev_e11f311a92224de3124a92f50a322cb3d6966f0a.json
+│   │       │   └── ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5.json
+│   │       ├── expected-decision.canonical.json
+│   │       ├── expected-summary.md
+│   │       ├── policy.yaml
+│   │       ├── profile.yaml
+│   │       └── subject.json
+│   └── valid
+│       ├── lint-waiver.json
+│       ├── lint.observation.json
+│       ├── mandatory-findings.observation.json
+│       ├── repository-metadata.observation.json
+│       ├── sdk-validation.observation.json
+│       ├── subject.json
+│       ├── tests.observation.json
+│       └── transport-packet.observation.json
+├── package-lock.json
+├── package.json
+├── packages
+│   ├── cli
+│   │   ├── package.json
+│   │   ├── protocol
+│   │   │   └── release-zero
+│   │   │       ├── controls
+│   │   │       │   └── ci
+│   │   │       │       ├── evidence-revision-consistency.yaml
+│   │   │       │       ├── lint.yaml
+│   │   │       │       ├── mandatory-findings.yaml
+│   │   │       │       ├── repository-metadata.yaml
+│   │   │       │       ├── sdk-validation.yaml
+│   │   │       │       ├── tests.yaml
+│   │   │       │       └── transport-packet.yaml
+│   │   │       ├── fixtures
+│   │   │       │   ├── compatibility
+│   │   │       │   │   ├── check-registry.json
+│   │   │       │   │   └── producer-registry.trusted.json
+│   │   │       │   └── conformance
+│   │   │       │       └── canonicalization-v1.json
+│   │   │       ├── manifest.json
+│   │   │       ├── profiles
+│   │   │       │   └── pull-request
+│   │   │       │       ├── policy.yaml
+│   │   │       │       └── profile.yaml
+│   │   │       ├── registry
+│   │   │       │   ├── checks.yaml
+│   │   │       │   ├── claims.yaml
+│   │   │       │   ├── controls.yaml
+│   │   │       │   ├── producers.yaml
+│   │   │       │   └── profiles.yaml
+│   │   │       └── schemas
+│   │   │           ├── registry.json
+│   │   │           └── v1
+│   │   │               ├── artifact-reference.schema.json
+│   │   │               ├── assurance-plan.schema.json
+│   │   │               ├── audit-bundle-manifest.schema.json
+│   │   │               ├── check.schema.json
+│   │   │               ├── claim.schema.json
+│   │   │               ├── control-result.schema.json
+│   │   │               ├── control.schema.json
+│   │   │               ├── decision.schema.json
+│   │   │               ├── digest.schema.json
+│   │   │               ├── evidence-admission.schema.json
+│   │   │               ├── evidence-envelope.schema.json
+│   │   │               ├── finding.schema.json
+│   │   │               ├── observation.schema.json
+│   │   │               ├── policy.schema.json
+│   │   │               ├── producer.schema.json
+│   │   │               ├── profile.schema.json
+│   │   │               ├── subject.schema.json
+│   │   │               ├── unknown.schema.json
+│   │   │               └── waiver.schema.json
+│   │   ├── src
+│   │   │   ├── args.ts
+│   │   │   ├── bin.ts
+│   │   │   ├── commands.ts
+│   │   │   ├── config.ts
+│   │   │   ├── engine.ts
+│   │   │   ├── index.ts
+│   │   │   └── io.ts
+│   │   └── tsconfig.json
+│   ├── conformance
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── consumer.ts
+│   │   │   ├── index.ts
+│   │   │   └── producer.ts
+│   │   └── tsconfig.json
+│   ├── contracts
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── constants.ts
+│   │   │   ├── generated.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   └── tsconfig.json
+│   ├── controls
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── evaluate.ts
+│   │   │   ├── index.ts
+│   │   │   ├── load.ts
+│   │   │   └── resolve.ts
+│   │   └── tsconfig.json
+│   ├── evaluator
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── evaluate.ts
+│   │   │   ├── index.ts
+│   │   │   ├── summary.ts
+│   │   │   └── verify.ts
+│   │   └── tsconfig.json
+│   ├── evidence
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── admission.ts
+│   │   │   ├── canonical.ts
+│   │   │   ├── digest.ts
+│   │   │   ├── discovery.ts
+│   │   │   ├── index.ts
+│   │   │   ├── limits.ts
+│   │   │   ├── replay.ts
+│   │   │   ├── semver.ts
+│   │   │   ├── subject.ts
+│   │   │   └── validation.ts
+│   │   └── tsconfig.json
+│   ├── policy
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── index.ts
+│   │   │   ├── load.ts
+│   │   │   ├── resolve.ts
+│   │   │   └── waiver.ts
+│   │   └── tsconfig.json
+│   └── testing
+│       ├── package.json
+│       ├── src
+│       │   ├── builders.ts
+│       │   ├── clock.ts
+│       │   ├── ids.ts
+│       │   ├── index.ts
+│       │   └── signer.ts
+│       └── tsconfig.json
+├── profiles
+│   └── pull-request
+│       ├── policy.yaml
+│       └── profile.yaml
+├── registry
+│   ├── checks.yaml
+│   ├── claims.yaml
+│   ├── controls.yaml
+│   ├── producers.yaml
+│   └── profiles.yaml
+├── schemas
+│   ├── registry.json
+│   └── v1
+│       ├── artifact-reference.schema.json
+│       ├── assurance-plan.schema.json
+│       ├── audit-bundle-manifest.schema.json
+│       ├── check.schema.json
+│       ├── claim.schema.json
+│       ├── control-result.schema.json
+│       ├── control.schema.json
+│       ├── decision.schema.json
+│       ├── digest.schema.json
+│       ├── evidence-admission.schema.json
+│       ├── evidence-envelope.schema.json
+│       ├── finding.schema.json
+│       ├── observation.schema.json
+│       ├── policy.schema.json
+│       ├── producer.schema.json
+│       ├── profile.schema.json
+│       ├── subject.schema.json
+│       ├── unknown.schema.json
+│       └── waiver.schema.json
+├── scripts
+│   ├── benchmark.mjs
+│   ├── build.mjs
+│   ├── ci.mjs
+│   ├── clean.mjs
+│   ├── format.mjs
+│   ├── generate-bindings.mjs
+│   ├── lib
+│   │   ├── files.mjs
+│   │   └── schema-validator.mjs
+│   ├── lint.mjs
+│   ├── run-tests.mjs
+│   ├── sync-protocol-bundle.mjs
+│   ├── validate-boundaries.mjs
+│   ├── validate-build-evidence.mjs
+│   ├── validate-cli-distribution.mjs
+│   ├── validate-completeness.mjs
+│   ├── validate-fixtures.mjs
+│   ├── validate-registries.mjs
+│   ├── validate-schemas.mjs
+│   └── verify-replay.mjs
+├── tests
+│   ├── architecture
+│   │   └── architecture.test.mjs
+│   ├── conformance
+│   │   └── conformance.test.mjs
+│   ├── contract
+│   │   ├── contracts.test.mjs
+│   │   ├── plan-schema.test.mjs
+│   │   └── python-bindings.test.mjs
+│   ├── helpers
+│   │   └── fixtures.mjs
+│   ├── integration
+│   │   └── vertical-slice.test.mjs
+│   ├── performance
+│   │   └── performance.test.mjs
+│   ├── replay
+│   │   └── replay.test.mjs
+│   ├── security
+│   │   └── security.test.mjs
+│   └── unit
+│       ├── controls-policy.test.mjs
+│       ├── evaluator.test.mjs
+│       └── evidence.test.mjs
+├── tsconfig.base.json
+├── tsconfig.json
+├── tsconfig.typecheck.json
+├── types
+│   └── node-shims
+│       └── index.d.ts
+├── validation-benchmark.json
+└── validation-report.json
 ```

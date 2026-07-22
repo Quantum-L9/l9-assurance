@@ -1,0 +1,12 @@
+TypeScript canonicalization:
+0
+1e-7
+100000000000000000000
+1e+21
+{"w":1e+21,"x":0,"y":1e-7,"z":100000000000000000000}
+Python binding canonicalization:
+-0.0
+1e-07
+1e+20
+1e+21
+{"w":1e+21,"x":-0.0,"y":1e-07,"z":1e+20}

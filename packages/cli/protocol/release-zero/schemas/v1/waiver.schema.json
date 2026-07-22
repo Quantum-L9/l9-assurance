@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/waiver.schema.json",
+  "title": "Waiver",
+  "description": "Waiver",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "waiverId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "controlId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subjectScope": {
+      "type": "object",
+      "properties": {
+        "repository": {
+          "type": "object",
+          "properties": {
+            "host": {
+              "type": "string"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "host",
+            "owner",
+            "name"
+          ],
+          "unevaluatedProperties": false
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^(?:[a-fA-F0-9]{40}|[a-fA-F0-9]{64}|\\*)$"
+        }
+      },
+      "required": [
+        "repository",
+        "commit"
+      ],
+      "unevaluatedProperties": false
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "riskAcceptance": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorizedBy": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "id",
+        "roles"
+      ],
+      "unevaluatedProperties": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": {}
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "keyId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "algorithm": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "context": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "keyId",
+        "algorithm",
+        "value",
+        "signedAt"
+      ],
+      "unevaluatedProperties": false
+    }
+  },
+  "required": [
+    "waiverId",
+    "controlId",
+    "subjectScope",
+    "rationale",
+    "riskAcceptance",
+    "authorizedBy",
+    "issuedAt",
+    "expiresAt"
+  ],
+  "unevaluatedProperties": false
+}

@@ -7,6 +7,7 @@ const candidates = walkFiles(
   (path) =>
     !path.includes('/node_modules/') &&
     !path.includes('/dist/') &&
+    !path.includes('/packages/cli/protocol/') &&
     ['.json', '.yaml', '.md', '.ts', '.js', '.mjs', '.py', '.d.ts', ''].includes(extname(path)),
 );
 const changed = [];

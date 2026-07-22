@@ -9,6 +9,7 @@ import { canonicalJson } from '@l9/assurance-evidence';
 import { renderDecisionSummary } from '@l9/assurance-evaluator';
 import {
   FIXED_TIME,
+  ROOT,
   passDecision,
   rootJson,
   subject,
@@ -162,4 +163,54 @@ test('unsupported decision schema fails consumer verification safely', () => {
   });
   assert.equal(report.passed, false);
   assert.equal(report.checks.find((item) => item.id === 'schema').passed, false);
+});
+
+test('public CLI producer conformance executes registry-aware admission', async () => {
+  const { cpSync, mkdirSync, mkdtempSync, rmSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const { runCli } = await import('@l9/assurance-cli');
+  const temporaryRoot = mkdtempSync(join(tmpdir(), 'l9-assurance-conformance-cli-'));
+  try {
+    const input = join(temporaryRoot, 'observations');
+    mkdirSync(input, { recursive: true });
+    for (const name of [
+      'repository-metadata.observation.json',
+      'transport-packet.observation.json',
+      'sdk-validation.observation.json',
+      'lint.observation.json',
+      'tests.observation.json',
+      'mandatory-findings.observation.json',
+    ]) {
+      cpSync(join(ROOT, 'fixtures', 'valid', name), join(input, name));
+    }
+    let output = '';
+    let error = '';
+    const code = await runCli(
+      [
+        'conformance',
+        'producer',
+        '--producer',
+        'l9-ci-sdk',
+        '--input',
+        input,
+        '--subject',
+        join(ROOT, 'fixtures', 'valid', 'subject.json'),
+        '--received-at',
+        FIXED_TIME,
+        '--producer-registry',
+        join(ROOT, 'fixtures', 'compatibility', 'producer-registry.trusted.json'),
+        '--check-registry',
+        join(ROOT, 'fixtures', 'compatibility', 'check-registry.json'),
+      ],
+      { stdout: (text) => { output += text; }, stderr: (text) => { error += text; } },
+    );
+    assert.equal(code, 0, error);
+    const report = JSON.parse(output);
+    assert.equal(report.passed, true);
+    assert.equal(report.admission.accepted.length, 6);
+    assert.equal(report.admission.rejectedCount, 0);
+  } finally {
+    rmSync(temporaryRoot, { recursive: true, force: true });
+  }
 });

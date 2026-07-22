@@ -3,12 +3,15 @@ import type {
   AssuranceDecision,
   AssurancePolicy,
   AssuranceProfile,
+  CheckRegistry,
   EvidenceEnvelope,
   Observation,
+  ProducerRegistry,
   SubjectReference,
   Waiver,
 } from '@l9/assurance-contracts';
 import { EXIT_CODES } from '@l9/assurance-contracts';
+import { runProducerConformance } from '@l9/assurance-conformance';
 import {
   canonicalJson,
   discoverJsonArtifacts,
@@ -21,8 +24,12 @@ import { parseWaiver } from '@l9/assurance-policy';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { assertAllowedFlags, optionalFlag, parseArgs, requireFlag, type ParsedArgs } from './args.js';
-import { loadBuiltInConfiguration, type BuiltInConfiguration } from './config.js';
-import { AssuranceEngine } from './engine.js';
+import {
+  embeddedProtocolRoot,
+  loadBuiltInConfiguration,
+  type BuiltInConfiguration,
+} from './config.js';
+import { AssuranceEngine, verifyPlan } from './engine.js';
 import { readJsonFile, resolveRoot, rootPath, writeJsonFile, writeTextFile } from './io.js';
 
 export interface CliIo {
@@ -39,7 +46,9 @@ export async function runCli(argv: readonly string[], io: CliIo = defaultIo): Pr
   try {
     const parsed = parseArgs(argv);
     const [command, subcommand, ...extraPositionals] = parsed.positionals;
-    if (extraPositionals.length > 0) throw new Error(`Unexpected positional argument(s): ${extraPositionals.join(', ')}`);
+    if (extraPositionals.length > 0) {
+      throw new Error(`Unexpected positional argument(s): ${extraPositionals.join(', ')}`);
+    }
 
     if (command === 'verify') {
       assertAllowedFlags(parsed, ['decision']);
@@ -48,22 +57,46 @@ export async function runCli(argv: readonly string[], io: CliIo = defaultIo): Pr
       return report.valid ? EXIT_CODES.pass : EXIT_CODES.input;
     }
 
+    if (command === 'verify-plan') {
+      assertAllowedFlags(parsed, ['plan']);
+      const report = verifyPlan(readJsonFile(requireFlag(parsed, 'plan')));
+      io.stdout(`${JSON.stringify(report, null, 2)}\n`);
+      return report.valid ? EXIT_CODES.pass : EXIT_CODES.input;
+    }
+
     if (command === 'conformance' && subcommand === 'producer') {
-      assertAllowedFlags(parsed, ['root', 'producer', 'input']);
+      assertAllowedFlags(parsed, [
+        'root',
+        'producer',
+        'input',
+        'subject',
+        'received-at',
+        'producer-registry',
+        'check-registry',
+      ]);
+      const root = protocolRoot(optionalFlag(parsed, 'root'));
+      const config = loadBuiltInConfiguration(root);
       const producer = requireFlag(parsed, 'producer');
       const artifacts = discoverJsonArtifacts(requireFlag(parsed, 'input'));
-      const cases = artifacts.map((item) => {
-        const validation = validateObservation(item.value);
-        const observation = item.value as Partial<Observation>;
-        const producerMatches = observation.producer?.id === producer;
-        return {
-          path: item.path,
-          passed: validation.valid && producerMatches,
-          reasons: [...validation.errors, ...(producerMatches ? [] : [`Expected producer ${producer}.`])],
-        };
+      const values = artifacts.map((item) => item.value);
+      const subject = optionalFlag(parsed, 'subject')
+        ? readJsonFile<SubjectReference>(requireFlag(parsed, 'subject'))
+        : deriveConformanceSubject(values);
+      const receivedAt = optionalFlag(parsed, 'received-at') ?? deriveConformanceReceivedAt(values);
+      const producerRegistry = optionalFlag(parsed, 'producer-registry')
+        ? readJsonFile<ProducerRegistry>(requireFlag(parsed, 'producer-registry'))
+        : config.producerRegistry;
+      const checkRegistry = optionalFlag(parsed, 'check-registry')
+        ? readJsonFile<CheckRegistry>(requireFlag(parsed, 'check-registry'))
+        : config.checkRegistry;
+      const report = await runProducerConformance(values, {
+        producerId: producer,
+        subject,
+        producerRegistry,
+        checkRegistry,
+        receivedAt,
       });
-      const report = { producer, passed: cases.length > 0 && cases.every((item) => item.passed), files: artifacts.length, cases };
-      io.stdout(`${JSON.stringify(report, null, 2)}\n`);
+      io.stdout(`${JSON.stringify({ ...report, files: artifacts.length }, null, 2)}\n`);
       return report.passed ? EXIT_CODES.pass : EXIT_CODES.input;
     }
 
@@ -83,12 +116,16 @@ export async function runCli(argv: readonly string[], io: CliIo = defaultIo): Pr
         { id: 'verdict', passed: publishedVerdict.toLowerCase() === decision.verdict },
         { id: 'summary', passed: summary === expectedSummary },
       ];
-      const report = { consumerId: requireFlag(parsed, 'consumer'), passed: checks.every((item) => item.passed), checks };
+      const report = {
+        consumerId: requireFlag(parsed, 'consumer'),
+        passed: checks.every((item) => item.passed),
+        checks,
+      };
       io.stdout(`${JSON.stringify(report, null, 2)}\n`);
       return report.passed ? EXIT_CODES.pass : EXIT_CODES.input;
     }
 
-    const root = resolveRoot(optionalFlag(parsed, 'root'));
+    const root = protocolRoot(optionalFlag(parsed, 'root'));
     const config = loadBuiltInConfiguration(root);
     const engine = new AssuranceEngine(config);
 
@@ -97,8 +134,10 @@ export async function runCli(argv: readonly string[], io: CliIo = defaultIo): Pr
       assertSelections(parsed, config, false);
       const subject = readJsonFile<SubjectReference>(requireFlag(parsed, 'subject'));
       const plan = await engine.plan({ subject });
-      writeJsonFile(resolve(requireFlag(parsed, 'output')), plan);
-      io.stdout(`Planned ${plan.controls.length} controls.\n`);
+      const verification = verifyPlan(plan);
+      if (!verification.valid) throw new Error(`Generated plan failed self-verification: ${verification.reasons.join('; ')}`);
+      writeTextFile(resolve(requireFlag(parsed, 'output')), `${canonicalJson(plan)}\n`);
+      io.stdout(`Planned ${plan.controls.length} controls as ${plan.planId}.\n`);
       return EXIT_CODES.pass;
     }
 
@@ -117,12 +156,23 @@ export async function runCli(argv: readonly string[], io: CliIo = defaultIo): Pr
       for (const accepted of report.accepted) {
         writeJsonFile(rootPath(output, 'accepted', `${accepted.envelope.evidenceId}.json`), accepted.envelope);
       }
-      io.stdout(`Accepted ${report.accepted.length}; rejected ${report.rejectedCount}; quarantined ${report.quarantinedCount}; duplicate ${report.duplicateCount}.\n`);
+      io.stdout(
+        `Accepted ${report.accepted.length}; rejected ${report.rejectedCount}; quarantined ${report.quarantinedCount}; duplicate ${report.duplicateCount}.\n`,
+      );
       return EXIT_CODES.pass;
     }
 
     if ((command === 'evaluate' || command === 'simulate') && subcommand === undefined) {
-      assertAllowedFlags(parsed, ['root', 'subject', 'profile', 'policy', 'evidence', 'evaluation-time', 'waivers', 'output']);
+      assertAllowedFlags(parsed, [
+        'root',
+        'subject',
+        'profile',
+        'policy',
+        'evidence',
+        'evaluation-time',
+        'waivers',
+        'output',
+      ]);
       assertSelections(parsed, config, true);
       const subject = readJsonFile<SubjectReference>(requireFlag(parsed, 'subject'));
       const accepted = loadAccepted(requireFlag(parsed, 'evidence'));
@@ -136,9 +186,16 @@ export async function runCli(argv: readonly string[], io: CliIo = defaultIo): Pr
         evaluationTime: requireFlag(parsed, 'evaluation-time'),
         waivers,
       });
-      const finalDecision: AssuranceDecision = command === 'simulate'
-        ? { ...decision, extensions: { ...(decision.extensions ?? {}), 'l9.assurance.simulation': { authoritative: false } } }
-        : decision;
+      const finalDecision: AssuranceDecision =
+        command === 'simulate'
+          ? {
+              ...decision,
+              extensions: {
+                ...(decision.extensions ?? {}),
+                'l9.assurance.simulation': { authoritative: false },
+              },
+            }
+          : decision;
       const output = resolve(requireFlag(parsed, 'output'));
       writeTextFile(rootPath(output, 'decision.json'), `${canonicalJson(finalDecision)}\n`);
       writeTextFile(rootPath(output, 'decision.summary.md'), renderDecisionSummary(finalDecision));
@@ -147,11 +204,45 @@ export async function runCli(argv: readonly string[], io: CliIo = defaultIo): Pr
       return command === 'simulate' ? EXIT_CODES.pass : EXIT_CODES[finalDecision.verdict];
     }
 
-    throw new Error('Unknown command. Supported: plan, evidence admit, evaluate, verify, conformance producer, conformance consumer, simulate.');
+    throw new Error(
+      'Unknown command. Supported: plan, verify-plan, evidence admit, evaluate, verify, conformance producer, conformance consumer, simulate.',
+    );
   } catch (error) {
     io.stderr(`${error instanceof Error ? error.message : String(error)}\n`);
     return classifyError(error);
   }
+}
+
+function protocolRoot(selection: string | undefined): string {
+  return selection ? resolveRoot(selection) : embeddedProtocolRoot();
+}
+
+function deriveConformanceSubject(values: readonly unknown[]): SubjectReference {
+  const subjects: SubjectReference[] = [];
+  for (const value of values) {
+    const result = validateObservation(value);
+    if (result.valid && result.observation) subjects.push(result.observation.subject);
+  }
+  if (subjects.length === 0) throw new Error('Producer conformance requires --subject when no valid observation supplies one.');
+  const first = subjects[0];
+  if (!first) throw new Error('Producer conformance requires at least one valid subject.');
+  const canonical = canonicalJson(first);
+  if (subjects.some((subject) => canonicalJson(subject) !== canonical)) {
+    throw new Error('Producer conformance observations contain multiple subjects; provide a single exact subject set.');
+  }
+  return first;
+}
+
+function deriveConformanceReceivedAt(values: readonly unknown[]): string {
+  const timestamps = values
+    .map((value) => validateObservation(value))
+    .filter((result) => result.valid && result.observation)
+    .map((result) => result.observation?.execution.completedAt)
+    .filter((value): value is string => typeof value === 'string')
+    .sort();
+  const latest = timestamps.at(-1);
+  if (!latest) throw new Error('Producer conformance requires --received-at when no valid observation supplies a finish time.');
+  return latest;
 }
 
 function assertSelections(
@@ -161,11 +252,15 @@ function assertSelections(
 ): void {
   const profileSelection = optionalFlag(parsed, 'profile');
   if (profileSelection && !matchesVersionedReference(profileSelection, config.profile)) {
-    throw new Error(`Unsupported profile ${profileSelection}. Release zero supports ${config.profile.id}@${config.profile.version}.`);
+    throw new Error(
+      `Unsupported profile ${profileSelection}. Release zero supports ${config.profile.id}@${config.profile.version}.`,
+    );
   }
   const policySelection = optionalFlag(parsed, 'policy');
   if (policySelection && !matchesVersionedReference(policySelection, config.policy)) {
-    throw new Error(`Unsupported policy ${policySelection}. Release zero supports ${config.policy.id}@${config.policy.version}.`);
+    throw new Error(
+      `Unsupported policy ${policySelection}. Release zero supports ${config.policy.id}@${config.policy.version}.`,
+    );
   }
   if (requirePolicy && !policySelection) throw new Error('Missing --policy');
 }
@@ -181,12 +276,16 @@ function matchesVersionedReference(
 function loadAccepted(path: string): readonly AcceptedEvidence[] {
   return discoverJsonArtifacts(path)
     .map((item) => {
-      if (!isRecord(item.value)) throw new Error(`EVIDENCE_SCHEMA_INVALID: ${item.path}: envelope must be an object`);
+      if (!isRecord(item.value)) {
+        throw new Error(`EVIDENCE_SCHEMA_INVALID: ${item.path}: envelope must be an object`);
+      }
       const envelope = item.value as unknown as EvidenceEnvelope;
       if (envelope.schema !== 'l9.evidence-envelope' || envelope.schemaVersion !== '1.0.0') {
         throw new Error(`EVIDENCE_SCHEMA_UNSUPPORTED: ${item.path}`);
       }
-      if (!verifyEnvelopeIntegrity(envelope)) throw new Error(`EVIDENCE_PAYLOAD_DIGEST_MISMATCH: ${item.path}`);
+      if (!verifyEnvelopeIntegrity(envelope)) {
+        throw new Error(`EVIDENCE_PAYLOAD_DIGEST_MISMATCH: ${item.path}`);
+      }
       const structural = validateObservation(envelope.payload);
       if (!structural.valid || !structural.observation) {
         throw new Error(`EVIDENCE_SCHEMA_INVALID: ${item.path}: ${structural.errors.join('; ')}`);
@@ -197,7 +296,10 @@ function loadAccepted(path: string): readonly AcceptedEvidence[] {
       if (canonicalJson(envelope.subject) !== canonicalJson(structural.observation.subject)) {
         throw new Error(`EVIDENCE_SUBJECT_MISMATCH: ${item.path}`);
       }
-      if (envelope.producer.id !== structural.observation.producer.id || envelope.producer.version !== structural.observation.producer.version) {
+      if (
+        envelope.producer.id !== structural.observation.producer.id ||
+        envelope.producer.version !== structural.observation.producer.version
+      ) {
         throw new Error(`EVIDENCE_PRODUCER_UNKNOWN: ${item.path}: envelope producer mismatch`);
       }
       const observation = structural.observation;

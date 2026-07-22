@@ -1,0 +1,95 @@
+{
+  "subject": {
+    "kind": "git-revision",
+    "repository": {
+      "host": "github.com",
+      "owner": "Quantum-L9",
+      "name": "example"
+    },
+    "revision": {
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "profile": {
+    "id": "l9.pull-request",
+    "version": "1.0.0"
+  },
+  "controls": [
+    {
+      "id": "L9.CI.EVIDENCE_REVISION_CONSISTENCY",
+      "version": "1.0.0",
+      "severity": "mandatory"
+    },
+    {
+      "id": "L9.CI.LINT",
+      "version": "1.0.0",
+      "severity": "mandatory"
+    },
+    {
+      "id": "L9.CI.MANDATORY_FINDINGS_ABSENT",
+      "version": "1.0.0",
+      "severity": "mandatory"
+    },
+    {
+      "id": "L9.CI.REPOSITORY_METADATA",
+      "version": "1.0.0",
+      "severity": "mandatory"
+    },
+    {
+      "id": "L9.CI.SDK_VALIDATION",
+      "version": "1.0.0",
+      "severity": "mandatory"
+    },
+    {
+      "id": "L9.CI.TESTS",
+      "version": "1.0.0",
+      "severity": "mandatory"
+    },
+    {
+      "id": "L9.CI.TRANSPORT_PACKET",
+      "version": "1.0.0",
+      "severity": "mandatory"
+    }
+  ],
+  "requiredProducers": [
+    "l9-ci-sdk"
+  ],
+  "requiredChecks": [
+    "l9.lint",
+    "l9.mandatory-findings",
+    "l9.repository-metadata",
+    "l9.sdk-validation",
+    "l9.tests",
+    "l9.transport-packet"
+  ],
+  "waiverRules": [
+    {
+      "controlId": "L9.CI.EVIDENCE_REVISION_CONSISTENCY",
+      "allowed": false
+    },
+    {
+      "controlId": "L9.CI.LINT",
+      "allowed": true
+    },
+    {
+      "controlId": "L9.CI.MANDATORY_FINDINGS_ABSENT",
+      "allowed": true
+    },
+    {
+      "controlId": "L9.CI.REPOSITORY_METADATA",
+      "allowed": false
+    },
+    {
+      "controlId": "L9.CI.SDK_VALIDATION",
+      "allowed": false
+    },
+    {
+      "controlId": "L9.CI.TESTS",
+      "allowed": true
+    },
+    {
+      "controlId": "L9.CI.TRANSPORT_PACKET",
+      "allowed": false
+    }
+  ]
+}

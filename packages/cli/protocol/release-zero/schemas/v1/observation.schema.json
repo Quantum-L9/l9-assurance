@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/observation.schema.json",
+  "title": "Observation",
+  "description": "Observation",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "l9.observation"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "observationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "producer": {
+      "$ref": "./producer.schema.json"
+    },
+    "subject": {
+      "$ref": "./subject.schema.json"
+    },
+    "check": {
+      "$ref": "./check.schema.json"
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "error",
+            "skipped"
+          ]
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "environmentDigest": {
+          "$ref": "./digest.schema.json"
+        },
+        "invocationDigest": {
+          "$ref": "./digest.schema.json"
+        }
+      },
+      "required": [
+        "runId",
+        "attempt",
+        "status",
+        "startedAt",
+        "completedAt"
+      ],
+      "unevaluatedProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "findingCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "errorCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "warningCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "informationalCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "findingCount",
+        "errorCount",
+        "warningCount",
+        "informationalCount"
+      ],
+      "unevaluatedProperties": false
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "./finding.schema.json"
+      },
+      "maxItems": 10000
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "./artifact-reference.schema.json"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "builder": {
+          "type": "string",
+          "minLength": 1
+        },
+        "buildType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "invocationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "$ref": "./artifact-reference.schema.json"
+          }
+        }
+      },
+      "required": [],
+      "unevaluatedProperties": false
+    },
+    "extensions": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z0-9]+(?:\\.[a-z0-9-]+)+$"
+      },
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "schema",
+    "schemaVersion",
+    "observationId",
+    "producer",
+    "subject",
+    "check",
+    "execution",
+    "summary",
+    "findings",
+    "artifacts"
+  ],
+  "unevaluatedProperties": false
+}

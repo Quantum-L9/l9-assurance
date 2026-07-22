@@ -18,3 +18,19 @@ test('direct non-JSON artifact paths are rejected',()=>{const root=mkdtempSync(j
 test('decision verification rejects verdict reduction tampering',async()=>{const decision=await passDecision();const report=verifyDecision({...decision,verdict:'fail'});assert.equal(report.valid,false);assert.match(report.reasons.join(' '),/control reduction/);});
 test('decision verification rejects nested unknown properties',async()=>{const decision=await passDecision();const controls=decision.controlResults.map((item,index)=>index===0?{...item,unexpected:true}:item);const report=verifyDecision({...decision,controlResults:controls});assert.equal(report.valid,false);assert.match(report.reasons.join(' '),/unknown property/);});
 test('decision verification rejects dangling evidence references',async()=>{const decision=await passDecision();const controls=decision.controlResults.map((item,index)=>index===0?{...item,evidenceRefs:['missing-evidence']}:item);const report=verifyDecision({...decision,controlResults:controls});assert.equal(report.valid,false);assert.match(report.reasons.join(' '),/missing evidence/);});
+
+test('embedded protocol bundle rejects authority-file tampering before configuration load', async () => {
+  const { cpSync, readFileSync } = await import('node:fs');
+  const { embeddedProtocolRoot, loadBuiltInConfiguration } = await import('@l9/assurance-cli');
+  const root = mkdtempSync(join(tmpdir(), 'l9-protocol-tamper-'));
+  try {
+    cpSync(embeddedProtocolRoot(), root, { recursive: true });
+    const target = join(root, 'registry', 'checks.yaml');
+    const checks = JSON.parse(readFileSync(target, 'utf8'));
+    checks.checks[0].meaning = 'tampered meaning';
+    writeFileSync(target, JSON.stringify(checks));
+    assert.throws(() => loadBuiltInConfiguration(root), /digest mismatch/i);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});

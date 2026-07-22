@@ -37,5 +37,11 @@ declare module "node:path" {
   export function dirname(path: string): string;
   export function extname(path: string): string;
   export function basename(path: string): string;
+  export function isAbsolute(path: string): boolean;
+  export function normalize(path: string): string;
   export const sep: string;
+}
+
+declare module "node:url" {
+  export function fileURLToPath(url: string | URL): string;
 }

@@ -2,6 +2,8 @@ export const SCHEMA_VERSION = '1.0.0' as const;
 export const OBSERVATION_SCHEMA = 'l9.observation' as const;
 export const EVIDENCE_ENVELOPE_SCHEMA = 'l9.evidence-envelope' as const;
 export const DECISION_SCHEMA = 'l9.assurance-decision' as const;
+export const PLAN_SCHEMA = 'l9.assurance-plan' as const;
+export const CANONICALIZATION_ALGORITHM = 'l9.canonical-json/v1' as const;
 
 export const ADMISSION_REASON_CODES = [
   'EVIDENCE_MEDIA_TYPE_UNSUPPORTED',

@@ -1,0 +1,10 @@
+{"check_id":"VAL-001","class":"contract","target":"assurance plan","status":"PASS","evidence":"evidence/contract-proof/assurance-plan.verification.json"}
+{"check_id":"VAL-002","class":"distribution","target":"embedded protocol CLI","status":"PASS","evidence":"evidence/validation/assurance-ci-final.log"}
+{"check_id":"VAL-003","class":"contract","target":"TypeScript canonicalization","status":"PASS","evidence":"evidence/contract-proof/canonicalization-typescript.json"}
+{"check_id":"VAL-004","class":"contract","target":"Python canonicalization","status":"PASS","evidence":"evidence/contract-proof/canonicalization-python.json"}
+{"check_id":"VAL-005","class":"conformance","target":"l9-ci-sdk producer","status":"PASS","evidence":"evidence/contract-proof/producer-conformance.json"}
+{"check_id":"VAL-006","class":"architecture","target":"Harness artifact layout","status":"PASS","evidence":"harness/spec-pack/VALIDATION.md"}
+{"check_id":"VAL-007","class":"execution","target":"Assurance full CI","status":"PASS","evidence":"evidence/validation/assurance-ci-final.log"}
+{"check_id":"VAL-008","class":"execution","target":"source-only clean-room CI","status":"PASS","evidence":"evidence/validation/clean-room-ci.log"}
+{"check_id":"VAL-009","class":"structural","target":"final consolidated tree","status":"PASS","evidence":"evidence/validation/final-structural-validation.log"}
+{"check_id":"VAL-010","class":"risk","target":"production authority","status":"BLOCKED","evidence":"UNKNOWN_REGISTER.md"}
