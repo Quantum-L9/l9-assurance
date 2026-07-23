@@ -2,11 +2,19 @@
 
 Generated from the Python-authoritative source tree. Dependencies, build output, caches, temporary files, Git metadata, and nested archives are excluded.
 
-Tracked release files: **236**
+Tracked release files: **244**
 
 ```text
 l9-assurance/
+  .github/governance/execution-profiles.yaml
+  .github/governance/promotion-policy.yaml
+  .github/governance/provider-requiredness.yaml
+  .github/governance/quality-thresholds.yaml
+  .github/governance/rule-modes.yaml
+  .github/governance/waivers.yaml
   .github/workflows/ci.yml
+  .github/workflows/l9-analysis.yml
+  .github/workflows/l9-lint-test.yml
   .gitignore
   .l9/L9_META.jsonl
   .l9/repo-spec.yaml

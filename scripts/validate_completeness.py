@@ -136,8 +136,11 @@ def build_report() -> tuple[dict[str, object], list[str]]:
 
     _validate_python_stubs(failures)
 
+    runtime_artifacts = frozenset({".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".venv"})
     for path in ROOT.rglob("*"):
         relative = path.relative_to(ROOT)
+        if any(part in runtime_artifacts or part.endswith(".egg-info") for part in relative.parts):
+            continue
         if path.is_dir() and (path.name in EXCLUDED_DIRS or path.name.endswith(".egg-info")):
             failures.append(f"Build residue present: {relative}")
         if path.is_file() and (path.suffix in {".pyc", ".pyo"} or path.suffix in ARCHIVE_SUFFIXES):
