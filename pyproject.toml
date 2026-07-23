@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "l9-assurance"
+version = "2.1.1"
+description = "Deterministic evidence admission, control evaluation, and assurance decisions for the Quantum-L9 CI constellation."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = { text = "UNLICENSED" }
+authors = [{ name = "Quantum-L9" }]
+dependencies = [
+  "jsonschema>=4.18,<5",
+  "referencing>=0.30,<1",
+  "PyYAML>=6,<7",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+l9-assurance = "l9_assurance.cli.app:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+l9_assurance = ["protocol/release-zero/**/*"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["l9_assurance"]
+warn_unused_configs = true

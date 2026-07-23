@@ -1,35 +1,16 @@
 {
   "schema": "l9.assurance-benchmark",
   "schemaVersion": "1.0.0",
-  "executedAt": "2026-07-22T13:15:49.644Z",
-  "runtime": {
-    "node": "v22.16.0",
-    "platform": "linux",
-    "architecture": "x64"
+  "admission": {
+    "observations": 1000,
+    "seconds": 0.872974,
+    "objectiveSeconds": 5.0,
+    "passed": true
   },
-  "measurements": {
-    "validationP95Ms": 0.17672300000000263,
-    "admission1000Ms": 114.433125,
-    "evaluation500ControlsMs": 5.980111999999991,
-    "verificationMs": 14.83642900000001,
-    "summaryMs": 0.8926469999999824,
-    "rssBytesAfterAdmission": 70283264
-  },
-  "targets": {
-    "validationP95Ms": 100,
-    "admission1000Ms": 5000,
-    "evaluation500ControlsMs": 2000,
-    "verificationMs": 250,
-    "summaryMs": 500,
-    "rssBytesAfterAdmission": 536870912
-  },
-  "checks": {
-    "validationP95Ms": true,
-    "admission1000Ms": true,
-    "evaluation500ControlsMs": true,
-    "verificationMs": true,
-    "summaryMs": true,
-    "rssBytesAfterAdmission": true
-  },
-  "passed": true
+  "evaluation": {
+    "decisions": 500,
+    "seconds": 0.268293,
+    "objectiveSeconds": 2.0,
+    "passed": true
+  }
 }

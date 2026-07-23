@@ -1,0 +1,166 @@
+{
+  "schema": "l9.assurance-protocol-bundle",
+  "schemaVersion": "1.0.0",
+  "assuranceVersion": "2.1.1",
+  "canonicalization": "l9.canonical-json/v1",
+  "files": [
+    {
+      "path": "controls/ci/evidence-revision-consistency.yaml",
+      "digest": "8269d68807fbbb7a0e5772dbf832ca5ed266938dab392e9966195a02986be353"
+    },
+    {
+      "path": "controls/ci/lint.yaml",
+      "digest": "1bcd50196ddbcc4e7be81ae10e02830e2fdf2d7ef9767ee6015a32a3171f0cac"
+    },
+    {
+      "path": "controls/ci/mandatory-findings.yaml",
+      "digest": "621b12cdabe563f4a5e1b1f0350743140ddb96b9401bc9427a653926a6db2e57"
+    },
+    {
+      "path": "controls/ci/repository-metadata.yaml",
+      "digest": "7f1a251207d14da2db3fe2274e667dcf57465f042901918dd218d6fcf106320d"
+    },
+    {
+      "path": "controls/ci/sdk-validation.yaml",
+      "digest": "7c5edbbea832d0e9f52d313106150cc558ddbcfb2d2d147eb6fa7f05654d5185"
+    },
+    {
+      "path": "controls/ci/tests.yaml",
+      "digest": "3c15847420de30d8e9e9bab7c7c6860ecddcf573018634d131e002d1265f7e31"
+    },
+    {
+      "path": "controls/ci/transport-packet.yaml",
+      "digest": "8d6a68373c61ba490bb5c51a76c3c0ad3d2befd5b6392109735508c41c84229a"
+    },
+    {
+      "path": "fixtures/compatibility/check-registry.json",
+      "digest": "0d6a0dac701d770f5ec730f92716c76e44d6f5bf06e079062185cbfa3f029942"
+    },
+    {
+      "path": "fixtures/compatibility/producer-registry.trusted.json",
+      "digest": "3d0969804d14dc67d8a1d83b6a433cf3546383bb6289f416f10ffd5240551939"
+    },
+    {
+      "path": "fixtures/conformance/canonicalization-v1.json",
+      "digest": "64482c2a6b1b22bae811a293cf05209e447465fc62acb971f15775298eb48370"
+    },
+    {
+      "path": "profiles/pull-request/policy.yaml",
+      "digest": "c74242dfbd030204b5e59353dc6b2605a79383b517e69e1a80cafde53767ab0a"
+    },
+    {
+      "path": "profiles/pull-request/profile.yaml",
+      "digest": "2ba930e102161af39cfe35af65f279abf6c7ecc042b4da8f251b31e33e6b5392"
+    },
+    {
+      "path": "registry/checks.yaml",
+      "digest": "0d6a0dac701d770f5ec730f92716c76e44d6f5bf06e079062185cbfa3f029942"
+    },
+    {
+      "path": "registry/claims.yaml",
+      "digest": "b2d2adf3f551aeb88a66f188e5ffc1b80995aeb7178dd515045aba20a6df2a89"
+    },
+    {
+      "path": "registry/controls.yaml",
+      "digest": "f7752ba31e1b5db304849658393b74303f4a05bb3ab7ddf0a9a91652647cd953"
+    },
+    {
+      "path": "registry/producers.yaml",
+      "digest": "d1a0fac4d8b33b742aef0c9368287f3f41f037cdb48ad67aabd7a7d04226cde3"
+    },
+    {
+      "path": "registry/profiles.yaml",
+      "digest": "c4bab65936f65d4515d4931fdb4c4d4a78d828bce81fc96a0b018328dcf5e9c2"
+    },
+    {
+      "path": "schemas/registry.json",
+      "digest": "ecf471320f7ce9d0d107a35fad5d52cfe49ef49c713617944a342ecce5b7f16e"
+    },
+    {
+      "path": "schemas/v1/artifact-reference.schema.json",
+      "digest": "c483bde226e10d6bdc71575d74329deb69775d7841eb0e07f4b7451fdd799f11"
+    },
+    {
+      "path": "schemas/v1/assurance-capabilities.schema.json",
+      "digest": "5cf4471a4fe5478df62b42dbe22da59ff35fd9c860850500bc560a3e35cf7f7a"
+    },
+    {
+      "path": "schemas/v1/assurance-plan.schema.json",
+      "digest": "706cd9ae46d4da877075d28948e9be19d8b9482051cb81e1ffd6d5f146cc6301"
+    },
+    {
+      "path": "schemas/v1/audit-bundle-manifest.schema.json",
+      "digest": "08fcfe234ddc6c7419a9234f641653409597b3ca929ec59d7a0fe3eb8ee4fe23"
+    },
+    {
+      "path": "schemas/v1/check.schema.json",
+      "digest": "6fe3098d43b06c486da3d3e2ba41097b80b5b50d96c784f5d2426fc6fb4bf158"
+    },
+    {
+      "path": "schemas/v1/claim.schema.json",
+      "digest": "fddcc031a139e16f999cc438532adca6a6b5f3efb424ad206717f5e6774c2483"
+    },
+    {
+      "path": "schemas/v1/control-result.schema.json",
+      "digest": "3f67a12b77fddbefa5daf5ff401070956014072e38c151bcc676b49ca3ec7acd"
+    },
+    {
+      "path": "schemas/v1/control.schema.json",
+      "digest": "8370b4ad2880e122928ce2f32be935927de79b22f01d822002ecc3f83937d08b"
+    },
+    {
+      "path": "schemas/v1/decision.schema.json",
+      "digest": "80a934b0fba7d09f0c36eb4bddd8af46f614a217f2ea840a9741b7b7f6ac98e2"
+    },
+    {
+      "path": "schemas/v1/digest.schema.json",
+      "digest": "d7992824e5bf384088d218ff7aeb96972fd5b96d88e30eb96b27e64a8b2020d3"
+    },
+    {
+      "path": "schemas/v1/evidence-admission.schema.json",
+      "digest": "adc993d3542126a79dbe5c5431dfdacaa1eb3f8b9b45db3335dfde5adb7b259d"
+    },
+    {
+      "path": "schemas/v1/evidence-envelope.schema.json",
+      "digest": "fbaff42700d4f7f4195a75f92ba5c2d1f0096d88222ed98aeb79a9a7dbdd8820"
+    },
+    {
+      "path": "schemas/v1/finding.schema.json",
+      "digest": "56eb51e24c733f9722e476694fb564931e203d06313191996b34ebff81694783"
+    },
+    {
+      "path": "schemas/v1/observation.schema.json",
+      "digest": "9e808e297fa7e5be3e0952253b603e057f3bc2b0379f36e4d4bdc382d81aa85a"
+    },
+    {
+      "path": "schemas/v1/policy.schema.json",
+      "digest": "3da69db5b1adcb795018a4da85dd89874a5309163e943d0ef346ca86ee4ab4e5"
+    },
+    {
+      "path": "schemas/v1/producer.schema.json",
+      "digest": "64792a0139155d450c6f8398736a89b8cf6f7c164a28c8cda660e7581e3d6fa8"
+    },
+    {
+      "path": "schemas/v1/profile.schema.json",
+      "digest": "eefcaffaa1cd959840025bbbd750166c8ba4df03ae40b61272f6c9fc77f5d18e"
+    },
+    {
+      "path": "schemas/v1/subject.schema.json",
+      "digest": "0ba0ec6ef27736d3909f208524d8e3b107dbe43775b84497fb11f84a1a3444ba"
+    },
+    {
+      "path": "schemas/v1/unknown.schema.json",
+      "digest": "7f09503bf9811f49bedb055e1b1af3a6be85b3b1ebb88df6fb9c65954029db3d"
+    },
+    {
+      "path": "schemas/v1/waiver.schema.json",
+      "digest": "3bc3aac23562eabefe22756011858cbb6cbe79d8d42736c22332ba6bad309851"
+    }
+  ],
+  "sourceRepository": "Quantum-L9/l9-assurance",
+  "sourceBaselineCommit": "python-authoritative-v2.1.1",
+  "protocolDigest": {
+    "algorithm": "sha256",
+    "value": "a277b4f9948d4aab15620fdc700613d9aa4de00f96b5911f5708063f8c7aab5c"
+  }
+}

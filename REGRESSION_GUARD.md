@@ -1,28 +1,28 @@
 # Regression Guard
 
-## Preserved Release-zero contracts
+The following invariants are mechanically protected:
 
-- Eight active workspaces and no legacy execution workspaces.
-- Exact `git-revision` subject identity.
-- `l9-ci-sdk` as the sole Release-zero producer contract.
-- `l9.pull-request@1.0.0` and its seven mandatory controls.
-- Evidence admission before evaluation.
-- Positive violation evidence produces `fail`.
-- Missing, malformed, stale, unauthorized, or revision-mismatched evidence cannot produce `pass`.
-- Decisions are deterministic, immutable, and independently structurally verifiable.
-- Test signing identity is unreachable from production package entrypoints.
-- CI Core consumes a decision without reconstructing it.
+- Python is the only authoritative runtime.
+- JSON Schema remains protocol authority.
+- The root and embedded protocol bundles are byte-consistent.
+- The CLI exposes exactly nine known routes and rejects unknown input.
+- The evaluator imports no filesystem, network, or process APIs.
+- Production modules cannot access the test signer.
+- Canonicalization vectors cover numeric and Unicode edge cases.
+- Exact subject, producer, check, status, freshness, digest, replay, and lineage rules are tested.
+- Verdict reduction distinguishes positive failure from missing knowledge.
+- Plan and decision tampering is rejected.
+- Consumer transport is byte-preserving.
+- No Node.js, TypeScript, scanner, plugin, GitHub, repair, LSP, or debt runtime package is present.
+- Replay fixtures are byte-identical.
+- A wheel builds from source.
 
-## Machine gates
+Run `python scripts/ci.py` to execute the guard.
 
-`npm run ci` verifies generated bindings, formatting, lint, schemas, registries, boundaries, fixtures, build evidence, completeness, typecheck, build, all test categories, and replay.
+## Additional 2.1.1 guards
 
-## Forbidden regressions
-
-- Scanner, test-runner, arbitrary plugin, GitHub publication, repair, debt-mining, or LSP ownership inside assurance.
-- Aggregate confidence scores overriding mandatory control results.
-- Raw observations evaluated without admission.
-- Reuse of revision-bound evidence across commits.
-- Runtime casts presented as validation.
-- TODO, FIXME, placeholder, scaffold-only, or fake-success behavior in executable files.
-- Nested release archives or generated build output in the source tree.
+- Every release file is covered by `.l9/L9_META.jsonl`.
+- Repository classification and no-egress Gate applicability are machine-readable.
+- Replay state is bounded, append-only, conflict-detecting, and non-evicting.
+- Runtime source contains no network/process imports, direct sibling imports, dynamic execution, or print bypasses.
+- Candidate-wheel tests assert the imported package originates from the isolated environment.

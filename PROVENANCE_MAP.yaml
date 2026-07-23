@@ -1,0 +1,48 @@
+schema: l9.provenance-map/v1
+repository: Quantum-L9/l9-assurance
+release: 2.1.1
+runtime_authority: python
+contract_authority: json_schema_2020_12
+sources:
+  schemas:
+    path: schemas/v1
+    derived:
+      - src/l9_assurance/contracts/generated.py
+      - src/l9_assurance/protocol/release-zero/schemas/v1
+  controls:
+    path: controls/ci
+    derived:
+      - src/l9_assurance/protocol/release-zero/controls/ci
+  profiles:
+    path: profiles
+    derived:
+      - src/l9_assurance/protocol/release-zero/profiles
+  registries:
+    path: registry
+    derived:
+      - src/l9_assurance/protocol/release-zero/registry
+  conformance_vectors:
+    path: fixtures/conformance
+    derived:
+      - src/l9_assurance/protocol/release-zero/fixtures/conformance
+runtime_mapping:
+  contracts: src/l9_assurance/contracts
+  evidence: src/l9_assurance/evidence
+  controls: src/l9_assurance/controls
+  policy: src/l9_assurance/policy
+  evaluator: src/l9_assurance/evaluator
+  conformance: src/l9_assurance/conformance
+  cli: src/l9_assurance/cli
+  testing: src/l9_assurance/testing
+validation:
+  command: python scripts/ci.py
+  protocol_sync: python scripts/sync_protocol_bundle.py --check
+repository_governance:
+  specification: .l9/repo-spec.yaml
+  per_file_metadata: .l9/L9_META.jsonl
+  generated_by: scripts/generate_l9_meta.py
+  file_inventory_primitive: scripts/repository_files.py
+alignment_evidence:
+  human_readable: ALIGNMENT_REPORT.md
+  machine_readable: CONVERGENCE_REPORT.yaml
+  executable_gate: scripts/validate_l9_alignment.py

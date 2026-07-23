@@ -1,43 +1,49 @@
 # Validation
 
-## Decision
+## Current decision
 
-**APPROVED_WITH_EXTERNAL_UNKNOWNS**
+`APPROVED_WITH_EXTERNAL_UNKNOWNS`
 
-The Release-zero source is complete for branch review and shadow-mode integration. Local deterministic validation, package dry-runs, source-only clean-room execution, and convergence checks pass. Production authority promotion remains `NO_GO` because producer trust, hosted branch execution, and shadow-mode reliability require external evidence.
+The Python-authoritative runtime passes all locally executable release gates. External trust activation, hosted execution, shadow parity, public package installation, and production signing remain Unknown.
 
-## Executed validation
+## Reproduce
 
-| Check | Result | Evidence |
-|---|---|---|
-| Generated binding drift | PASS | `npm run check:generated` |
-| Formatting | PASS | `npm run format:check` |
-| Source hygiene | PASS | `npm run lint` |
-| JSON Schema contracts | PASS | 18 Draft 2020-12 schemas |
-| Trust registries | PASS | one producer, six checks, seven controls, one profile |
-| Package boundaries and evaluator purity | PASS | eight-workspace boundary validator |
-| Structural fixtures | PASS | six valid and eight invalid observation fixtures |
-| Build evidence | PASS | inventory, benchmark, and Unknown register validation |
-| Completeness | PASS | required artifacts, empty files, unfinished markers, caches, and nested archives |
-| TypeScript typecheck | PASS | strict source-only typecheck |
-| Workspace build | PASS | all eight TypeScript workspaces |
-| Behavior suite | PASS | 62 tests across eight categories |
-| Deterministic replay | PASS | two replay cases rerun independently |
-| Performance benchmark | PASS | all six targets below threshold |
-| Workspace package dry-run | PASS | eight packages, 180 packed files |
-| Source-only clean-room CI | PASS | all 13 gates rebuilt without retained output |
-| Convergence | PASS | source checksums unchanged across consecutive full CI runs |
+```bash
+python -m pip install -e .[dev]
+python scripts/ci.py
+```
 
-## Performance snapshot
+## Gate matrix
 
-The authoritative measurements are in `validation-benchmark.json`. The measured p95 observation validation, admission of 1,000 observations, evaluation of 500 controls, decision verification, summary generation, and resident memory all remained below their Release-zero targets.
+| Gate | Method |
+|---|---|
+| Protocol bundle drift | `python scripts/sync_protocol_bundle.py --check` |
+| Python syntax/importability | `python -m compileall -q src scripts tests` |
+| JSON Schema integrity | `python scripts/validate_schemas.py` |
+| Registry and ownership relations | `python scripts/validate_registries.py` |
+| Architecture and offline boundaries | `python scripts/validate_boundaries.py` |
+| Positive/negative fixtures and canonical vectors | `python scripts/validate_fixtures.py` |
+| Behavior, contract, conformance, integration, replay, security, performance tests | `pytest -q` |
+| Byte-identical replay | `python scripts/verify_replay.py` |
+| Resource objectives | `python scripts/benchmark.py` |
+| Required files, no unfinished markers, no runtime residue | `python scripts/validate_completeness.py` |
+| Distribution | wheel build, metadata verification, isolated installation, embedded-protocol execution |
+| Harness 2.0.4 seam | uploaded Harness `capture_plan` and `evaluate` adapters against installed console script |
 
-## Integrity method
+The full command stops on the first failure and does not convert blocked checks into passes.
 
-The clean-room copy excludes `node_modules`, `dist`, `.tmp`, Git metadata, bytecode, caches, and prior logs. It builds all workspaces from source, creates only local workspace links for package resolution, and executes the same 13-gate `npm run ci` command.
+Local execution used Python 3.13.5. The checked-in hosted workflow defines Python 3.11, 3.12, and 3.13, but hosted matrix results are not claimed here. Ruff and mypy configuration is present for constellation alignment; their executables were unavailable in this environment, so no lint or static-type pass is claimed.
 
-The final delivery contains the source-only repository plus release evidence. It contains no nested archives, generated dependency trees, build output, cache residue, or invented external pass claims.
+The uploaded L9 Harness 2.0.4 implementation was also exercised against the installed Python console script. Plan capture and evaluation completed successfully without modifying Harness. See [the compatibility review](docs/reviews/HARNESS_2_0_4_COMPATIBILITY.md).
 
-## External Unknowns
+## Recursive alignment gates
 
-See `UNKNOWN_REGISTER.md`. UNKNOWN-001 through UNKNOWN-003 block authoritative production promotion. They do not block code review or shadow-mode integration.
+| Gate | Method |
+|---|---|
+| L9 repository specification and applicability | `python scripts/validate_l9_alignment.py` |
+| Per-file L9 metadata coverage | `python scripts/generate_l9_meta.py --check` |
+| Pass-only/ellipsis/NotImplemented stubs | AST inspection in `validate_completeness.py` |
+| Bounded append-only replay | replay behavior tests and alignment gate |
+| Isolated candidate wheel provenance | force-install candidate wheel and assert module origin inside the clean environment |
+
+The complete local ladder contains 13 ordered repository gates plus isolated wheel construction and execution.

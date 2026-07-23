@@ -1,60 +1,87 @@
 # L9 Assurance
 
-L9 Assurance is the protocol authority, evidence-admission boundary, deterministic control evaluator, and decision issuer for the Quantum-L9 CI constellation.
+L9 Assurance is the CI constellation's protocol authority, evidence-admission boundary, deterministic control evaluator, and decision issuer.
 
-It does not run scanners, execute tests, publish GitHub checks, mutate repositories, discover arbitrary plugins, or mine debt. `l9-ci-sdk` observes. `l9-ci-core` orchestrates and publishes. L9 Assurance verifies and decides.
+It is a **Python-authoritative**, offline, local-first package designed to operate beside `l9-ci-sdk`, `l9-ci-core`, `l9-harness`, the CI debt repositories, and `PR_Repair` without introducing a second runtime toolchain.
 
-## Release-zero scope
+## Responsibility boundary
 
+L9 Assurance owns:
+
+- JSON Schema protocol contracts;
+- producer and check trust registries;
+- exact-subject evidence admission;
+- replay and duplicate detection;
+- declarative controls, policy, waivers, and Unknowns;
+- deterministic verdict reduction;
+- decision verification and conformance.
+
+It does not run repository scanners, execute tests, orchestrate CI, publish checks, route workflows, mutate repositories, repair code, mine debt, or provide editor behavior.
+
+## Release 2.1.1
+
+- Runtime: Python 3.11 through 3.13
+- Package: `l9-assurance`
+- Console command: `l9-assurance`
+- Contract authority: JSON Schema Draft 2020-12
 - Subject: exact `git-revision`
 - Producer contract: `l9-ci-sdk`
 - Profile: `l9.pull-request@1.0.0`
-- Consumer contract: `l9-ci-core`
+- Decision consumer: `l9-ci-core`
 - Verdicts: `pass`, `fail`, `conditional`, `indeterminate`
-- Runtime: TypeScript, offline and local-first
-- Contract authority: JSON Schema Draft 2020-12
 
-## Quick start
+## Install and validate
 
 ```bash
-npm ci
-npm run ci
-node packages/cli/dist/bin.js plan \
+python -m pip install -e .
+python scripts/ci.py
+```
+
+## CLI
+
+```bash
+l9-assurance capabilities --json
+
+l9-assurance plan \
   --profile l9.pull-request@1 \
   --subject fixtures/valid/subject.json \
   --output artifacts/assurance-plan.json
+
+l9-assurance verify-plan \
+  --plan artifacts/assurance-plan.json
 ```
 
-When schemas change, regenerate and commit bindings:
-
-```bash
-npm run generate:bindings
-npm run check:generated
-```
-
-The checked-in producer registry intentionally remains pending until the minimum trusted `l9-ci-sdk` version and required build identity are verified. Production admission therefore quarantines that producer rather than inventing trust. Tests use a separate activated fixture registry.
+The protocol bundle is embedded in the wheel and verified before it is loaded. A consumer does not need a repository checkout or Node.js.
 
 ## Core flow
 
 ```text
 l9-ci-sdk observations
-  -> structural validation
-  -> producer and check authorization
-  -> exact subject validation
-  -> integrity and freshness validation
-  -> accepted evidence
-  -> declarative control evaluation
-  -> deterministic verdict reduction
+  -> schema and resource validation
+  -> producer/check authorization
+  -> exact subject binding
+  -> integrity, freshness, and replay checks
+  -> admitted evidence
+  -> control and policy evaluation
   -> immutable assurance decision
-  -> l9-ci-core transport and publication
+  -> l9-ci-core transport/publication
 ```
 
-## Validation
+## Development law
 
-```bash
-npm run ci
-npm run benchmark
-npm pack --workspaces --dry-run
-```
+1. Change root schemas, controls, profiles, or registries first.
+2. Run `python scripts/sync_protocol_bundle.py --write`.
+3. Add behavior and replay tests.
+4. Run `python scripts/ci.py`.
+5. Run `python scripts/generate_l9_meta.py --write` after adding, removing, or reclassifying files.
+6. Do not add network, shell, scanner, CI-orchestration, repair, or publication authority.
 
-See [VALIDATION.md](VALIDATION.md), [ARCHITECTURE.md](ARCHITECTURE.md), [SPECIFICATION.md](SPECIFICATION.md), and [RUNBOOK.md](RUNBOOK.md).
+See [ARCHITECTURE.md](ARCHITECTURE.md), [SPECIFICATION.md](SPECIFICATION.md), [REWRITE_EXECUTION_SPEC.md](REWRITE_EXECUTION_SPEC.md), and [RUNBOOK.md](RUNBOOK.md).
+
+## L9 repository governance
+
+- `.l9/repo-spec.yaml` is the machine-readable repository boundary and applicability record.
+- `.l9/L9_META.jsonl` covers every release file without modifying canonical protocol bytes.
+- Replay state is append-only, bounded, never evicted, and fails closed at capacity.
+- `ALIGNMENT_REPORT.md` records TransportPacket, Gate, schema-field, security, and validation applicability.
+

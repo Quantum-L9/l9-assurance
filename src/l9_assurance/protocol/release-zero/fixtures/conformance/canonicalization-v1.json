@@ -1,0 +1,47 @@
+{
+  "schema": "l9.canonicalization-vectors",
+  "schemaVersion": "1.0.0",
+  "algorithm": "l9.canonical-json/v1",
+  "cases": [
+    {
+      "id": "negative-zero",
+      "inputJson": "-0.0",
+      "canonicalJson": "0"
+    },
+    {
+      "id": "small-exponent",
+      "inputJson": "1e-7",
+      "canonicalJson": "1e-7"
+    },
+    {
+      "id": "fixed-upper-bound",
+      "inputJson": "1e20",
+      "canonicalJson": "100000000000000000000"
+    },
+    {
+      "id": "scientific-lower-bound",
+      "inputJson": "1e21",
+      "canonicalJson": "1e+21"
+    },
+    {
+      "id": "fraction-shortest-roundtrip",
+      "inputJson": "333333333.33333329",
+      "canonicalJson": "333333333.3333333"
+    },
+    {
+      "id": "unicode-code-point-key-order",
+      "inputJson": "{\"😀\":1,\"a\":2,\"é\":3}",
+      "canonicalJson": "{\"a\":2,\"é\":3,\"😀\":1}"
+    },
+    {
+      "id": "nested-object-order",
+      "inputJson": "{\"z\":[3,{\"b\":1,\"a\":2}],\"a\":true}",
+      "canonicalJson": "{\"a\":true,\"z\":[3,{\"a\":2,\"b\":1}]}"
+    },
+    {
+      "id": "escaped-control",
+      "inputJson": "{\"line\":\"a\\nb\"}",
+      "canonicalJson": "{\"line\":\"a\\nb\"}"
+    }
+  ]
+}

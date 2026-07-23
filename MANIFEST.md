@@ -1,61 +1,47 @@
-# Build Manifest
+# Manifest
 
-## Identity
+## Repository identity
 
-- Repository: `Quantum-L9/l9-assurance`
-- Target branch: `rewrite/v2-assurance-plane`
-- Release: `2.0.0`
-- Legacy baseline: `af79053c5b7f9c0338edf5f1ff7253f429646cf9`
-- Build mode: clean rewrite in place
-- Validated source files: 207
+```yaml
+repository: Quantum-L9/l9-assurance
+release: 2.1.1
+runtime: python
+package: l9-assurance
+console_script: l9-assurance
+contract_authority: schemas/v1
+```
 
-## Active workspaces
+## Responsibility map
 
-1. `@l9/assurance-contracts`
-2. `@l9/assurance-evidence`
-3. `@l9/assurance-controls`
-4. `@l9/assurance-policy`
-5. `@l9/assurance-evaluator`
-6. `@l9/assurance-conformance`
-7. `@l9/assurance-cli`
-8. `@l9/assurance-testing`
+| Path | Responsibility |
+|---|---|
+| `src/l9_assurance/contracts/` | Schema projections, strict timestamps, schema validation |
+| `src/l9_assurance/evidence/` | Canonicalization, bounds, discovery, admission, replay |
+| `src/l9_assurance/controls/` | Control/profile parsing and assessment |
+| `src/l9_assurance/policy/` | Policy, overlays, waivers |
+| `src/l9_assurance/evaluator/` | Decision construction, summary, verification |
+| `src/l9_assurance/conformance/` | Producer and consumer conformance |
+| `src/l9_assurance/cli/` | Single executable ingress and composed engine |
+| `src/l9_assurance/testing/` | Test-only helpers and signer |
+| `src/l9_assurance/protocol/release-zero/` | Digest-verified installable protocol bundle |
+| `schemas/`, `controls/`, `profiles/`, `registry/` | Root protocol authority |
+| `fixtures/` | Positive, negative, adversarial, replay, compatibility, conformance cases |
+| `tests/` | Eight validation categories |
+| `scripts/` | Deterministic repository and distribution gates |
+| `docs/` | ADRs and operator/protocol documentation |
 
-## Protocol inventory
+## Exclusions
 
-- 18 strict JSON Schema Draft 2020-12 contracts
-- four reproducible generated binding artifacts
-- TypeScript and Python bindings
-- one producer registry entry, intentionally pending
-- six Release-zero check identities
-- seven declarative pull-request controls
-- one profile and one default policy
+The release tree excludes Node.js/npm runtime files, build output, dependencies, caches, Git metadata, secrets, scanner execution, orchestration, publication, mutation, repair, debt, and LSP implementation.
 
-## Validation inventory
+## Governance and alignment surfaces
 
-- 13 CI-equivalent repository gates
-- 62 behavior tests across eight categories
-- two dedicated replay cases rerun by the replay gate
-- six valid and eight invalid structural observation fixtures
-- producer and consumer conformance
-- security and adversarial trust-boundary coverage
-- six performance objectives
-- eight workspace package dry-runs containing 180 files
-- source-only clean-room CI
-- two-pass source checksum convergence
-
-## Operator artifacts
-
-- `README.md`
-- `ARCHITECTURE.md`
-- `SPECIFICATION.md`
-- `REWRITE_EXECUTION_SPEC.md`
-- `SECURITY.md`
-- `RUNBOOK.md`
-- `VALIDATION.md`
-- `UNKNOWN_REGISTER.md`
-- `REGRESSION_GUARD.md`
-- `TRACEABILITY_MAP.yaml`
-- `FINAL_TREE.md`
-- `validation-report.json`
-- `validation-benchmark.json`
-- `docs/reviews/`
+| Path | Responsibility |
+|---|---|
+| `.l9/repo-spec.yaml` | Machine-readable repository identity, classification, ownership, applicability, and resource policy |
+| `.l9/L9_META.jsonl` | Deterministic per-file metadata coverage |
+| `AGENTS.md` | Agent authority order, boundaries, workflow, and stop conditions |
+| `ALIGNMENT_REPORT.md` | Recursive L9 alignment decision and applicability evidence |
+| `CONVERGENCE_REPORT.yaml` | Machine-readable fixed-point result |
+| `scripts/validate_l9_alignment.py` | Executable L9 boundary and metadata gate |
+| `scripts/repository_files.py` | Shared deterministic release-file inventory primitive |

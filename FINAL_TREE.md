@@ -1,275 +1,245 @@
 # Final Source Tree
 
-Generated from the source-only release tree. Build output, dependencies, caches, and temporary files are excluded.
+Generated from the Python-authoritative source tree. Dependencies, build output, caches, temporary files, Git metadata, and nested archives are excluded.
+
+Tracked release files: **236**
 
 ```text
-.github
-.github/workflows
-.github/workflows/ci.yml
-.gitignore
-.npmrc
-ARCHITECTURE.md
-CHANGELOG.md
-CHANGE_SUMMARY.md
-CONTRIBUTING.md
-FINAL_TREE.md
-LICENSE
-MANIFEST.md
-README.md
-REGRESSION_GUARD.md
-REWRITE_EXECUTION_SPEC.md
-RUNBOOK.md
-SECURITY.md
-SPECIFICATION.md
-TRACEABILITY_MAP.yaml
-UNKNOWN_REGISTER.md
-VALIDATION.md
-bindings
-bindings/manifest.json
-bindings/python
-bindings/python/l9_assurance_types.py
-bindings/typescript
-bindings/typescript/index.ts
-controls
-controls/ci
-controls/ci/evidence-revision-consistency.yaml
-controls/ci/lint.yaml
-controls/ci/mandatory-findings.yaml
-controls/ci/repository-metadata.yaml
-controls/ci/sdk-validation.yaml
-controls/ci/tests.yaml
-controls/ci/transport-packet.yaml
-docs
-docs/adr
-docs/adr/ADR-0001-clean-rewrite.md
-docs/decisions
-docs/decisions/verdicts.md
-docs/legacy
-docs/legacy/README.md
-docs/migration
-docs/migration/legacy-extraction-ledger.md
-docs/migration/legacy-source-quarry.md
-docs/operations
-docs/operations/authority-promotion.md
-docs/producers
-docs/producers/l9-ci-sdk.md
-docs/profiles
-docs/profiles/pull-request.md
-docs/protocol
-docs/protocol/README.md
-docs/reviews
-docs/reviews/FINAL_ARCHITECTURE_REVIEW.md
-docs/reviews/FLAWLESS_VICTORY_REPORT.md
-docs/reviews/RECURSIVE_ALIGNMENT_REVIEW.md
-docs/reviews/STUB_GAP_AUDIT.md
-eslint.config.js
-fixtures
-fixtures/adversarial
-fixtures/adversarial/duplicate-a.observation.json
-fixtures/adversarial/duplicate-b.observation.json
-fixtures/adversarial/lint-failed.observation.json
-fixtures/adversarial/malicious-markdown.observation.json
-fixtures/adversarial/mandatory-finding.observation.json
-fixtures/adversarial/revision-substitution.observation.json
-fixtures/adversarial/stale.observation.json
-fixtures/adversarial/unauthorized-check.observation.json
-fixtures/compatibility
-fixtures/compatibility/check-registry.json
-fixtures/compatibility/consumer-pass
-fixtures/compatibility/consumer-pass/decision.json
-fixtures/compatibility/consumer-pass/decision.summary.md
-fixtures/compatibility/consumer-pass/published-verdict.txt
-fixtures/compatibility/consumer-pass/transported-decision.json
-fixtures/compatibility/policy.json
-fixtures/compatibility/producer-registry.trusted.json
-fixtures/compatibility/profile.json
-fixtures/compatibility/unsupported-decision.json
-fixtures/invalid
-fixtures/invalid/invalid-extension.observation.json
-fixtures/invalid/invalid-status.observation.json
-fixtures/invalid/malformed-location.observation.json
-fixtures/invalid/missing-configuration-digest.observation.json
-fixtures/invalid/missing-subject.observation.json
-fixtures/invalid/summary-mismatch.observation.json
-fixtures/invalid/unknown-top-level.observation.json
-fixtures/invalid/unsupported-schema.observation.json
-fixtures/replay
-fixtures/replay/pull-request-pass
-fixtures/replay/pull-request-pass/accepted-evidence
-fixtures/replay/pull-request-pass/accepted-evidence/ev_64644e71789da2861babcd8c2dd311aa54db2e97.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_e11f311a92224de3124a92f50a322cb3d6966f0a.json
-fixtures/replay/pull-request-pass/accepted-evidence/ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5.json
-fixtures/replay/pull-request-pass/expected-decision.canonical.json
-fixtures/replay/pull-request-pass/expected-summary.md
-fixtures/replay/pull-request-pass/policy.yaml
-fixtures/replay/pull-request-pass/profile.yaml
-fixtures/replay/pull-request-pass/subject.json
-fixtures/valid
-fixtures/valid/lint-waiver.json
-fixtures/valid/lint.observation.json
-fixtures/valid/mandatory-findings.observation.json
-fixtures/valid/repository-metadata.observation.json
-fixtures/valid/sdk-validation.observation.json
-fixtures/valid/subject.json
-fixtures/valid/tests.observation.json
-fixtures/valid/transport-packet.observation.json
-package-lock.json
-package.json
-packages
-packages/cli
-packages/cli/package.json
-packages/cli/src
-packages/cli/src/args.ts
-packages/cli/src/bin.ts
-packages/cli/src/commands.ts
-packages/cli/src/config.ts
-packages/cli/src/engine.ts
-packages/cli/src/index.ts
-packages/cli/src/io.ts
-packages/cli/tsconfig.json
-packages/conformance
-packages/conformance/package.json
-packages/conformance/src
-packages/conformance/src/consumer.ts
-packages/conformance/src/index.ts
-packages/conformance/src/producer.ts
-packages/conformance/tsconfig.json
-packages/contracts
-packages/contracts/package.json
-packages/contracts/src
-packages/contracts/src/constants.ts
-packages/contracts/src/generated.ts
-packages/contracts/src/index.ts
-packages/contracts/src/types.ts
-packages/contracts/tsconfig.json
-packages/controls
-packages/controls/package.json
-packages/controls/src
-packages/controls/src/evaluate.ts
-packages/controls/src/index.ts
-packages/controls/src/load.ts
-packages/controls/src/resolve.ts
-packages/controls/tsconfig.json
-packages/evaluator
-packages/evaluator/package.json
-packages/evaluator/src
-packages/evaluator/src/evaluate.ts
-packages/evaluator/src/index.ts
-packages/evaluator/src/summary.ts
-packages/evaluator/src/verify.ts
-packages/evaluator/tsconfig.json
-packages/evidence
-packages/evidence/package.json
-packages/evidence/src
-packages/evidence/src/admission.ts
-packages/evidence/src/canonical.ts
-packages/evidence/src/digest.ts
-packages/evidence/src/discovery.ts
-packages/evidence/src/index.ts
-packages/evidence/src/limits.ts
-packages/evidence/src/replay.ts
-packages/evidence/src/semver.ts
-packages/evidence/src/subject.ts
-packages/evidence/src/validation.ts
-packages/evidence/tsconfig.json
-packages/policy
-packages/policy/package.json
-packages/policy/src
-packages/policy/src/index.ts
-packages/policy/src/load.ts
-packages/policy/src/resolve.ts
-packages/policy/src/waiver.ts
-packages/policy/tsconfig.json
-packages/testing
-packages/testing/package.json
-packages/testing/src
-packages/testing/src/builders.ts
-packages/testing/src/clock.ts
-packages/testing/src/ids.ts
-packages/testing/src/index.ts
-packages/testing/src/signer.ts
-packages/testing/tsconfig.json
-profiles
-profiles/pull-request
-profiles/pull-request/policy.yaml
-profiles/pull-request/profile.yaml
-registry
-registry/checks.yaml
-registry/claims.yaml
-registry/controls.yaml
-registry/producers.yaml
-registry/profiles.yaml
-schemas
-schemas/registry.json
-schemas/v1
-schemas/v1/artifact-reference.schema.json
-schemas/v1/audit-bundle-manifest.schema.json
-schemas/v1/check.schema.json
-schemas/v1/claim.schema.json
-schemas/v1/control-result.schema.json
-schemas/v1/control.schema.json
-schemas/v1/decision.schema.json
-schemas/v1/digest.schema.json
-schemas/v1/evidence-admission.schema.json
-schemas/v1/evidence-envelope.schema.json
-schemas/v1/finding.schema.json
-schemas/v1/observation.schema.json
-schemas/v1/policy.schema.json
-schemas/v1/producer.schema.json
-schemas/v1/profile.schema.json
-schemas/v1/subject.schema.json
-schemas/v1/unknown.schema.json
-schemas/v1/waiver.schema.json
-scripts
-scripts/benchmark.mjs
-scripts/build.mjs
-scripts/ci.mjs
-scripts/clean.mjs
-scripts/format.mjs
-scripts/generate-bindings.mjs
-scripts/lib
-scripts/lib/files.mjs
-scripts/lib/schema-validator.mjs
-scripts/lint.mjs
-scripts/run-tests.mjs
-scripts/validate-boundaries.mjs
-scripts/validate-build-evidence.mjs
-scripts/validate-completeness.mjs
-scripts/validate-fixtures.mjs
-scripts/validate-registries.mjs
-scripts/validate-schemas.mjs
-scripts/verify-replay.mjs
-tests
-tests/architecture
-tests/architecture/architecture.test.mjs
-tests/conformance
-tests/conformance/conformance.test.mjs
-tests/contract
-tests/contract/contracts.test.mjs
-tests/contract/python-bindings.test.mjs
-tests/helpers
-tests/helpers/fixtures.mjs
-tests/integration
-tests/integration/vertical-slice.test.mjs
-tests/performance
-tests/performance/performance.test.mjs
-tests/replay
-tests/replay/replay.test.mjs
-tests/security
-tests/security/security.test.mjs
-tests/unit
-tests/unit/controls-policy.test.mjs
-tests/unit/evaluator.test.mjs
-tests/unit/evidence.test.mjs
-tsconfig.base.json
-tsconfig.json
-tsconfig.typecheck.json
-types
-types/node-shims
-types/node-shims/index.d.ts
-validation-benchmark.json
-validation-report.json
+l9-assurance/
+  .github/workflows/ci.yml
+  .gitignore
+  .l9/L9_META.jsonl
+  .l9/repo-spec.yaml
+  AGENTS.md
+  ALIGNMENT_REPORT.md
+  ARCHITECTURE.md
+  CHANGELOG.md
+  CHANGE_SUMMARY.md
+  CONTRIBUTING.md
+  CONVERGENCE_REPORT.yaml
+  DECISION_LOG.md
+  DELTA_REPORT.md
+  FINAL_TREE.md
+  IMPROVEMENT_REPORT.md
+  LICENSE
+  MANIFEST.md
+  PROVENANCE_MAP.yaml
+  README.md
+  REGRESSION_GUARD.md
+  REWRITE_EXECUTION_SPEC.md
+  RUNBOOK.md
+  SECURITY.md
+  SPECIFICATION.md
+  TRACEABILITY_MAP.yaml
+  UNKNOWN_REGISTER.md
+  VALIDATION.md
+  controls/ci/evidence-revision-consistency.yaml
+  controls/ci/lint.yaml
+  controls/ci/mandatory-findings.yaml
+  controls/ci/repository-metadata.yaml
+  controls/ci/sdk-validation.yaml
+  controls/ci/tests.yaml
+  controls/ci/transport-packet.yaml
+  docs/adr/ADR-0001-clean-rewrite.md
+  docs/adr/ADR-0002-python-authoritative-runtime.md
+  docs/adr/ADR-0003-l9-metadata-and-bounded-replay.md
+  docs/decisions/verdicts.md
+  docs/legacy/README.md
+  docs/migration/legacy-extraction-ledger.md
+  docs/migration/legacy-source-quarry.md
+  docs/operations/authority-promotion.md
+  docs/producers/l9-ci-sdk.md
+  docs/profiles/pull-request.md
+  docs/protocol/README.md
+  docs/reviews/HARNESS_2_0_4_COMPATIBILITY.md
+  docs/reviews/PYTHON_RUNTIME_MIGRATION_REVIEW.md
+  fixtures/adversarial/duplicate-a.observation.json
+  fixtures/adversarial/duplicate-b.observation.json
+  fixtures/adversarial/lint-failed.observation.json
+  fixtures/adversarial/malicious-markdown.observation.json
+  fixtures/adversarial/mandatory-finding.observation.json
+  fixtures/adversarial/revision-substitution.observation.json
+  fixtures/adversarial/stale.observation.json
+  fixtures/adversarial/unauthorized-check.observation.json
+  fixtures/compatibility/check-registry.json
+  fixtures/compatibility/consumer-pass/decision.json
+  fixtures/compatibility/consumer-pass/decision.summary.md
+  fixtures/compatibility/consumer-pass/published-verdict.txt
+  fixtures/compatibility/consumer-pass/transported-decision.json
+  fixtures/compatibility/policy.json
+  fixtures/compatibility/producer-registry.trusted.json
+  fixtures/compatibility/profile.json
+  fixtures/compatibility/unsupported-decision.json
+  fixtures/conformance/canonicalization-v1.json
+  fixtures/invalid/invalid-extension.observation.json
+  fixtures/invalid/invalid-status.observation.json
+  fixtures/invalid/malformed-location.observation.json
+  fixtures/invalid/missing-configuration-digest.observation.json
+  fixtures/invalid/missing-subject.observation.json
+  fixtures/invalid/summary-mismatch.observation.json
+  fixtures/invalid/unknown-top-level.observation.json
+  fixtures/invalid/unsupported-schema.observation.json
+  fixtures/replay/pull-request-pass/accepted-evidence/ev_64644e71789da2861babcd8c2dd311aa54db2e97.json
+  fixtures/replay/pull-request-pass/accepted-evidence/ev_77bf9e3f50c3d561b3dcb2a7f43249154739dfc5.json
+  fixtures/replay/pull-request-pass/accepted-evidence/ev_8f4f05d30975c1bdd559f60b0fc72f7bb031d06a.json
+  fixtures/replay/pull-request-pass/accepted-evidence/ev_ba9c29dd7847b7312fb64f360bd1aa7ad558d25b.json
+  fixtures/replay/pull-request-pass/accepted-evidence/ev_e11f311a92224de3124a92f50a322cb3d6966f0a.json
+  fixtures/replay/pull-request-pass/accepted-evidence/ev_f6fecb825aec3e859fefe5372c0582638d1a6cc5.json
+  fixtures/replay/pull-request-pass/expected-decision.canonical.json
+  fixtures/replay/pull-request-pass/expected-summary.md
+  fixtures/replay/pull-request-pass/policy.yaml
+  fixtures/replay/pull-request-pass/profile.yaml
+  fixtures/replay/pull-request-pass/subject.json
+  fixtures/valid/lint-waiver.json
+  fixtures/valid/lint.observation.json
+  fixtures/valid/mandatory-findings.observation.json
+  fixtures/valid/repository-metadata.observation.json
+  fixtures/valid/sdk-validation.observation.json
+  fixtures/valid/subject.json
+  fixtures/valid/tests.observation.json
+  fixtures/valid/transport-packet.observation.json
+  profiles/pull-request/policy.yaml
+  profiles/pull-request/profile.yaml
+  pyproject.toml
+  registry/checks.yaml
+  registry/claims.yaml
+  registry/controls.yaml
+  registry/producers.yaml
+  registry/profiles.yaml
+  schemas/registry.json
+  schemas/v1/artifact-reference.schema.json
+  schemas/v1/assurance-capabilities.schema.json
+  schemas/v1/assurance-plan.schema.json
+  schemas/v1/audit-bundle-manifest.schema.json
+  schemas/v1/check.schema.json
+  schemas/v1/claim.schema.json
+  schemas/v1/control-result.schema.json
+  schemas/v1/control.schema.json
+  schemas/v1/decision.schema.json
+  schemas/v1/digest.schema.json
+  schemas/v1/evidence-admission.schema.json
+  schemas/v1/evidence-envelope.schema.json
+  schemas/v1/finding.schema.json
+  schemas/v1/observation.schema.json
+  schemas/v1/policy.schema.json
+  schemas/v1/producer.schema.json
+  schemas/v1/profile.schema.json
+  schemas/v1/subject.schema.json
+  schemas/v1/unknown.schema.json
+  schemas/v1/waiver.schema.json
+  scripts/benchmark.py
+  scripts/ci.py
+  scripts/generate_inventory.py
+  scripts/generate_l9_meta.py
+  scripts/repository_files.py
+  scripts/sync_protocol_bundle.py
+  scripts/validate_boundaries.py
+  scripts/validate_completeness.py
+  scripts/validate_fixtures.py
+  scripts/validate_l9_alignment.py
+  scripts/validate_registries.py
+  scripts/validate_schemas.py
+  scripts/verify_replay.py
+  src/l9_assurance/__init__.py
+  src/l9_assurance/__main__.py
+  src/l9_assurance/cli/__init__.py
+  src/l9_assurance/cli/app.py
+  src/l9_assurance/cli/catalog.py
+  src/l9_assurance/cli/config.py
+  src/l9_assurance/cli/engine.py
+  src/l9_assurance/cli/io.py
+  src/l9_assurance/conformance/__init__.py
+  src/l9_assurance/conformance/consumer.py
+  src/l9_assurance/conformance/producer.py
+  src/l9_assurance/constants.py
+  src/l9_assurance/contracts/__init__.py
+  src/l9_assurance/contracts/generated.py
+  src/l9_assurance/contracts/schema.py
+  src/l9_assurance/contracts/time.py
+  src/l9_assurance/controls/__init__.py
+  src/l9_assurance/controls/evaluate.py
+  src/l9_assurance/controls/load.py
+  src/l9_assurance/controls/resolve.py
+  src/l9_assurance/evaluator/__init__.py
+  src/l9_assurance/evaluator/evaluate.py
+  src/l9_assurance/evaluator/summary.py
+  src/l9_assurance/evaluator/verify.py
+  src/l9_assurance/evidence/__init__.py
+  src/l9_assurance/evidence/admission.py
+  src/l9_assurance/evidence/canonical.py
+  src/l9_assurance/evidence/digest.py
+  src/l9_assurance/evidence/discovery.py
+  src/l9_assurance/evidence/limits.py
+  src/l9_assurance/evidence/replay.py
+  src/l9_assurance/evidence/semver.py
+  src/l9_assurance/evidence/subject.py
+  src/l9_assurance/evidence/validation.py
+  src/l9_assurance/policy/__init__.py
+  src/l9_assurance/policy/load.py
+  src/l9_assurance/policy/resolve.py
+  src/l9_assurance/policy/waiver.py
+  src/l9_assurance/protocol/__init__.py
+  src/l9_assurance/protocol/release-zero/controls/ci/evidence-revision-consistency.yaml
+  src/l9_assurance/protocol/release-zero/controls/ci/lint.yaml
+  src/l9_assurance/protocol/release-zero/controls/ci/mandatory-findings.yaml
+  src/l9_assurance/protocol/release-zero/controls/ci/repository-metadata.yaml
+  src/l9_assurance/protocol/release-zero/controls/ci/sdk-validation.yaml
+  src/l9_assurance/protocol/release-zero/controls/ci/tests.yaml
+  src/l9_assurance/protocol/release-zero/controls/ci/transport-packet.yaml
+  src/l9_assurance/protocol/release-zero/fixtures/compatibility/check-registry.json
+  src/l9_assurance/protocol/release-zero/fixtures/compatibility/producer-registry.trusted.json
+  src/l9_assurance/protocol/release-zero/fixtures/conformance/canonicalization-v1.json
+  src/l9_assurance/protocol/release-zero/manifest.json
+  src/l9_assurance/protocol/release-zero/profiles/pull-request/policy.yaml
+  src/l9_assurance/protocol/release-zero/profiles/pull-request/profile.yaml
+  src/l9_assurance/protocol/release-zero/registry/checks.yaml
+  src/l9_assurance/protocol/release-zero/registry/claims.yaml
+  src/l9_assurance/protocol/release-zero/registry/controls.yaml
+  src/l9_assurance/protocol/release-zero/registry/producers.yaml
+  src/l9_assurance/protocol/release-zero/registry/profiles.yaml
+  src/l9_assurance/protocol/release-zero/schemas/registry.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/artifact-reference.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/assurance-capabilities.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/assurance-plan.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/audit-bundle-manifest.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/check.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/claim.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/control-result.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/control.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/decision.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/digest.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/evidence-admission.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/evidence-envelope.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/finding.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/observation.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/policy.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/producer.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/profile.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/subject.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/unknown.schema.json
+  src/l9_assurance/protocol/release-zero/schemas/v1/waiver.schema.json
+  src/l9_assurance/testing/__init__.py
+  src/l9_assurance/testing/builders.py
+  src/l9_assurance/testing/clock.py
+  src/l9_assurance/testing/ids.py
+  src/l9_assurance/testing/signer.py
+  tests/architecture/test_architecture.py
+  tests/architecture/test_l9_alignment.py
+  tests/conformance/test_conformance.py
+  tests/conftest.py
+  tests/contract/test_schemas.py
+  tests/contract/test_verification.py
+  tests/integration/test_cli_outputs.py
+  tests/integration/test_engine.py
+  tests/performance/test_performance.py
+  tests/replay/test_replay.py
+  tests/security/test_protocol_bundle.py
+  tests/security/test_security.py
+  tests/unit/test_canonical.py
+  tests/unit/test_cli.py
+  tests/unit/test_policy.py
+  tests/unit/test_time_semver_limits.py
+  tests/unit/test_validation_admission.py
+  validation-benchmark.json
+  validation-report.json
 ```

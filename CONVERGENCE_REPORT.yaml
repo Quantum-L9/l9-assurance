@@ -1,0 +1,48 @@
+schema: l9.convergence-report/v1
+repository: Quantum-L9/l9-assurance
+release: 2.1.1
+convergence_status: converged
+recursive_passes_run: 10
+same_output_after_multiple_passes: true
+source_intent_preserved: true
+scope_drift_detected: false
+pack_coherence_improved: true
+enforceability_improved: true
+reuse_value_improved: true
+execution_readiness: pass
+material_improvement_remaining: false
+files_or_sections_improved:
+  - .l9/repo-spec.yaml
+  - .l9/L9_META.jsonl
+  - AGENTS.md
+  - ALIGNMENT_REPORT.md
+  - replay_store_contract
+  - architecture_validation
+  - distribution_isolation
+  - repository_file_inventory
+validation_gates_passed:
+  - artifact_group_type_identified
+  - source_intent_preserved
+  - no_unsupported_scope_added
+  - no_behavior_regression
+  - constraints_strengthened_not_weakened
+  - output_contracts_complete
+  - validation_gates_complete
+  - failure_modes_explicit
+  - cross_file_references_valid
+  - l9_boundaries_preserved
+  - transport_applicability_explicit
+  - gate_applicability_explicit
+  - l9_metadata_complete
+  - replay_state_bounded_and_append_only
+  - no_stubs_no_placeholders_no_fake_validation
+  - clean_room_distribution_verified
+  - convergence_reached
+validation_gates_failed: []
+remaining_unknowns:
+  - UNKNOWN-001
+  - UNKNOWN-002
+  - UNKNOWN-003
+  - UNKNOWN-004
+  - UNKNOWN-005
+minimum_safe_next_action: Run protected hosted CI in review mode without authority promotion.

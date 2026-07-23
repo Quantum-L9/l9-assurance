@@ -1,56 +1,86 @@
-# Operator Runbook
+# Runbook
 
-## Validate the repository
+## Prerequisites
+
+- Python 3.11, 3.12, or 3.13
+- pip
+
+## Setup
 
 ```bash
-npm ci
-npm run ci
-npm run benchmark
-npm pack --workspaces --dry-run
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install -e .
 ```
 
-## Activate producer trust
+## Full validation
 
-The checked-in `l9-ci-sdk` producer is pending. Activation requires an evidence-backed minimum version, permitted version range, check ownership, optional build digest requirements, architecture review, and security review. Modify `registry/producers.yaml`, regenerate its reviewed digest where the consuming control plane stores one, and rerun the full conformance suite.
+```bash
+python scripts/ci.py
+```
 
-Never activate trust merely to make an indeterminate decision pass.
+The command verifies the embedded protocol bundle, compiles Python, validates schemas and registries, checks architectural boundaries and fixtures, runs pytest, verifies replay bytes, runs benchmarks, validates completeness, and builds a wheel.
 
-## Unsupported schema
+## Capabilities
 
-Containment: reject or quarantine the artifact. Do not reinterpret it. Preserve the artifact digest and admission report. Upgrade only through an approved schema compatibility change.
+```bash
+l9-assurance capabilities --json
+```
 
-## Producer version pending or revoked
+## Plan
 
-Containment: quarantine pending producers and reject revoked versions. Do not widen an allowed range during incident response. Preserve affected evidence and issue an indeterminate decision when mandatory evidence cannot be established.
+```bash
+l9-assurance plan \
+  --profile l9.pull-request@1 \
+  --subject fixtures/valid/subject.json \
+  --output artifacts/assurance-plan.json
 
-## Missing evidence
+l9-assurance verify-plan \
+  --plan artifacts/assurance-plan.json
+```
 
-Confirm artifact transport first. The semantic decision is indeterminate. Do not synthesize an observation or convert absence into positive failure evidence.
+## Admit evidence
 
-## Subject mismatch
+```bash
+l9-assurance evidence admit \
+  --subject fixtures/valid/subject.json \
+  --input path/to/observations \
+  --received-at 2026-07-21T00:00:02Z \
+  --output artifacts/admission
+```
 
-Reject the evidence with `EVIDENCE_SUBJECT_MISMATCH` or `EVIDENCE_REVISION_MISMATCH`. Trigger fresh producer execution for the exact commit.
+The checked-in producer registry is intentionally pending. Production observations remain quarantined until trust activation is approved. Conformance tests may use the trusted fixture registry.
 
-## Replay mismatch
+## Evaluate
 
-Stop authority promotion, preserve both payloads and fingerprints, and inspect observation identity reuse or tampering. A replay mismatch is not eligible for automatic acceptance.
+```bash
+l9-assurance evaluate \
+  --subject fixtures/valid/subject.json \
+  --profile l9.pull-request@1 \
+  --policy l9.organization-default@1 \
+  --evidence artifacts/admission/accepted \
+  --evaluation-time 2026-07-21T00:00:03Z \
+  --output artifacts/assurance
+```
 
-## Policy or profile corruption
+## Failure recovery
 
-Pin to the last verified digest, disable authoritative issuance if the expected digest cannot be established, and preserve the rejected definitions.
+- Exit 40: correct CLI input or malformed artifact.
+- Exit 41: correct profile/policy selection.
+- Exit 42: inspect admission reason codes and quarantine/rejection records.
+- Exit 43: use an approved production signature algorithm.
+- Exit 50: treat as an invariant defect and block promotion.
 
-## Test signer exposure
+Do not convert `indeterminate` into `fail` or `pass` outside policy. Do not reconstruct decisions in downstream consumers.
 
-Treat as a trust-boundary incident. Remove production reachability, invalidate affected non-production artifacts, rerun architecture and trust-policy tests, and do not claim production signature validity.
+## Repository-alignment maintenance
 
-## CI-core publication discrepancy
+After adding or removing files:
 
-The canonical JSON decision wins. Disable the contradictory projection or publication path, preserve the byte-level decision and rendered output, and correct CI Core without changing the decision.
+```bash
+python scripts/generate_inventory.py --write
+python scripts/generate_l9_meta.py --write
+python scripts/validate_l9_alignment.py
+```
 
-## Emergency authority disablement
-
-CI Core owns the authority switch. L9 Assurance continues issuing clearly identified decisions, but they remain non-authoritative until governance re-enables publication authority.
-
-## Rewrite rollback
-
-Before merging v2, preserve the final v1 commit through an immutable rollback reference. During review, abandon or close the rewrite branch rather than mutating `main`. After authority promotion, rollback must occur in CI Core without deleting issued decisions.
+Replay capacity exhaustion is an invariant failure. Increase the explicitly configured capacity for the execution context; never delete or evict replay records to make an admission pass.

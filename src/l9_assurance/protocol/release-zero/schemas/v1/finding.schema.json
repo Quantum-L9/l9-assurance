@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/finding.schema.json",
+  "title": "Finding",
+  "description": "Finding",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "findingId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ruleId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ruleVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?$"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "informational"
+      ]
+    },
+    "disposition": {
+      "type": "string",
+      "enum": [
+        "open",
+        "accepted",
+        "suppressed",
+        "resolved",
+        "not-applicable"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lineStart": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "columnStart": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "lineEnd": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "columnEnd": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [],
+      "unevaluatedProperties": false
+    },
+    "fingerprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "./artifact-reference.schema.json"
+      }
+    },
+    "remediation": {
+      "type": "object",
+      "properties": {
+        "capability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "defectClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      },
+      "required": [],
+      "unevaluatedProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "findingId",
+    "ruleId",
+    "severity",
+    "disposition",
+    "message"
+  ],
+  "unevaluatedProperties": false
+}

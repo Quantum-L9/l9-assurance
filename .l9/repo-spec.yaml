@@ -1,0 +1,89 @@
+schema: l9.repo-spec/v1
+metadata:
+  repository: Quantum-L9/l9-assurance
+  release: 2.1.1
+  status: release_candidate
+  artifact_class: utility_library
+  taxonomy_extension: assurance_plane
+  runtime: python
+  python_requires: '>=3.11,<3.14'
+  contract_authority: json_schema_2020_12
+identity:
+  purpose: deterministic evidence admission, control evaluation, and assurance decision issuance
+  constellation_role: assurance_plane
+  birth_factory: Unknown
+ownership:
+  owns:
+    - protocol_schemas
+    - producer_and_check_trust
+    - evidence_admission
+    - replay_detection
+    - declarative_controls
+    - policy_and_waiver_resolution
+    - deterministic_verdicts
+    - plan_and_decision_verification
+    - producer_and_consumer_conformance
+  must_not_own:
+    - repository_scanning
+    - check_execution
+    - workflow_orchestration
+    - gate_routing
+    - github_publication
+    - repository_mutation
+    - repair_planning
+    - debt_intelligence
+    - lsp_behavior
+transport:
+  inter_node_wire_format: TransportPacket
+  packet_envelope: forbidden
+  runtime_egress: none
+  gate_egress: not_applicable_no_egress
+  rationale: Assurance consumes and emits canonical artifacts; l9-ci-core owns transport and publication.
+schema_field_policy:
+  internal_python_style: snake_case
+  canonical_public_contract_style: external_contract_preserved
+  alias_policy: forbidden_except_locked_external_contracts
+  rationale: Existing camelCase JSON fields are locked public wire contracts and must not be silently renamed.
+yaml_policy:
+  accepted_subset: deterministic_json_compatible_yaml
+  parser: json.loads
+  rationale: The accepted subset is stricter than yaml.safe_load and forbids aliases, tags, and implicit typing.
+metadata_policy:
+  mode: centralized_per_file_manifest
+  manifest: .l9/L9_META.jsonl
+  embedded_metadata_exception:
+    applies_to:
+      - json_schema
+      - canonical_json
+      - json_compatible_yaml
+      - generated_protocol_assets
+    rationale: Injecting metadata fields or comments would alter canonical bytes or violate closed schemas.
+replay_policy:
+  state: append_only
+  eviction: forbidden
+  default_maximum_records: 100000
+  capacity_behavior: fail_closed
+security:
+  network_access: forbidden_in_runtime
+  process_execution: forbidden_in_runtime
+  dynamic_execution: forbidden
+  evaluator_io: forbidden
+  pii_logging: forbidden
+validation:
+  command: python scripts/ci.py
+  required_gates:
+    - protocol_bundle_drift
+    - python_importability
+    - schema_integrity
+    - registry_relationships
+    - architecture_boundaries
+    - l9_alignment
+    - fixtures
+    - behavior_tests
+    - replay
+    - performance
+    - source_inventory
+    - l9_metadata_coverage
+    - completeness
+unknowns:
+  - birth_factory

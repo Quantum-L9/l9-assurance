@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/controlresult.schema.json",
+  "title": "ControlResult",
+  "description": "ControlResult",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "controlId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "controlVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "conditional",
+        "indeterminate",
+        "not-applicable"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "mandatory",
+        "advisory"
+      ]
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "waiverRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unknownRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "controlId",
+    "controlVersion",
+    "status",
+    "severity",
+    "evidenceRefs",
+    "waiverRefs",
+    "unknownRefs",
+    "reasons",
+    "evaluatedAt"
+  ],
+  "unevaluatedProperties": false
+}

@@ -1,36 +1,34 @@
 # Change Summary
 
-The legacy 52-workspace assurance/testing platform is replaced on the rewrite branch by a clean eight-workspace assurance plane.
+## Runtime migration
 
-## Added
+The eight logical Assurance responsibility slices were ported from npm workspaces into one Python distribution. This removes a second CI runtime while preserving public contracts and architectural ownership.
 
-- schema-first protocol contracts;
-- exact-subject evidence admission;
-- producer and check authorization;
-- replay and duplicate handling;
-- declarative controls;
-- policy and waiver evaluation;
-- deterministic immutable decisions;
-- Markdown projection from canonical JSON;
-- producer and consumer conformance;
-- local-first CLI and programmatic engine;
-- architecture, unit, contract, conformance, integration, replay, security, and performance tests.
+## Preserved
 
-## Removed by replacement tree
+- 20 JSON schemas
+- canonical JSON and SHA-256 semantics
+- producer/check registries
+- seven controls and pull-request profile
+- policy, waiver, Unknown, and verdict semantics
+- nine CLI routes and exit codes
+- replay and conformance fixtures
+- offline local-first execution
 
-- arbitrary validator/plugin execution;
-- scanner and test execution;
-- GitHub Actions orchestration and publication;
-- repair and mutation behavior;
-- red-team harnesses;
-- debt mining and LSP behavior;
-- aggregate scores that compete with hard-gate verdicts;
-- production reachability of test signers.
+## Replaced
 
-## Flawless Victory hardening
+| Previous | Current |
+|---|---|
+| Node.js 22 and npm | Python 3.11 through 3.13 and pip |
+| eight npm workspaces | one `src/` Python distribution with eight bounded modules |
+| TypeScript authoritative types | JSON Schema plus Python TypedDict contracts |
+| npm package installation | wheel/editable Python installation |
+| JavaScript CI scripts | Python validation scripts |
 
-- Replaced partial runtime casts with strict nested validation.
-- Enforced producer, check, status, subject, and stored-envelope trust boundaries.
-- Added full decision verification and policy-aware unknown/finding semantics.
-- Added adversarial regression coverage and a machine-enforced completeness gate.
-- Added traceability, Unknown, regression, alignment, and release evidence artifacts.
+## Not changed
+
+Assurance still does not execute checks, orchestrate CI, publish decisions, mutate repositories, route Gate traffic, repair code, mine debt, or operate an LSP.
+
+## Recursive improvement and alignment hardening
+
+Release 2.1.1 adds machine-readable repository governance, complete per-file L9 metadata, bounded append-only replay state, a dedicated alignment validator, stronger stub detection, shared file-inventory tooling, and candidate-wheel origin verification. Public schemas, CLI routes, artifact names, evidence semantics, controls, verdicts, and constellation ownership remain unchanged.

@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/evidenceadmissionresult.schema.json",
+  "title": "EvidenceAdmissionResult",
+  "description": "EvidenceAdmissionResult",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "evidenceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "rejected",
+        "quarantined",
+        "duplicate"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "validations": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "skipped"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "unevaluatedProperties": false
+        },
+        "producer": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "skipped"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "unevaluatedProperties": false
+        },
+        "subject": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "skipped"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "unevaluatedProperties": false
+        },
+        "integrity": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "skipped"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "unevaluatedProperties": false
+        },
+        "freshness": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "skipped"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "unevaluatedProperties": false
+        },
+        "authorization": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "skipped"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "unevaluatedProperties": false
+        },
+        "replay": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "skipped"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "unevaluatedProperties": false
+        },
+        "lineage": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "skipped"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "unevaluatedProperties": false
+        }
+      },
+      "required": [
+        "schema",
+        "producer",
+        "subject",
+        "integrity",
+        "freshness",
+        "authorization",
+        "replay",
+        "lineage"
+      ],
+      "unevaluatedProperties": false
+    }
+  },
+  "required": [
+    "status",
+    "reasons",
+    "validations"
+  ],
+  "unevaluatedProperties": false
+}

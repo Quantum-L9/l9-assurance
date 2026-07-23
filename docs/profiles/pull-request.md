@@ -1,13 +1,5 @@
-# Pull-request Assurance Profile
+# Pull Request Profile
 
-`l9.pull-request@1.0.0` applies to an exact Git commit and evaluates seven mandatory controls:
+`l9.pull-request@1.0.0` applies seven mandatory controls to an exact `git-revision` subject. Six controls require SDK observations and the seventh verifies subject consistency across all admitted evidence.
 
-1. repository metadata;
-2. transport packet validity;
-3. SDK validation;
-4. lint/static validation;
-5. tests;
-6. absence of policy-defined mandatory findings;
-7. evidence revision consistency.
-
-Positive accepted violation evidence produces `fail`. Missing, malformed, stale, unauthorized, or mismatched mandatory evidence produces `indeterminate` unless the resolved policy explicitly converts mandatory unknowns to `fail`. An active authorized waiver may convert an otherwise failed waivable control to `conditional`. Scores never override these rules.
+The profile defaults to `l9.organization-default@1.0.0`. Missing mandatory knowledge yields `indeterminate`; demonstrated violations yield `fail`; an authorized active waiver may yield `conditional` only where the control permits it.

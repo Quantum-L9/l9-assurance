@@ -1,0 +1,44 @@
+{
+  "id": "L9.CI.TRANSPORT_PACKET",
+  "version": "1.0.0",
+  "claim": "l9.claim.transport-packet-valid",
+  "title": "Transport packet is valid",
+  "description": "Transport packet is valid.",
+  "severity": "mandatory",
+  "applicability": {
+    "subjectKind": "git-revision"
+  },
+  "evidenceRequirements": [
+    {
+      "producer": "l9-ci-sdk",
+      "check": "l9.transport-packet",
+      "minimumCheckVersion": "1.0.0",
+      "acceptedExecutionStatus": [
+        "passed",
+        "failed",
+        "error",
+        "skipped"
+      ],
+      "cardinality": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "subjectBinding": {
+        "exactRevision": true
+      },
+      "freshness": {
+        "mode": "revision-bound"
+      }
+    }
+  ],
+  "dependencies": [],
+  "evaluation": {
+    "type": "all-requirements-satisfied"
+  },
+  "freshness": {
+    "mode": "revision-bound"
+  },
+  "waiver": {
+    "allowed": false
+  }
+}

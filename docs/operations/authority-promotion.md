@@ -1,17 +1,14 @@
-# Authority Promotion Runbook
+# Authority Promotion
 
-Release-zero completion authorizes branch review and shadow-mode integration only.
+Python runtime migration does not grant production authority.
 
-## Promotion prerequisites
+Promotion requires:
 
-- approve the production producer version range and build identity;
-- publish the rewrite branch and run protected hosted CI;
-- transport decisions byte-for-byte through CI Core;
-- collect a sustained shadow-mode comparison window;
-- resolve every mandatory semantic mismatch;
-- prove the rollback switch and publication discrepancy runbook;
-- obtain explicit architecture, security, platform, and governance approval.
+1. approved `l9-ci-sdk` version and build identity;
+2. successful hosted CI on protected branches;
+3. shadow-mode comparison with no unresolved mandatory semantic mismatch;
+4. tested rollback;
+5. package-channel installation evidence;
+6. governance approval.
 
-## Fail-closed rule
-
-Any unresolved producer trust, hosted execution, decision transport, mismatch, or rollback uncertainty keeps the authoritative gate disabled. Local green tests are necessary, not royal succession papers.
+Until then, Assurance is suitable for branch review, local conformance, and shadow evaluation only.

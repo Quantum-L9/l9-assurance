@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/assuranceprofile.schema.json",
+  "title": "AssuranceProfile",
+  "description": "AssuranceProfile",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subjectKinds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "unevaluatedProperties": false
+      },
+      "minItems": 1
+    },
+    "defaultPolicy": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "unevaluatedProperties": false
+    },
+    "outputClaims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "properties": {
+        "minimumAssuranceVersion": {
+          "type": "string"
+        },
+        "minimumSchemaVersion": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "unevaluatedProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "title",
+    "subjectKinds",
+    "controls",
+    "defaultPolicy",
+    "outputClaims"
+  ],
+  "unevaluatedProperties": false
+}

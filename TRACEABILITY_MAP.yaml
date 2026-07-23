@@ -1,89 +1,111 @@
-schema: l9.assurance.traceability/v1
-release: 2.0.0
-entries:
-  - id: TRACE-001
-    defect: nested observation objects were only partially validated
-    source: packages/evidence/src/validation.ts
-    correction: strict recursive field, digest, artifact, provenance, location, remediation, and unknown-property validation
+schema: l9.traceability-map/v1
+repository: Quantum-L9/l9-assurance
+release: 2.1.1
+requirements:
+  - id: PY-001
+    requirement: Python is the authoritative runtime
+    implementation:
+      - pyproject.toml
+      - src/l9_assurance
     validation:
-      - tests/unit/evidence.test.mjs
-  - id: TRACE-002
-    defect: artifact discovery parsed unbounded files and did not support fail-closed direct-file media validation
-    source: packages/evidence/src/discovery.ts
-    correction: pre-parse size and count limits, direct JSON media check, symlink rejection, and root containment
+      - tests/architecture/test_architecture.py
+      - scripts/validate_boundaries.py
+  - id: PROTOCOL-001
+    requirement: JSON Schema remains authoritative and embedded assets cannot drift
+    implementation:
+      - schemas/v1
+      - scripts/sync_protocol_bundle.py
+      - src/l9_assurance/protocol/release-zero/manifest.json
     validation:
-      - tests/security/security.test.mjs
-  - id: TRACE-003
-    defect: producer and check registry constraints were partially inert during admission
-    source: packages/evidence/src/admission.ts
-    correction: enforce subject kinds, producer repository, output schema, and accepted execution statuses
+      - tests/contract/test_schemas.py
+      - scripts/validate_schemas.py
+  - id: EVIDENCE-001
+    requirement: Evidence is bounded, authorized, exact-subject-bound, fresh, integral, and replay-safe
+    implementation:
+      - src/l9_assurance/evidence
     validation:
-      - tests/unit/evidence.test.mjs
-  - id: TRACE-004
-    defect: prerelease semantic versions used lexical ordering
-    source: packages/evidence/src/semver.ts
-    correction: SemVer-compatible numeric and alphanumeric prerelease ordering
+      - tests/unit/test_validation_admission.py
+      - tests/security/test_security.py
+  - id: DECISION-001
+    requirement: Verdicts are deterministic and distinguish positive failure from missing knowledge
+    implementation:
+      - src/l9_assurance/controls/evaluate.py
+      - src/l9_assurance/evaluator/evaluate.py
     validation:
-      - tests/unit/evidence.test.mjs
-      - tests/unit/controls-policy.test.mjs
-  - id: TRACE-005
-    defect: controls ignored accepted status sets and used numeric split version comparison
-    source: packages/controls/src/evaluate.ts
-    correction: explicit status admission and SemVer-compatible minimum-version evaluation
+      - tests/integration/test_engine.py
+      - tests/contract/test_verification.py
+  - id: CLI-001
+    requirement: One fail-closed executable ingress preserves the nine-command contract
+    implementation:
+      - src/l9_assurance/cli/app.py
+      - src/l9_assurance/cli/catalog.py
     validation:
-      - tests/unit/controls-policy.test.mjs
-  - id: TRACE-006
-    defect: control and profile loaders cast JSON without runtime contract validation
-    source: packages/controls/src/load.ts
-    correction: strict nested runtime validation, cardinality checks, enum checks, version checks, and duplicate detection
+      - tests/unit/test_cli.py
+  - id: CONFORMANCE-001
+    requirement: Producers are admission-conformant and consumers preserve decision bytes
+    implementation:
+      - src/l9_assurance/conformance
     validation:
-      - tests/unit/controls-policy.test.mjs
-  - id: TRACE-007
-    defect: policy and waiver loaders cast JSON and hard prohibitions lacked an executable trigger model
-    source: packages/policy/src/load.ts
-    correction: strict policy and waiver validation and fail-closed rejection of unsupported Release-zero hard prohibitions
+      - tests/conformance/test_conformance.py
+  - id: REPLAY-001
+    requirement: Canonical decisions and summaries replay byte-identically
+    implementation:
+      - fixtures/replay/pull-request-pass
+      - scripts/verify_replay.py
     validation:
-      - tests/unit/controls-policy.test.mjs
-  - id: TRACE-008
-    defect: policy rollback used incomplete numeric comparison
-    source: packages/policy/src/resolve.ts
-    correction: SemVer-compatible rollback evaluation
+      - tests/replay/test_replay.py
+  - id: BOUNDARY-001
+    requirement: Assurance owns no execution, orchestration, publication, mutation, debt, or LSP authority
+    implementation:
+      - ARCHITECTURE.md
+      - src/l9_assurance
     validation:
-      - tests/unit/controls-policy.test.mjs
-  - id: TRACE-009
-    defect: CLI accepted duplicate and command-irrelevant flags
-    source: packages/cli/src/args.ts
-    correction: duplicate detection, equals syntax, missing-value detection, and command flag allowlists
+      - scripts/validate_boundaries.py
+      - tests/architecture/test_architecture.py
+
+  - id: HARNESS-001
+    requirement: The Python CLI preserves the executable and artifact seam consumed by L9 Harness
+    implementation:
+      - src/l9_assurance/cli/app.py
+      - src/l9_assurance/cli/io.py
+      - docs/reviews/HARNESS_2_0_4_COMPATIBILITY.md
     validation:
-      - tests/contract/contracts.test.mjs
-  - id: TRACE-010
-    defect: CLI verify unnecessarily loaded repository configuration and stored envelopes bypassed observation revalidation
-    source: packages/cli/src/commands.ts
-    correction: configuration-free verification and full envelope payload, lineage, subject, producer, and integrity re-admission
+      - uploaded Harness 2.0.4 capture_plan adapter
+      - uploaded Harness 2.0.4 evaluate adapter
+      - l9-assurance verify-plan
+      - l9-assurance verify
+  - id: L9META-001
+    requirement: Every release file has deterministic L9 metadata without mutating canonical protocol bytes
+    implementation:
+      - .l9/repo-spec.yaml
+      - .l9/L9_META.jsonl
+      - scripts/generate_l9_meta.py
+      - scripts/repository_files.py
     validation:
-      - tests/contract/contracts.test.mjs
-      - tests/integration/vertical-slice.test.mjs
-  - id: TRACE-011
-    defect: runtime configuration files and registry relationships were trusted after JSON parsing
-    source: packages/cli/src/config.ts
-    correction: strict producer/check registry validation, bidirectional ownership checks, profile-policy identity match, and profile resolution
+      - scripts/validate_l9_alignment.py
+      - scripts/generate_l9_meta.py --check
+      - tests/architecture/test_l9_alignment.py
+  - id: REPLAY-002
+    requirement: Replay state is append-only, bounded, conflict-detecting, non-evicting, and fail-closed
+    implementation:
+      - src/l9_assurance/evidence/replay.py
+      - src/l9_assurance/evidence/admission.py
     validation:
-      - tests/contract/contracts.test.mjs
-  - id: TRACE-012
-    defect: decision verification checked only a shallow subset of the canonical decision
-    source: packages/evaluator/src/verify.ts
-    correction: strict nested validation, reference integrity, uniqueness, verdict reduction, digest shape, timestamp, dimension, and signature-algorithm checks
+      - tests/replay/test_replay.py
+      - scripts/validate_l9_alignment.py
+  - id: ALIGN-001
+    requirement: TransportPacket and Gate applicability are explicit and runtime boundaries are machine-enforced
+    implementation:
+      - .l9/repo-spec.yaml
+      - ALIGNMENT_REPORT.md
+      - AGENTS.md
     validation:
-      - tests/security/security.test.mjs
-  - id: TRACE-013
-    defect: resolved policy unknown-handling and mandatory finding severities were partially inert
-    source: packages/evaluator/src/evaluate.ts
-    correction: policy-driven mandatory severity evaluation, mandatory unknown-to-fail, and advisory unknown ignore semantics
+      - scripts/validate_l9_alignment.py
+      - tests/architecture/test_l9_alignment.py
+  - id: DIST-002
+    requirement: Distribution validation proves the candidate wheel, not an ambient installation, is exercised
+    implementation:
+      - scripts/ci.py
     validation:
-      - tests/integration/vertical-slice.test.mjs
-  - id: TRACE-014
-    defect: release completeness was documented but not machine-enforced
-    source: scripts/validate-completeness.mjs
-    correction: required-artifact, empty-file, unfinished-marker, workspace identity, cache, and nested-archive gate
-    validation:
-      - npm run validate:completeness
+      - isolated wheel force-install
+      - module-origin assertion

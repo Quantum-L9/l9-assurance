@@ -1,11 +1,11 @@
 # Contributing
 
-1. Read `REWRITE_EXECUTION_SPEC.md` and preserve the assurance boundary.
-2. Add or change schemas before protocol bindings.
-3. Run `npm run generate:bindings` and commit generated outputs.
-4. Add deterministic tests for every behavior change.
-5. Run `npm run ci` before requesting review.
-6. Treat producer, check, profile, control, policy, and trust changes as architecture and security changes.
-7. Do not introduce scanners, shell execution, GitHub SDKs, arbitrary plugin execution, or testing-package dependencies into production packages.
+1. Read `ARCHITECTURE.md` and `REWRITE_EXECUTION_SPEC.md`.
+2. Preserve the evidence-admission and decision-only boundary.
+3. Edit root schemas, controls, profiles, and registries before generated package assets.
+4. Run `python scripts/sync_protocol_bundle.py --write` after protocol changes.
+5. Add deterministic behavior, adversarial, and replay tests for every material change.
+6. Run `python scripts/ci.py` before review.
+7. Do not introduce Node.js, npm, scanner execution, network access, GitHub publication, repair logic, arbitrary plugins, or testing-only trust into production modules.
 
-A change is incomplete when it changes behavior without fixtures, reason codes, or replay evidence.
+A behavior change is incomplete without reason-code, fixture, replay, and documentation review.

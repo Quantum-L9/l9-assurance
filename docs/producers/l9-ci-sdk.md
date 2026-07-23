@@ -1,16 +1,7 @@
-# `l9-ci-sdk` Producer Contract
+# Producer: l9-ci-sdk
 
-`l9-ci-sdk` is the sole Release-zero observation producer. Assurance does not import SDK internals or execute SDK checks.
+`l9-ci-sdk` is the sole Release-zero producer contract. It emits canonical `l9.observation/v1` records for six registered checks.
 
-An admitted observation must match the producer registry for:
+The checked-in production registry remains `pending` until a trusted SDK version range and build identity are approved. Pending observations are quarantined, not silently trusted.
 
-- producer ID and semantic version range;
-- repository identity when supplied;
-- authorized subject kind;
-- authorized check ID and exact check version;
-- declared output schema;
-- allowed execution status;
-- required configuration digest;
-- exact repository and revision subject.
-
-The checked-in producer remains `pending` because the minimum production-trusted SDK version and build identity are unresolved (`UNKNOWN-001`). Pending producer evidence is quarantined, not silently trusted. Activation requires joint producer, assurance, architecture, and security review plus fixture conformance.
+Assurance does not import or execute SDK check code. The integration boundary is schema-valid observation artifacts.

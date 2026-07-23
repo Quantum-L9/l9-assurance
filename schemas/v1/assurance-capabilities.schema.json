@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.quantum-l9.dev/assurance/v1/assurancecapabilities.schema.json",
+  "title": "AssuranceCapabilities",
+  "description": "Machine-readable description of the installed Assurance release, embedded protocol authority, command ingress, and supported Release-zero contract surface.",
+  "x-l9-schema-version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "l9.assurance-capabilities"
+    },
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "assurance": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "const": "l9-assurance"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "repository": {
+          "const": "Quantum-L9/l9-assurance"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "repository"
+      ],
+      "unevaluatedProperties": false
+    },
+    "protocol": {
+      "type": "object",
+      "properties": {
+        "bundleDigest": {
+          "$ref": "./digest.schema.json"
+        },
+        "canonicalization": {
+          "const": "l9.canonical-json/v1"
+        },
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "authorityFileCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "bundleDigest",
+        "canonicalization",
+        "schemaVersion",
+        "authorityFileCount"
+      ],
+      "unevaluatedProperties": false
+    },
+    "singleIngress": {
+      "type": "object",
+      "properties": {
+        "entrypoint": {
+          "const": "l9_assurance.cli.app.run_cli"
+        },
+        "normalizer": {
+          "const": "parse_argv"
+        },
+        "router": {
+          "const": "resolve_cli_command"
+        },
+        "tracePolicy": {
+          "const": "external-coordinator-owned"
+        },
+        "failClosed": {
+          "const": true
+        }
+      },
+      "required": [
+        "entrypoint",
+        "normalizer",
+        "router",
+        "tracePolicy",
+        "failClosed"
+      ],
+      "unevaluatedProperties": false
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "policy": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^\\d+\\.\\d+\\.\\d+$"
+              }
+            },
+            "required": [
+              "id",
+              "version"
+            ],
+            "unevaluatedProperties": false
+          },
+          "subjectKinds": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "policy",
+          "subjectKinds"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "producers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repository": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorizationStatus": {
+            "type": "string",
+            "enum": [
+              "trusted",
+              "pending",
+              "revoked"
+            ]
+          },
+          "allowedVersions": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "candidateVersionRange": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "repository",
+          "authorizationStatus",
+          "allowedVersions",
+          "candidateVersionRange"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outputSchema": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "owner",
+          "outputSchema"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9.-]*$"
+          },
+          "path": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]*$"
+            }
+          },
+          "flags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]*$"
+            }
+          },
+          "loadsProtocol": {
+            "type": "boolean"
+          },
+          "authority": {
+            "type": "string",
+            "enum": [
+              "read-only",
+              "decision-producing",
+              "simulation-only"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "path",
+          "flags",
+          "loadsProtocol",
+          "authority"
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "exitCodes": {
+      "type": "object",
+      "properties": {
+        "pass": {
+          "const": 0
+        },
+        "conditional": {
+          "const": 10
+        },
+        "fail": {
+          "const": 20
+        },
+        "indeterminate": {
+          "const": 30
+        },
+        "input": {
+          "const": 40
+        },
+        "policy": {
+          "const": 41
+        },
+        "admission": {
+          "const": 42
+        },
+        "signature": {
+          "const": 43
+        },
+        "invariant": {
+          "const": 50
+        }
+      },
+      "required": [
+        "pass",
+        "conditional",
+        "fail",
+        "indeterminate",
+        "input",
+        "policy",
+        "admission",
+        "signature",
+        "invariant"
+      ],
+      "unevaluatedProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "schemaVersion",
+    "assurance",
+    "protocol",
+    "singleIngress",
+    "profiles",
+    "producers",
+    "checks",
+    "commands",
+    "exitCodes"
+  ],
+  "unevaluatedProperties": false
+}
