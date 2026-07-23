@@ -35,9 +35,13 @@ def _serialize(value: Any, seen: set[int], path: str) -> str:
             raise CanonicalizationError(f"{path}: cyclic value")
         seen.add(identity)
         try:
-            return "[" + ",".join(
-                _serialize(item, seen, f"{path}[{index}]") for index, item in enumerate(value)
-            ) + "]"
+            return (
+                "["
+                + ",".join(
+                    _serialize(item, seen, f"{path}[{index}]") for index, item in enumerate(value)
+                )
+                + "]"
+            )
         finally:
             seen.remove(identity)
     if isinstance(value, dict):
@@ -67,10 +71,7 @@ def _serialize_number(value: float, path: str) -> str:
     absolute = abs(value)
     representation = repr(value).lower()
     if 1e-6 <= absolute < 1e21:
-        if "e" in representation:
-            fixed = format(Decimal(representation), "f")
-        else:
-            fixed = representation
+        fixed = format(Decimal(representation), "f") if "e" in representation else representation
         if "." in fixed:
             fixed = fixed.rstrip("0").rstrip(".")
         return fixed
@@ -82,8 +83,8 @@ def _serialize_number(value: float, path: str) -> str:
     representation = re.sub(r"e([+-])0+(\d+)$", r"e\1\2", representation)
     representation = re.sub(r"e0+(\d+)$", r"e\1", representation)
     if "e" in representation and not re.search(r"e[+-]", representation):
-        exponent = int(representation.split("e", 1)[1])
-        if exponent >= 0:
+        exponent_value = int(representation.split("e", 1)[1])
+        if exponent_value >= 0:
             representation = representation.replace("e", "e+", 1)
     return representation
 

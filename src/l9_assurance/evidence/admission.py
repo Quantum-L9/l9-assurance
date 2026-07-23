@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import math
 import re
+from collections.abc import Callable, Mapping, Sequence
 from copy import deepcopy
 from datetime import timedelta
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any
 
 from l9_assurance.contracts.time import parse_rfc3339_instant, require_rfc3339_instant
 
@@ -128,7 +129,9 @@ def _admit_one(
     validations = _empty_validations()
     structural = validate_observation(value, limits)
     if not structural.valid or structural.observation is None:
-        validations["schema"] = _validation("fail", "EVIDENCE_SCHEMA_INVALID", "; ".join(structural.errors))
+        validations["schema"] = _validation(
+            "fail", "EVIDENCE_SCHEMA_INVALID", "; ".join(structural.errors)
+        )
         reasons = [
             _reason(_classify_structural_code(message), message) for message in structural.errors
         ]
@@ -171,22 +174,63 @@ def _admit_one(
     validations["subject"] = _validation("pass")
 
     producer = next(
-        (item for item in producer_registry.get("producers", []) if item.get("id") == observation["producer"]["id"]),
+        (
+            item
+            for item in producer_registry.get("producers", [])
+            if item.get("id") == observation["producer"]["id"]
+        ),
         None,
     )
     if producer is None:
-        return _producer_terminal(index, validations, "rejected", "EVIDENCE_PRODUCER_UNKNOWN", "producer is not registered", "Producer is not registered.")
+        return _producer_terminal(
+            index,
+            validations,
+            "rejected",
+            "EVIDENCE_PRODUCER_UNKNOWN",
+            "producer is not registered",
+            "Producer is not registered.",
+        )
     if producer.get("authorization_status") == "pending" or not producer.get("allowed_versions"):
-        return _producer_terminal(index, validations, "quarantined", "EVIDENCE_POLICY_INADMISSIBLE", "producer trust activation is pending", "Producer trust activation is pending.")
+        return _producer_terminal(
+            index,
+            validations,
+            "quarantined",
+            "EVIDENCE_POLICY_INADMISSIBLE",
+            "producer trust activation is pending",
+            "Producer trust activation is pending.",
+        )
     if producer.get("authorization_status") == "revoked" or not satisfies_range(
         observation["producer"]["version"], producer["allowed_versions"]
     ):
-        return _producer_terminal(index, validations, "rejected", "EVIDENCE_PRODUCER_VERSION_REVOKED", "producer version is not authorized", "Producer version is not authorized.")
+        return _producer_terminal(
+            index,
+            validations,
+            "rejected",
+            "EVIDENCE_PRODUCER_VERSION_REVOKED",
+            "producer version is not authorized",
+            "Producer version is not authorized.",
+        )
     if observation["subject"]["kind"] not in producer.get("subject_kinds", []):
-        return _producer_terminal(index, validations, "rejected", "EVIDENCE_POLICY_INADMISSIBLE", "producer is not authorized for subject kind", "Producer is not authorized for subject kind.")
+        return _producer_terminal(
+            index,
+            validations,
+            "rejected",
+            "EVIDENCE_POLICY_INADMISSIBLE",
+            "producer is not authorized for subject kind",
+            "Producer is not authorized for subject kind.",
+        )
     producer_repository = observation["producer"].get("repository")
-    if producer_repository and _normalize_repository(producer_repository) != _normalize_repository(producer["repository"]):
-        return _producer_terminal(index, validations, "rejected", "EVIDENCE_PRODUCER_UNKNOWN", "producer repository does not match registry", "Producer repository does not match registry.")
+    if producer_repository and _normalize_repository(producer_repository) != _normalize_repository(
+        producer["repository"]
+    ):
+        return _producer_terminal(
+            index,
+            validations,
+            "rejected",
+            "EVIDENCE_PRODUCER_UNKNOWN",
+            "producer repository does not match registry",
+            "Producer repository does not match registry.",
+        )
     validations["producer"] = _validation("pass")
 
     check = next(
@@ -204,47 +248,109 @@ def _admit_one(
         or check.get("owner") != producer.get("id")
         or observation["check"]["version"] in check.get("revoked_versions", [])
     )
-    if unauthorized:
-        return _authorization_terminal(index, validations, "EVIDENCE_CHECK_UNAUTHORIZED", "check identity is not authorized for producer", "Check is not authorized.")
+    if unauthorized or check is None:
+        return _authorization_terminal(
+            index,
+            validations,
+            "EVIDENCE_CHECK_UNAUTHORIZED",
+            "check identity is not authorized for producer",
+            "Check is not authorized.",
+        )
     if check.get("output_schema") != "l9.observation/v1":
-        return _authorization_terminal(index, validations, "EVIDENCE_SCHEMA_UNSUPPORTED", "check output schema is not supported", "Check output schema is not supported.")
+        return _authorization_terminal(
+            index,
+            validations,
+            "EVIDENCE_SCHEMA_UNSUPPORTED",
+            "check output schema is not supported",
+            "Check output schema is not supported.",
+        )
     if observation["execution"]["status"] not in check.get("accepted_execution_statuses", []):
-        return _authorization_terminal(index, validations, "EVIDENCE_CHECK_UNAUTHORIZED", "execution status is not authorized for check", "Execution status is not authorized for check.")
-    if check.get("configuration_digest_required") and not observation["check"].get("configurationDigest"):
-        return _authorization_terminal(index, validations, "EVIDENCE_SCHEMA_INVALID", "configuration digest is required", "Configuration digest is missing.")
+        return _authorization_terminal(
+            index,
+            validations,
+            "EVIDENCE_CHECK_UNAUTHORIZED",
+            "execution status is not authorized for check",
+            "Execution status is not authorized for check.",
+        )
+    if check.get("configuration_digest_required") and not observation["check"].get(
+        "configurationDigest"
+    ):
+        return _authorization_terminal(
+            index,
+            validations,
+            "EVIDENCE_SCHEMA_INVALID",
+            "configuration digest is required",
+            "Configuration digest is missing.",
+        )
     validations["authorization"] = _validation("pass")
 
     started = parse_rfc3339_instant(observation["execution"]["startedAt"])
     completed = parse_rfc3339_instant(observation["execution"]["completedAt"])
     received = parse_rfc3339_instant(received_at)
     if started is None or completed is None or received is None or started > completed:
-        return _freshness_terminal(index, validations, "EVIDENCE_EXECUTION_INTERVAL_INVALID", "execution interval is invalid", "invalid-evidence", "Execution interval is invalid.")
+        return _freshness_terminal(
+            index,
+            validations,
+            "EVIDENCE_EXECUTION_INTERVAL_INVALID",
+            "execution interval is invalid",
+            "invalid-evidence",
+            "Execution interval is invalid.",
+        )
     if completed > received + timedelta(seconds=float(future_tolerance)):
-        return _freshness_terminal(index, validations, "EVIDENCE_EXECUTION_INTERVAL_INVALID", "observation completion is unreasonably in the future", "environment-uncertainty", "Observation completion is in the future.")
+        return _freshness_terminal(
+            index,
+            validations,
+            "EVIDENCE_EXECUTION_INTERVAL_INVALID",
+            "observation completion is unreasonably in the future",
+            "environment-uncertainty",
+            "Observation completion is in the future.",
+        )
     age = maximum_age.get(observation["check"]["id"])
     if age is not None and (received - completed).total_seconds() > float(age):
-        return _freshness_terminal(index, validations, "EVIDENCE_STALE", "observation exceeds configured freshness", "stale-evidence", "Observation is stale.")
+        return _freshness_terminal(
+            index,
+            validations,
+            "EVIDENCE_STALE",
+            "observation exceeds configured freshness",
+            "stale-evidence",
+            "Observation is stale.",
+        )
     validations["freshness"] = _validation("pass")
 
     if policy_admissibility is not None:
         policy_reason = policy_admissibility(observation)
         if policy_reason:
-            return _authorization_terminal(index, validations, "EVIDENCE_POLICY_INADMISSIBLE", policy_reason, policy_reason, category="invalid-evidence")
+            return _authorization_terminal(
+                index,
+                validations,
+                "EVIDENCE_POLICY_INADMISSIBLE",
+                policy_reason,
+                policy_reason,
+                category="invalid-evidence",
+            )
 
     fingerprint = observation_fingerprint(observation)
     existing = replay_store.find_by_observation_id(observation["observationId"])
     if existing is not None and existing.fingerprint != fingerprint:
-        validations["replay"] = _validation("fail", "EVIDENCE_REPLAY_DETECTED", "observation ID was reused with different content")
+        validations["replay"] = _validation(
+            "fail", "EVIDENCE_REPLAY_DETECTED", "observation ID was reused with different content"
+        )
         return _terminal(
             "rejected",
-            [_reason("EVIDENCE_REPLAY_DETECTED", "observation ID was reused with different content")],
+            [
+                _reason(
+                    "EVIDENCE_REPLAY_DETECTED", "observation ID was reused with different content"
+                )
+            ],
             validations,
             evidence_id=existing.evidence_id,
             unknown=_unknown(index, "invalid-evidence", "Observation identity replay detected."),
         )
     duplicate = existing or replay_store.find_by_fingerprint(fingerprint)
     if duplicate is not None:
-        validations["replay"] = _validation("pass", "EVIDENCE_REPLAY_DETECTED", "identical evidence already admitted")
+        validations["replay"] = _validation(
+            "pass", "EVIDENCE_REPLAY_DETECTED", "identical evidence already admitted"
+        )
         return _terminal(
             "duplicate",
             [_reason("EVIDENCE_REPLAY_DETECTED", "identical evidence already admitted")],
@@ -256,7 +362,11 @@ def _admit_one(
     validations["integrity"] = _validation("pass")
     envelope = create_evidence_envelope(observation, received_at, channel)
     evidence_id = envelope["evidenceId"]
-    accepted = {"envelope": envelope, "observation": deepcopy(observation), "fingerprint": fingerprint}
+    accepted = {
+        "envelope": envelope,
+        "observation": deepcopy(observation),
+        "fingerprint": fingerprint,
+    }
     try:
         replay_store.record(ReplayRecord(observation["observationId"], fingerprint, evidence_id))
     except ReplayStoreCapacityError as error:
@@ -265,7 +375,9 @@ def _admit_one(
             "rejected",
             [_reason("EVIDENCE_LIMIT_EXCEEDED", str(error))],
             validations,
-            unknown=_unknown(index, "environment-uncertainty", "Replay state capacity is exhausted."),
+            unknown=_unknown(
+                index, "environment-uncertainty", "Replay state capacity is exhausted."
+            ),
         )
     except ReplayStoreConflictError as error:
         validations["replay"] = _validation("fail", "EVIDENCE_REPLAY_DETECTED", str(error))
@@ -273,7 +385,11 @@ def _admit_one(
             "rejected",
             [_reason("EVIDENCE_REPLAY_DETECTED", str(error))],
             validations,
-            unknown=_unknown(index, "invalid-evidence", "Replay state conflicts with immutable evidence identity."),
+            unknown=_unknown(
+                index,
+                "invalid-evidence",
+                "Replay state conflicts with immutable evidence identity.",
+            ),
         )
     outcome = _terminal("accepted", [], validations, evidence_id=evidence_id)
     outcome["accepted"] = accepted
@@ -283,7 +399,16 @@ def _admit_one(
 def _empty_validations() -> dict[str, dict[str, str]]:
     return {
         key: {"status": "skipped"}
-        for key in ("schema", "producer", "subject", "integrity", "freshness", "authorization", "replay", "lineage")
+        for key in (
+            "schema",
+            "producer",
+            "subject",
+            "integrity",
+            "freshness",
+            "authorization",
+            "replay",
+            "lineage",
+        )
     }
 
 
@@ -319,7 +444,11 @@ def _terminal(
     evidence_id: str | None = None,
     unknown: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    result: dict[str, Any] = {"status": status, "reasons": reasons, "validations": deepcopy(dict(validations))}
+    result: dict[str, Any] = {
+        "status": status,
+        "reasons": reasons,
+        "validations": deepcopy(dict(validations)),
+    }
     if evidence_id is not None:
         result["evidenceId"] = evidence_id
     outcome: dict[str, Any] = {"result": result}
@@ -328,19 +457,50 @@ def _terminal(
     return outcome
 
 
-def _producer_terminal(index: int, validations: dict[str, Any], status: str, code: str, message: str, description: str) -> dict[str, Any]:
+def _producer_terminal(
+    index: int, validations: dict[str, Any], status: str, code: str, message: str, description: str
+) -> dict[str, Any]:
     validations["producer"] = _validation("fail", code, message)
-    return _terminal(status, [_reason(code, message)], validations, unknown=_unknown(index, "unverified-producer", description))
+    return _terminal(
+        status,
+        [_reason(code, message)],
+        validations,
+        unknown=_unknown(index, "unverified-producer", description),
+    )
 
 
-def _authorization_terminal(index: int, validations: dict[str, Any], code: str, message: str, description: str, category: str = "unsupported-check") -> dict[str, Any]:
+def _authorization_terminal(
+    index: int,
+    validations: dict[str, Any],
+    code: str,
+    message: str,
+    description: str,
+    category: str = "unsupported-check",
+) -> dict[str, Any]:
     validations["authorization"] = _validation("fail", code, message)
-    return _terminal("rejected", [_reason(code, message)], validations, unknown=_unknown(index, category, description))
+    return _terminal(
+        "rejected",
+        [_reason(code, message)],
+        validations,
+        unknown=_unknown(index, category, description),
+    )
 
 
-def _freshness_terminal(index: int, validations: dict[str, Any], code: str, message: str, category: str, description: str) -> dict[str, Any]:
+def _freshness_terminal(
+    index: int,
+    validations: dict[str, Any],
+    code: str,
+    message: str,
+    category: str,
+    description: str,
+) -> dict[str, Any]:
     validations["freshness"] = _validation("fail", code, message)
-    return _terminal("rejected", [_reason(code, message)], validations, unknown=_unknown(index, category, description))
+    return _terminal(
+        "rejected",
+        [_reason(code, message)],
+        validations,
+        unknown=_unknown(index, category, description),
+    )
 
 
 def _classify_structural_code(message: str) -> str:
@@ -359,7 +519,10 @@ def _classify_structural_code(message: str) -> str:
 def _validate_freshness_configuration(context: Mapping[str, Any]) -> None:
     tolerance = context.get("futureToleranceSeconds")
     if tolerance is not None and (
-        isinstance(tolerance, bool) or not isinstance(tolerance, (int, float)) or not math.isfinite(tolerance) or tolerance < 0
+        isinstance(tolerance, bool)
+        or not isinstance(tolerance, (int, float))
+        or not math.isfinite(tolerance)
+        or tolerance < 0
     ):
         raise ValueError("futureToleranceSeconds must be a finite non-negative number")
     maximum_age = context.get("maximumAgeSecondsByCheck", {})
@@ -368,12 +531,24 @@ def _validate_freshness_configuration(context: Mapping[str, Any]) -> None:
     for check_id, value in maximum_age.items():
         if not isinstance(check_id, str) or not check_id.strip():
             raise ValueError("maximumAgeSecondsByCheck contains an empty check identity")
-        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
-            raise ValueError(f"maximumAgeSecondsByCheck.{check_id} must be a finite non-negative number")
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+            or value < 0
+        ):
+            raise ValueError(
+                f"maximumAgeSecondsByCheck.{check_id} must be a finite non-negative number"
+            )
 
 
 def _normalize_repository(value: str) -> str:
-    return re.sub(r"\.git$", "", re.sub(r"^https?://github\.com/", "", value.strip(), flags=re.IGNORECASE), flags=re.IGNORECASE).lower()
+    return re.sub(
+        r"\.git$",
+        "",
+        re.sub(r"^https?://github\.com/", "", value.strip(), flags=re.IGNORECASE),
+        flags=re.IGNORECASE,
+    ).lower()
 
 
 def _mapping(value: Any, label: str) -> Mapping[str, Any]:

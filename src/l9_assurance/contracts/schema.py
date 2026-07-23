@@ -40,7 +40,9 @@ def validate_instance(value: Any, schema_name: str) -> list[str]:
     if schema is None:
         raise KeyError(f"Unknown schema {schema_name}")
     validator = Draft202012Validator(schema, registry=registry, format_checker=FormatChecker())
-    errors = sorted(validator.iter_errors(value), key=lambda error: (list(error.absolute_path), error.message))
+    errors = sorted(
+        validator.iter_errors(value), key=lambda error: (list(error.absolute_path), error.message)
+    )
     return [_format_error(error) for error in errors]
 
 

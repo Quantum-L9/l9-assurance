@@ -29,12 +29,16 @@ def parse_waiver(text: str) -> dict[str, Any]:
     if issued is None:
         raise ValueError("waiver.issuedAt must be an RFC3339 instant with an explicit known offset")
     if expires is None:
-        raise ValueError("waiver.expiresAt must be an RFC3339 instant with an explicit known offset")
+        raise ValueError(
+            "waiver.expiresAt must be an RFC3339 instant with an explicit known offset"
+        )
     if expires <= issued:
         raise ValueError("waiver.expiresAt must be after issuedAt")
     signature = value.get("signature")
     if isinstance(signature, dict) and parse_rfc3339_instant(signature.get("signedAt")) is None:
-        raise ValueError("waiver.signature.signedAt must be an RFC3339 instant with an explicit known offset")
+        raise ValueError(
+            "waiver.signature.signedAt must be an RFC3339 instant with an explicit known offset"
+        )
     return deepcopy(value)
 
 

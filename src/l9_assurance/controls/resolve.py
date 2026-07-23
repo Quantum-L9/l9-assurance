@@ -1,20 +1,25 @@
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from copy import deepcopy
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 
 class ControlResolutionError(ValueError):
     """Raised when a profile cannot resolve to a deterministic control graph."""
 
 
-def resolve_profile(profile: Mapping[str, Any], definitions: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+def resolve_profile(
+    profile: Mapping[str, Any], definitions: Sequence[Mapping[str, Any]]
+) -> dict[str, Any]:
     by_key = {(item["id"], item["version"]): item for item in definitions}
     selected: list[Mapping[str, Any]] = []
     for reference in profile["controls"]:
         control = by_key.get((reference["id"], reference["version"]))
         if control is None:
-            raise ControlResolutionError(f"Missing control {reference['id']}@{reference['version']}")
+            raise ControlResolutionError(
+                f"Missing control {reference['id']}@{reference['version']}"
+            )
         selected.append(control)
     return {"profile": deepcopy(dict(profile)), "controls": order_controls(selected)}
 
@@ -40,7 +45,9 @@ def order_controls(controls: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]
         for dependency in sorted(control.get("dependencies", []), key=lambda item: item["id"]):
             target = by_id.get(dependency["id"])
             if target is None:
-                raise ControlResolutionError(f"Control {control_id} depends on missing {dependency['id']}")
+                raise ControlResolutionError(
+                    f"Control {control_id} depends on missing {dependency['id']}"
+                )
             if target["version"] != dependency["version"]:
                 raise ControlResolutionError(
                     f"Control {control_id} dependency version mismatch for {dependency['id']}"

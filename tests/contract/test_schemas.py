@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
@@ -39,4 +38,6 @@ def test_root_and_embedded_schema_sets_match() -> None:
     repo = Path(__file__).resolve().parents[2]
     root = repo / "schemas" / "v1"
     embedded = repo / "src" / "l9_assurance" / "protocol" / "release-zero" / "schemas" / "v1"
-    assert {p.name: p.read_bytes() for p in root.glob("*.json")} == {p.name: p.read_bytes() for p in embedded.glob("*.json")}
+    assert {p.name: p.read_bytes() for p in root.glob("*.json")} == {
+        p.name: p.read_bytes() for p in embedded.glob("*.json")
+    }

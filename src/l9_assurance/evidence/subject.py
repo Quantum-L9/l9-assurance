@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping
 from copy import deepcopy
-from typing import Any, Mapping
+from typing import Any
 
 _COMMIT = re.compile(r"^(?:[a-f0-9]{40}|[a-f0-9]{64})$")
 
@@ -37,10 +38,10 @@ def normalize_subject(input_value: Mapping[str, Any]) -> dict[str, Any]:
 def same_repository(left: Mapping[str, Any], right: Mapping[str, Any]) -> bool:
     a = normalize_subject(left)
     b = normalize_subject(right)
-    return a["repository"] == b["repository"]
+    return bool(a["repository"] == b["repository"])
 
 
 def same_revision(left: Mapping[str, Any], right: Mapping[str, Any]) -> bool:
     a = normalize_subject(left)
     b = normalize_subject(right)
-    return a["repository"] == b["repository"] and a["revision"] == b["revision"]
+    return bool(a["repository"] == b["repository"] and a["revision"] == b["revision"])

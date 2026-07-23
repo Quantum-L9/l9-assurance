@@ -54,7 +54,9 @@ def _authority(path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Generate or verify centralized per-file L9 metadata.")
+    parser = argparse.ArgumentParser(
+        description="Generate or verify centralized per-file L9 metadata."
+    )
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--write", action="store_true")
     mode.add_argument("--check", action="store_true")
@@ -68,7 +70,10 @@ def main() -> int:
         return 0
     actual = OUTPUT.read_text(encoding="utf-8") if OUTPUT.is_file() else ""
     if actual != expected:
-        print("L9 metadata manifest is stale; run python scripts/generate_l9_meta.py --write", file=sys.stderr)
+        print(
+            "L9 metadata manifest is stale; run python scripts/generate_l9_meta.py --write",
+            file=sys.stderr,
+        )
         return 1
     print(f"L9 metadata coverage: PASS ({len(expected.splitlines())} files)")
     return 0

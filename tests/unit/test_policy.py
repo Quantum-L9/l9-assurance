@@ -1,12 +1,16 @@
 from __future__ import annotations
 
-import json
-from copy import deepcopy
 from pathlib import Path
 
 import pytest
 
-from l9_assurance.policy import PolicyResolutionError, evaluate_waiver, parse_assurance_policy, parse_waiver, resolve_policy
+from l9_assurance.policy import (
+    PolicyResolutionError,
+    evaluate_waiver,
+    parse_assurance_policy,
+    parse_waiver,
+    resolve_policy,
+)
 
 REPO = Path(__file__).resolve().parents[2]
 
@@ -19,8 +23,16 @@ def test_policy_parses() -> None:
 def test_conflicting_overlays_rejected() -> None:
     base = parse_assurance_policy((REPO / "profiles/pull-request/policy.yaml").read_text())
     overlays = [
-        {"id": "a", "precedence": 1, "policy": {"unknownHandling": {"mandatory": "fail", "advisory": "indeterminate"}}},
-        {"id": "b", "precedence": 1, "policy": {"unknownHandling": {"mandatory": "ignore", "advisory": "indeterminate"}}},
+        {
+            "id": "a",
+            "precedence": 1,
+            "policy": {"unknownHandling": {"mandatory": "fail", "advisory": "indeterminate"}},
+        },
+        {
+            "id": "b",
+            "precedence": 1,
+            "policy": {"unknownHandling": {"mandatory": "ignore", "advisory": "indeterminate"}},
+        },
     ]
     with pytest.raises(PolicyResolutionError):
         resolve_policy(base, overlays)

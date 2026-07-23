@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Mapping, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 from l9_assurance.evidence import admit_observations, validate_observation
 
@@ -20,8 +21,7 @@ def run_producer_conformance(
     for index, value in enumerate(values):
         validation = validate_observation(value)
         producer_matches = bool(
-            validation.observation
-            and validation.observation["producer"]["id"] == producer_id
+            validation.observation and validation.observation["producer"]["id"] == producer_id
         )
         reasons = list(validation.errors)
         if not producer_matches:
@@ -45,7 +45,12 @@ def run_producer_conformance(
     if limits is not None:
         context["limits"] = limits
     admission = admit_observations(values, context)
-    passed = bool(values) and all(item["status"] == "pass" for item in cases) and admission["rejectedCount"] == 0 and admission["quarantinedCount"] == 0
+    passed = (
+        bool(values)
+        and all(item["status"] == "pass" for item in cases)
+        and admission["rejectedCount"] == 0
+        and admission["quarantinedCount"] == 0
+    )
     return {"producerId": producer_id, "passed": passed, "cases": cases, "admission": admission}
 
 
@@ -61,7 +66,11 @@ def run_producer_admission_cases(
             "checkRegistry": options["check_registry"],
             "receivedAt": options["received_at"],
             "channel": "local",
-            **({"maximumAgeSecondsByCheck": options["maximum_age_seconds_by_check"]} if options.get("maximum_age_seconds_by_check") else {}),
+            **(
+                {"maximumAgeSecondsByCheck": options["maximum_age_seconds_by_check"]}
+                if options.get("maximum_age_seconds_by_check")
+                else {}
+            ),
             **({"limits": options["limits"]} if options.get("limits") else {}),
         },
     )
@@ -73,9 +82,15 @@ def run_producer_admission_cases(
         results.append(
             {
                 "id": item["id"],
-                "passed": actual["status"] == item["expectedStatus"] and (expected_reason is None or expected_reason in codes),
+                "passed": actual["status"] == item["expectedStatus"]
+                and (expected_reason is None or expected_reason in codes),
                 "actualStatus": actual["status"],
                 "reasonCodes": codes,
             }
         )
-    return {"producerId": options["producer_id"], "passed": all(item["passed"] for item in results), "cases": results, "admission": admission}
+    return {
+        "producerId": options["producer_id"],
+        "passed": all(item["passed"] for item in results),
+        "cases": results,
+        "admission": admission,
+    }

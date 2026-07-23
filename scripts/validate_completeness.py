@@ -74,24 +74,46 @@ def _validate_python_stubs(failures: list[str]) -> None:
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 body = _without_docstring(node.body)
                 if len(body) == 1 and isinstance(body[0], ast.Pass):
-                    failures.append(f"Pass-only function stub in {relative}:{node.lineno} {node.name}")
-                if len(body) == 1 and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) and body[0].value.value is Ellipsis:
-                    failures.append(f"Ellipsis function stub in {relative}:{node.lineno} {node.name}")
-                if len(body) == 1 and isinstance(body[0], ast.Raise) and _raises_not_implemented(body[0]):
-                    failures.append(f"NotImplemented function stub in {relative}:{node.lineno} {node.name}")
+                    failures.append(
+                        f"Pass-only function stub in {relative}:{node.lineno} {node.name}"
+                    )
+                if (
+                    len(body) == 1
+                    and isinstance(body[0], ast.Expr)
+                    and isinstance(body[0].value, ast.Constant)
+                    and body[0].value.value is Ellipsis
+                ):
+                    failures.append(
+                        f"Ellipsis function stub in {relative}:{node.lineno} {node.name}"
+                    )
+                if (
+                    len(body) == 1
+                    and isinstance(body[0], ast.Raise)
+                    and _raises_not_implemented(body[0])
+                ):
+                    failures.append(
+                        f"NotImplemented function stub in {relative}:{node.lineno} {node.name}"
+                    )
             elif isinstance(node, ast.ClassDef):
                 body = _without_docstring(node.body)
-                if len(body) == 1 and isinstance(body[0], (ast.Pass, ast.Expr)):
-                    if isinstance(body[0], ast.Pass) or (
+                if len(body) == 1 and (
+                    isinstance(body[0], ast.Pass)
+                    or (
                         isinstance(body[0], ast.Expr)
                         and isinstance(body[0].value, ast.Constant)
                         and body[0].value.value is Ellipsis
-                    ):
-                        failures.append(f"Scaffold-only class in {relative}:{node.lineno} {node.name}")
+                    )
+                ):
+                    failures.append(f"Scaffold-only class in {relative}:{node.lineno} {node.name}")
 
 
 def _without_docstring(body: list[ast.stmt]) -> list[ast.stmt]:
-    if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) and isinstance(body[0].value.value, str):
+    if (
+        body
+        and isinstance(body[0], ast.Expr)
+        and isinstance(body[0].value, ast.Constant)
+        and isinstance(body[0].value.value, str)
+    ):
         return body[1:]
     return body
 
@@ -136,7 +158,9 @@ def build_report() -> tuple[dict[str, object], list[str]]:
 
     _validate_python_stubs(failures)
 
-    runtime_artifacts = frozenset({".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".venv"})
+    runtime_artifacts = frozenset(
+        {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".venv"}
+    )
     for path in ROOT.rglob("*"):
         relative = path.relative_to(ROOT)
         if any(part in runtime_artifacts or part.endswith(".egg-info") for part in relative.parts):

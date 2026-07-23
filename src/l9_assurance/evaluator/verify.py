@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import re
-from typing import Any, Mapping, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 from l9_assurance.contracts.schema import validate_instance
 from l9_assurance.contracts.time import parse_rfc3339_instant
@@ -16,7 +17,11 @@ _SEMVER = re.compile(r"^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$")
 def verify_decision(value: Any) -> dict[str, Any]:
     reasons: list[str] = []
     if not isinstance(value, Mapping):
-        return {"valid": False, "signatureStatus": "not-present", "reasons": ["decision must be object"]}
+        return {
+            "valid": False,
+            "signatureStatus": "not-present",
+            "reasons": ["decision must be object"],
+        }
     reasons.extend(validate_instance(value, "decision.schema.json"))
     _validate_cross_references(value, reasons)
     try:
@@ -51,15 +56,15 @@ def _validate_cross_references(value: Mapping[str, Any], reasons: list[str]) -> 
     for field in ("issuedAt",):
         if field in value and parse_rfc3339_instant(value[field]) is None:
             reasons.append(f"$.{field} must be an RFC3339 instant with an explicit known offset")
-    results = value.get("controlResults") if isinstance(value.get("controlResults"), list) else []
+    results = _as_list(value.get("controlResults"))
     control_ids = _unique_ids(results, "controlId", "control result", reasons)
-    evidence = value.get("evidenceManifest") if isinstance(value.get("evidenceManifest"), list) else []
+    evidence = _as_list(value.get("evidenceManifest"))
     evidence_ids = _unique_ids(evidence, "evidenceId", "evidence", reasons)
-    waivers = value.get("waivers") if isinstance(value.get("waivers"), list) else []
+    waivers = _as_list(value.get("waivers"))
     waiver_ids = _unique_ids(waivers, "waiverId", "waiver", reasons)
-    unknowns = value.get("unknowns") if isinstance(value.get("unknowns"), list) else []
+    unknowns = _as_list(value.get("unknowns"))
     unknown_ids = _unique_ids(unknowns, "unknownId", "unknown", reasons)
-    claims = value.get("claims") if isinstance(value.get("claims"), list) else []
+    claims = _as_list(value.get("claims"))
     claim_keys: set[str] = set()
     for index, claim in enumerate(claims):
         if not isinstance(claim, Mapping):
@@ -68,7 +73,9 @@ def _validate_cross_references(value: Mapping[str, Any], reasons: list[str]) -> 
         if key in claim_keys:
             reasons.append(f"duplicate claim result {key}")
         claim_keys.add(key)
-        if isinstance(claim.get("claimVersion"), str) and not _SEMVER.fullmatch(claim["claimVersion"]):
+        if isinstance(claim.get("claimVersion"), str) and not _SEMVER.fullmatch(
+            claim["claimVersion"]
+        ):
             reasons.append(f"$.claims[{index}].claimVersion must be semantic")
         for ref in claim.get("controlRefs", []):
             if ref not in control_ids:
@@ -78,16 +85,24 @@ def _validate_cross_references(value: Mapping[str, Any], reasons: list[str]) -> 
         if not isinstance(result, Mapping):
             continue
         if parse_rfc3339_instant(result.get("evaluatedAt")) is None:
-            reasons.append(f"$.controlResults[{index}].evaluatedAt must be an RFC3339 instant with an explicit known offset")
+            reasons.append(
+                f"$.controlResults[{index}].evaluatedAt must be an RFC3339 instant with an explicit known offset"
+            )
         for ref in result.get("evidenceRefs", []):
             if ref not in evidence_ids:
-                reasons.append(f"$.controlResults {result.get('controlId')} references missing evidence {ref}")
+                reasons.append(
+                    f"$.controlResults {result.get('controlId')} references missing evidence {ref}"
+                )
         for ref in result.get("waiverRefs", []):
             if ref not in waiver_ids:
-                reasons.append(f"$.controlResults {result.get('controlId')} references missing waiver {ref}")
+                reasons.append(
+                    f"$.controlResults {result.get('controlId')} references missing waiver {ref}"
+                )
         for ref in result.get("unknownRefs", []):
             if ref not in unknown_ids:
-                reasons.append(f"$.controlResults {result.get('controlId')} references missing unknown {ref}")
+                reasons.append(
+                    f"$.controlResults {result.get('controlId')} references missing unknown {ref}"
+                )
         projection.append(dict(result))
     supplied = value.get("verdict")
     if projection and supplied in {"pass", "fail", "conditional", "indeterminate"}:
@@ -96,9 +111,11 @@ def _validate_cross_references(value: Mapping[str, Any], reasons: list[str]) -> 
             reasons.append(f"$.verdict {supplied} does not match control reduction {reduced}")
 
 
-def _unique_ids(
-    values: Sequence[Any], key: str, label: str, reasons: list[str]
-) -> set[str]:
+def _as_list(value: Any) -> list[Any]:
+    return value if isinstance(value, list) else []
+
+
+def _unique_ids(values: Sequence[Any], key: str, label: str, reasons: list[str]) -> set[str]:
     output: set[str] = set()
     for item in values:
         if not isinstance(item, Mapping) or not isinstance(item.get(key), str):

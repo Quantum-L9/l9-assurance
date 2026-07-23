@@ -6,12 +6,23 @@ from l9_assurance.contracts.time import parse_rfc3339_instant, require_rfc3339_i
 from l9_assurance.evidence import compare_semver, resolve_admission_limits, satisfies_range
 
 
-@pytest.mark.parametrize("value", ["2026-07-21T00:00:00Z", "2026-07-21T00:00:00.123+00:00", "2026-07-20T20:00:00-04:00"])
+@pytest.mark.parametrize(
+    "value", ["2026-07-21T00:00:00Z", "2026-07-21T00:00:00.123+00:00", "2026-07-20T20:00:00-04:00"]
+)
 def test_valid_rfc3339(value: str) -> None:
     assert parse_rfc3339_instant(value) is not None
 
 
-@pytest.mark.parametrize("value", ["2026-07-21", "2026-07-21T00:00:00", "2026-02-30T00:00:00Z", "2026-07-21T00:00:60Z", "2026-07-21T00:00:00-00:00"])
+@pytest.mark.parametrize(
+    "value",
+    [
+        "2026-07-21",
+        "2026-07-21T00:00:00",
+        "2026-02-30T00:00:00Z",
+        "2026-07-21T00:00:60Z",
+        "2026-07-21T00:00:00-00:00",
+    ],
+)
 def test_invalid_rfc3339(value: str) -> None:
     assert parse_rfc3339_instant(value) is None
     with pytest.raises(ValueError):
@@ -25,7 +36,14 @@ def test_semver_order_and_ranges() -> None:
     assert not satisfies_range("3.0.0", ">=2.0.0 <3.0.0")
 
 
-@pytest.mark.parametrize("limits", [{"maximumObservationCount": 0}, {"maximumJsonDepth": -1}, {"maximumSingleObservationBytes": True}])
+@pytest.mark.parametrize(
+    "limits",
+    [
+        {"maximumObservationCount": 0},
+        {"maximumJsonDepth": -1},
+        {"maximumSingleObservationBytes": True},
+    ],
+)
 def test_invalid_limits_fail_closed(limits: dict) -> None:
     with pytest.raises(ValueError):
         resolve_admission_limits(limits)

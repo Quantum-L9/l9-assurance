@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Mapping, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 from l9_assurance.contracts.time import parse_rfc3339_instant
 
@@ -55,7 +56,7 @@ def find_active_waiver(
 
 def _scope_matches(waiver: Mapping[str, Any], subject: Mapping[str, Any]) -> bool:
     scope = waiver["subjectScope"]
-    return (
+    return bool(
         scope["repository"]["host"].lower() == subject["repository"]["host"].lower()
         and scope["repository"]["owner"] == subject["repository"]["owner"]
         and scope["repository"]["name"].removesuffix(".git")

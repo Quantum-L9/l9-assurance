@@ -42,7 +42,10 @@ def main() -> int:
         return 0
     actual = OUTPUT.read_text(encoding="utf-8") if OUTPUT.exists() else ""
     if actual != expected:
-        print("FINAL_TREE.md is stale; run python scripts/generate_inventory.py --write", file=sys.stderr)
+        print(
+            "FINAL_TREE.md is stale; run python scripts/generate_inventory.py --write",
+            file=sys.stderr,
+        )
         return 1
     print("Final tree inventory: PASS")
     return 0

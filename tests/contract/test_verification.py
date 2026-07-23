@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from copy import deepcopy
-
 from l9_assurance.evaluator import verify_decision
 from l9_assurance.testing import sign_for_test
 

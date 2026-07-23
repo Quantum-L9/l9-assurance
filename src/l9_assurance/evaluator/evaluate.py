@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from copy import deepcopy
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 from l9_assurance.constants import ASSURANCE_ID, ASSURANCE_REPOSITORY, ASSURANCE_VERSION
 from l9_assurance.contracts.time import require_rfc3339_instant
@@ -22,7 +23,9 @@ def evaluate(
         raise ValueError("decisionId is required")
     evaluation_time = require_rfc3339_instant(context.get("evaluationTime"), "evaluationTime")
     results: list[dict[str, Any]] = []
-    unknowns: list[dict[str, Any]] = [deepcopy(dict(x)) for x in context.get("admissionUnknowns", [])]
+    unknowns: list[dict[str, Any]] = [
+        deepcopy(dict(x)) for x in context.get("admissionUnknowns", [])
+    ]
     applied_waivers: list[dict[str, Any]] = []
     by_control: dict[str, dict[str, Any]] = {}
     resolved_policy = policy["policy"]
@@ -196,7 +199,11 @@ def reduce_verdict(results: Sequence[Mapping[str, Any]]) -> str:
 
 def _apply_override(control: Mapping[str, Any], policy: Mapping[str, Any]) -> dict[str, Any] | None:
     override = next(
-        (item for item in policy.get("controlOverrides", []) if item.get("controlId") == control["id"]),
+        (
+            item
+            for item in policy.get("controlOverrides", [])
+            if item.get("controlId") == control["id"]
+        ),
         None,
     )
     if override and override.get("enabled") is False:
@@ -207,9 +214,7 @@ def _apply_override(control: Mapping[str, Any], policy: Mapping[str, Any]) -> di
     if override.get("severity"):
         output["severity"] = override["severity"]
     if "waiverAllowed" in override:
-        output.setdefault("waiver", {"allowed": False})["allowed"] = bool(
-            override["waiverAllowed"]
-        )
+        output.setdefault("waiver", {"allowed": False})["allowed"] = bool(override["waiverAllowed"])
     return output
 
 

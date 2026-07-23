@@ -22,7 +22,9 @@ def main() -> int:
         result = validate_observation(json.loads(path.read_text()))
         if result.valid:
             failures.append(f"Expected invalid: {path.name}")
-    vectors = json.loads((ROOT / "fixtures" / "conformance" / "canonicalization-v1.json").read_text())
+    vectors = json.loads(
+        (ROOT / "fixtures" / "conformance" / "canonicalization-v1.json").read_text()
+    )
     for case in vectors["cases"]:
         actual = canonical_json(json.loads(case["inputJson"]))
         if actual != case["canonicalJson"]:
@@ -30,7 +32,9 @@ def main() -> int:
     if failures:
         print("\n".join(failures), file=sys.stderr)
         return 1
-    print(f"Fixtures valid: {len(valid)} positive, {len(invalid)} negative, {len(vectors['cases'])} canonicalization vectors")
+    print(
+        f"Fixtures valid: {len(valid)} positive, {len(invalid)} negative, {len(vectors['cases'])} canonicalization vectors"
+    )
     return 0
 
 

@@ -44,11 +44,17 @@ def test_repo_spec_records_l9_applicability() -> None:
         "rationale": "Assurance consumes and emits canonical artifacts; l9-ci-core owns transport and publication.",
     }
     assert spec["schema_field_policy"]["internal_python_style"] == "snake_case"
-    assert spec["schema_field_policy"]["canonical_public_contract_style"] == "external_contract_preserved"
+    assert (
+        spec["schema_field_policy"]["canonical_public_contract_style"]
+        == "external_contract_preserved"
+    )
 
 
 def test_l9_meta_covers_every_release_file() -> None:
-    records = [json.loads(line) for line in (REPO / ".l9/L9_META.jsonl").read_text(encoding="utf-8").splitlines()]
+    records = [
+        json.loads(line)
+        for line in (REPO / ".l9/L9_META.jsonl").read_text(encoding="utf-8").splitlines()
+    ]
     paths = [record["path"] for record in records]
     assert len(paths) == len(set(paths))
     assert set(paths) == _release_files()
@@ -63,7 +69,16 @@ def test_protocol_yaml_is_deterministic_json_subset() -> None:
 
 
 def test_runtime_has_no_network_process_print_or_sibling_imports() -> None:
-    forbidden_imports = {"ftplib", "http", "httpx", "requests", "smtplib", "socket", "subprocess", "urllib"}
+    forbidden_imports = {
+        "ftplib",
+        "http",
+        "httpx",
+        "requests",
+        "smtplib",
+        "socket",
+        "subprocess",
+        "urllib",
+    }
     for path in SRC.rglob("*.py"):
         tree = ast.parse(path.read_text(encoding="utf-8"))
         imports: set[str] = set()
@@ -75,4 +90,6 @@ def test_runtime_has_no_network_process_print_or_sibling_imports() -> None:
             elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
                 assert node.func.id not in {"compile", "eval", "exec", "print"}, path
         assert not imports & forbidden_imports, (path, imports & forbidden_imports)
-        assert not {name for name in imports if name.startswith("l9_") and name != "l9_assurance"}, path
+        assert not {
+            name for name in imports if name.startswith("l9_") and name != "l9_assurance"
+        }, path

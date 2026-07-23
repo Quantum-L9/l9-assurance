@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import json
 import os
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 
 def discover_json_artifacts(
@@ -15,7 +16,9 @@ def discover_json_artifacts(
         maximum_file_bytes = 1_048_576
     else:
         maximum_count = limits.get("maximumCount", limits.get("maximum_count", 1_000))
-        maximum_file_bytes = limits.get("maximumFileBytes", limits.get("maximum_file_bytes", 1_048_576))
+        maximum_file_bytes = limits.get(
+            "maximumFileBytes", limits.get("maximum_file_bytes", 1_048_576)
+        )
     _positive(maximum_count, "maximumCount")
     _positive(maximum_file_bytes, "maximumFileBytes")
     start = Path(root).absolute()
@@ -55,12 +58,16 @@ def discover_json_artifacts(
             for name in names:
                 candidate = directory_path / name
                 if candidate.is_symlink():
-                    raise ValueError(f"EVIDENCE_POLICY_INADMISSIBLE: symbolic link is prohibited: {candidate}")
+                    raise ValueError(
+                        f"EVIDENCE_POLICY_INADMISSIBLE: symbolic link is prohibited: {candidate}"
+                    )
                 _contained(real_root, candidate.resolve(strict=True), candidate)
             for name in files:
                 candidate = directory_path / name
                 if candidate.is_symlink():
-                    raise ValueError(f"EVIDENCE_POLICY_INADMISSIBLE: symbolic link is prohibited: {candidate}")
+                    raise ValueError(
+                        f"EVIDENCE_POLICY_INADMISSIBLE: symbolic link is prohibited: {candidate}"
+                    )
                 _contained(real_root, candidate.resolve(strict=True), candidate)
                 if candidate.suffix.lower() == ".json":
                     add_file(candidate)
@@ -71,7 +78,9 @@ def _contained(root: Path, candidate: Path, display: Path) -> None:
     try:
         candidate.relative_to(root)
     except ValueError as error:
-        raise ValueError(f"EVIDENCE_POLICY_INADMISSIBLE: path escapes evidence root: {display}") from error
+        raise ValueError(
+            f"EVIDENCE_POLICY_INADMISSIBLE: path escapes evidence root: {display}"
+        ) from error
 
 
 def _positive(value: object, name: str) -> None:

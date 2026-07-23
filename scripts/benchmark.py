@@ -22,15 +22,12 @@ def build_report() -> dict[str, object]:
         )
     )
     config["checkRegistry"] = json.loads(
-        (ROOT / "fixtures" / "compatibility" / "check-registry.json").read_text(
-            encoding="utf-8"
-        )
+        (ROOT / "fixtures" / "compatibility" / "check-registry.json").read_text(encoding="utf-8")
     )
     engine = AssuranceEngine(config)
     subject = build_subject()
     observations = [
-        build_observation(observation_id=f"obs_{index}", subject=subject)
-        for index in range(1_000)
+        build_observation(observation_id=f"obs_{index}", subject=subject) for index in range(1_000)
     ]
 
     started = perf_counter()
@@ -70,7 +67,9 @@ def build_report() -> dict[str, object]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run deterministic Assurance performance objectives.")
+    parser = argparse.ArgumentParser(
+        description="Run deterministic Assurance performance objectives."
+    )
     parser.add_argument("--output", type=Path, help="Optional report destination.")
     args = parser.parse_args()
 

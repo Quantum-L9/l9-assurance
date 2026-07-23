@@ -8,7 +8,6 @@ import tomllib
 from pathlib import Path
 
 import yaml
-
 from repository_files import repository_files
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,7 +40,9 @@ def main() -> int:
     if failures:
         print("\n".join(sorted(set(failures))), file=sys.stderr)
         return 1
-    print("L9 alignment: PASS (metadata, transport applicability, boundaries, replay, schema policy)")
+    print(
+        "L9 alignment: PASS (metadata, transport applicability, boundaries, replay, schema policy)"
+    )
     return 0
 
 
@@ -77,7 +78,9 @@ def _validate_identity(spec: dict, failures: list[str]) -> None:
         failures.append("Assurance runtime egress must remain none")
     if transport.get("gate_egress") != "not_applicable_no_egress":
         failures.append("Gate applicability must be explicit for the no-egress Assurance plane")
-    schema_policy = spec.get("schema_field_policy") if isinstance(spec.get("schema_field_policy"), dict) else {}
+    schema_policy = (
+        spec.get("schema_field_policy") if isinstance(spec.get("schema_field_policy"), dict) else {}
+    )
     if schema_policy.get("internal_python_style") != "snake_case":
         failures.append("internal Python field policy must be snake_case")
     if schema_policy.get("canonical_public_contract_style") != "external_contract_preserved":
@@ -98,7 +101,11 @@ def _validate_metadata(failures: list[str]) -> None:
         except json.JSONDecodeError as error:
             failures.append(f"Invalid L9_META line {index}: {error}")
             continue
-        if not isinstance(value, dict) or not isinstance(value.get("path"), str) or not isinstance(value.get("L9_META"), dict):
+        if (
+            not isinstance(value, dict)
+            or not isinstance(value.get("path"), str)
+            or not isinstance(value.get("L9_META"), dict)
+        ):
             failures.append(f"Invalid L9_META record at line {index}")
             continue
         records.append(value)
@@ -119,7 +126,10 @@ def _validate_metadata(failures: list[str]) -> None:
             failures.append(f"Invalid L9_META schema for {record['path']}")
         if meta.get("repository") != "Quantum-L9/l9-assurance":
             failures.append(f"Invalid L9_META repository for {record['path']}")
-        if not all(meta.get(key) not in (None, "") for key in ("release", "artifact_type", "owner_layer", "authority")):
+        if not all(
+            meta.get(key) not in (None, "")
+            for key in ("release", "artifact_type", "owner_layer", "authority")
+        ):
             failures.append(f"Incomplete L9_META for {record['path']}")
 
 
@@ -144,10 +154,16 @@ def _validate_runtime(failures: list[str]) -> None:
             elif isinstance(node, ast.Name) and node.id.lower() in FORBIDDEN_STATE_NAMES:
                 failures.append(f"Forbidden routing/workflow state name in {relative}: {node.id}")
         if imported & FORBIDDEN_IMPORTS:
-            failures.append(f"Runtime network/process import in {relative}: {sorted(imported & FORBIDDEN_IMPORTS)}")
-        external_l9 = {name for name in imported if name.startswith("l9_") and name != "l9_assurance"}
+            failures.append(
+                f"Runtime network/process import in {relative}: {sorted(imported & FORBIDDEN_IMPORTS)}"
+            )
+        external_l9 = {
+            name for name in imported if name.startswith("l9_") and name != "l9_assurance"
+        }
         if external_l9:
-            failures.append(f"Direct sibling-repository import in {relative}: {sorted(external_l9)}")
+            failures.append(
+                f"Direct sibling-repository import in {relative}: {sorted(external_l9)}"
+            )
 
 
 def _validate_protocol_files(failures: list[str]) -> None:
@@ -156,7 +172,9 @@ def _validate_protocol_files(failures: list[str]) -> None:
             try:
                 value = json.loads(path.read_text(encoding="utf-8"))
             except json.JSONDecodeError as error:
-                failures.append(f"{path.relative_to(ROOT)} is not deterministic JSON-compatible YAML: {error}")
+                failures.append(
+                    f"{path.relative_to(ROOT)} is not deterministic JSON-compatible YAML: {error}"
+                )
                 continue
             if not isinstance(value, dict):
                 failures.append(f"{path.relative_to(ROOT)} must contain an object")

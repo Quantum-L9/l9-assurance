@@ -7,7 +7,12 @@ from .admission import (
 from .canonical import CanonicalizationError, canonical_json
 from .digest import sha256_bytes, sha256_digest, verify_digest
 from .discovery import discover_json_artifacts
-from .limits import AdmissionLimits, DEFAULT_ADMISSION_LIMITS, measure_json, resolve_admission_limits
+from .limits import (
+    DEFAULT_ADMISSION_LIMITS,
+    AdmissionLimits,
+    measure_json,
+    resolve_admission_limits,
+)
 from .replay import (
     DEFAULT_REPLAY_CAPACITY,
     InMemoryReplayStore,
@@ -21,10 +26,10 @@ from .subject import normalize_subject, same_repository, same_revision
 from .validation import StructuralValidation, validate_observation
 
 __all__ = [
-    "AdmissionLimits",
-    "CanonicalizationError",
     "DEFAULT_ADMISSION_LIMITS",
     "DEFAULT_REPLAY_CAPACITY",
+    "AdmissionLimits",
+    "CanonicalizationError",
     "InMemoryReplayStore",
     "ReplayRecord",
     "ReplayStoreCapacityError",

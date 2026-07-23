@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping, Sequence
 from copy import deepcopy
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 from l9_assurance.evidence.semver import compare_semver
 
@@ -32,7 +33,9 @@ def resolve_policy(
         )
     return {
         "policy": resolved,
-        "waivers": sorted((deepcopy(dict(item)) for item in waivers), key=lambda item: item["waiverId"]),
+        "waivers": sorted(
+            (deepcopy(dict(item)) for item in waivers), key=lambda item: item["waiverId"]
+        ),
     }
 
 
@@ -47,7 +50,10 @@ def _merge_policy(base: Mapping[str, Any], overlay: Mapping[str, Any]) -> dict[s
     ):
         if key not in overlay:
             resolved[key] = deepcopy(base[key])
-    resolved["extensions"] = {**deepcopy(base.get("extensions", {})), **deepcopy(overlay.get("extensions", {}))}
+    resolved["extensions"] = {
+        **deepcopy(base.get("extensions", {})),
+        **deepcopy(overlay.get("extensions", {})),
+    }
     return resolved
 
 

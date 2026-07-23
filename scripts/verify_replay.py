@@ -14,14 +14,33 @@ from l9_assurance.evidence import canonical_json  # noqa: E402
 
 def build() -> tuple[dict, str]:
     config = load_configuration()
-    config["producerRegistry"] = json.loads((ROOT / "fixtures" / "compatibility" / "producer-registry.trusted.json").read_text())
-    config["checkRegistry"] = json.loads((ROOT / "fixtures" / "compatibility" / "check-registry.json").read_text())
+    config["producerRegistry"] = json.loads(
+        (ROOT / "fixtures" / "compatibility" / "producer-registry.trusted.json").read_text()
+    )
+    config["checkRegistry"] = json.loads(
+        (ROOT / "fixtures" / "compatibility" / "check-registry.json").read_text()
+    )
     subject = json.loads((ROOT / "fixtures" / "valid" / "subject.json").read_text())
-    names = ["repository-metadata", "transport-packet", "sdk-validation", "lint", "tests", "mandatory-findings"]
-    observations = [json.loads((ROOT / "fixtures" / "valid" / f"{name}.observation.json").read_text()) for name in names]
+    names = [
+        "repository-metadata",
+        "transport-packet",
+        "sdk-validation",
+        "lint",
+        "tests",
+        "mandatory-findings",
+    ]
+    observations = [
+        json.loads((ROOT / "fixtures" / "valid" / f"{name}.observation.json").read_text())
+        for name in names
+    ]
     engine = AssuranceEngine(config)
     admission = engine.admit(subject, observations, received_at="2026-07-21T00:00:02.000Z")
-    decision = engine.evaluate(subject, admission["accepted"], evaluation_time="2026-07-21T00:00:03.000Z", admission_report=admission)
+    decision = engine.evaluate(
+        subject,
+        admission["accepted"],
+        evaluation_time="2026-07-21T00:00:03.000Z",
+        admission_report=admission,
+    )
     return decision, render_decision_summary(decision)
 
 

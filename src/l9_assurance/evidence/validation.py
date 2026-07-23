@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping
 from copy import deepcopy
 from dataclasses import dataclass
-from typing import Any, Mapping
+from typing import Any
 
 from l9_assurance.contracts.schema import validate_instance
 from l9_assurance.contracts.time import is_rfc3339_instant
@@ -25,7 +26,11 @@ def validate_observation(
     value: Any,
     partial_limits: Mapping[str, Any] | AdmissionLimits | None = None,
 ) -> StructuralValidation:
-    limits = partial_limits if isinstance(partial_limits, AdmissionLimits) else resolve_admission_limits(partial_limits)
+    limits = (
+        partial_limits
+        if isinstance(partial_limits, AdmissionLimits)
+        else resolve_admission_limits(partial_limits)
+    )
     errors: list[str] = []
     if not isinstance(value, dict):
         return StructuralValidation(False, ("$ must be an object",))
@@ -47,13 +52,13 @@ def validate_observation(
         errors.append(f"EVIDENCE_CANONICALIZATION_FAILED: {error}")
 
     schema_errors = validate_instance(value, "observation.schema.json")
-    for error in schema_errors:
-        if "schemaVersion" in error and value.get("schemaVersion") != "1.0.0":
-            errors.append(f"EVIDENCE_SCHEMA_UNSUPPORTED: {error}")
-        elif "extensions" in error and "does not match" in error:
-            errors.append(f"EVIDENCE_EXTENSION_NAMESPACE_INVALID: {error}")
+    for schema_error in schema_errors:
+        if "schemaVersion" in schema_error and value.get("schemaVersion") != "1.0.0":
+            errors.append(f"EVIDENCE_SCHEMA_UNSUPPORTED: {schema_error}")
+        elif "extensions" in schema_error and "does not match" in schema_error:
+            errors.append(f"EVIDENCE_EXTENSION_NAMESPACE_INVALID: {schema_error}")
         else:
-            errors.append(error)
+            errors.append(schema_error)
 
     execution = value.get("execution")
     if isinstance(execution, dict):
@@ -78,7 +83,7 @@ def validate_observation(
     if isinstance(findings, list) and isinstance(summary, dict):
         declared = summary.get("findingCount")
         classified = sum(
-            item if isinstance(item, int) and not isinstance(item, bool) else -10**9
+            item if isinstance(item, int) and not isinstance(item, bool) else -(10**9)
             for item in (
                 summary.get("errorCount"),
                 summary.get("warningCount"),

@@ -48,7 +48,9 @@ def valid_observations() -> list[dict[str, Any]]:
 
 
 @pytest.fixture
-def accepted(engine: AssuranceEngine, subject: dict[str, Any], valid_observations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def accepted(
+    engine: AssuranceEngine, subject: dict[str, Any], valid_observations: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
     report = engine.admit(subject, valid_observations, received_at="2026-07-21T00:00:02.000Z")
     assert report["rejectedCount"] == 0
     return deepcopy(report["accepted"])

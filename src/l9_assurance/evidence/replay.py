@@ -33,7 +33,11 @@ class InMemoryReplayStore:
     """
 
     def __init__(self, maximum_records: int = DEFAULT_REPLAY_CAPACITY) -> None:
-        if isinstance(maximum_records, bool) or not isinstance(maximum_records, int) or maximum_records < 1:
+        if (
+            isinstance(maximum_records, bool)
+            or not isinstance(maximum_records, int)
+            or maximum_records < 1
+        ):
             raise ValueError("maximum_records must be a positive integer")
         self._maximum_records = maximum_records
         self._by_observation: dict[str, ReplayRecord] = {}

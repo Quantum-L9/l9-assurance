@@ -13,7 +13,14 @@ REPO = Path(__file__).resolve().parents[2]
 def test_replay_store_persists_across_admissions(trusted_config, subject) -> None:
     value = json.loads((REPO / "fixtures/valid/lint.observation.json").read_text())
     store = InMemoryReplayStore()
-    context = {"subject": subject, "producerRegistry": trusted_config["producerRegistry"], "checkRegistry": trusted_config["checkRegistry"], "receivedAt": "2026-07-21T00:00:02Z", "channel": "local", "replayStore": store}
+    context = {
+        "subject": subject,
+        "producerRegistry": trusted_config["producerRegistry"],
+        "checkRegistry": trusted_config["checkRegistry"],
+        "receivedAt": "2026-07-21T00:00:02Z",
+        "channel": "local",
+        "replayStore": store,
+    }
     first = admit_observations([value], context)
     second = admit_observations([value], context)
     assert len(first["accepted"]) == 1

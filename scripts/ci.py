@@ -52,7 +52,9 @@ def _clean_residue() -> None:
 
 
 def _exercise_wheel(env: dict[str, str]) -> None:
-    isolated_env = {key: value for key, value in os.environ.items() if key not in {"PYTHONPATH", "PYTHONHOME"}}
+    isolated_env = {
+        key: value for key, value in os.environ.items() if key not in {"PYTHONPATH", "PYTHONHOME"}
+    }
     isolated_env["PYTHONDONTWRITEBYTECODE"] = "1"
     with tempfile.TemporaryDirectory(prefix="l9-assurance-wheel-") as directory:
         workspace = Path(directory)
@@ -145,7 +147,9 @@ def _exercise_wheel(env: dict[str, str]) -> None:
             stdout=subprocess.DEVNULL,
             env=isolated_env,
         )
-        print("Wheel installed and exercised from the isolated environment without repository checkout")
+        print(
+            "Wheel installed and exercised from the isolated environment without repository checkout"
+        )
 
 
 def main() -> int:

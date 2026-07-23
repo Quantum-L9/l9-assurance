@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass, fields
-from typing import Any, Mapping
+from typing import Any
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,7 +38,10 @@ def resolve_admission_limits(partial: Mapping[str, Any] | None = None) -> Admiss
     for field in fields(AdmissionLimits):
         value = values[field.name]
         if isinstance(value, bool) or not isinstance(value, int) or value < 1:
-            label = next((camel for camel, snake in _CAMEL_TO_SNAKE.items() if snake == field.name), field.name)
+            label = next(
+                (camel for camel, snake in _CAMEL_TO_SNAKE.items() if snake == field.name),
+                field.name,
+            )
             raise ValueError(f"{label} must be a positive integer")
     return AdmissionLimits(**values)
 

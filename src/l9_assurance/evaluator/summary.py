@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Mapping
+from collections.abc import Mapping
+from typing import Any
 
 
 def render_decision_summary(decision: Mapping[str, Any]) -> str:
@@ -14,8 +15,10 @@ def render_decision_summary(decision: Mapping[str, Any]) -> str:
         + escape_markdown(
             f"{subject['repository']['owner']}/{subject['repository']['name']}@{subject['revision']['commit']}"
         ),
-        "**Profile:** " + escape_markdown(f"{decision['profile']['id']}@{decision['profile']['version']}"),
-        "**Policy:** " + escape_markdown(f"{decision['policy']['id']}@{decision['policy']['version']}"),
+        "**Profile:** "
+        + escape_markdown(f"{decision['profile']['id']}@{decision['profile']['version']}"),
+        "**Policy:** "
+        + escape_markdown(f"{decision['policy']['id']}@{decision['policy']['version']}"),
         f"**Decision:** {escape_markdown(decision['decisionId'])}",
         "",
         "## Mandatory controls",
@@ -23,8 +26,12 @@ def render_decision_summary(decision: Mapping[str, Any]) -> str:
     for result in mandatory:
         detail = result["reasons"][0]["message"] if result.get("reasons") else ""
         suffix = f"; {escape_markdown(detail)}" if detail else ""
-        lines.append(f"- {result['status'].upper()} - {escape_markdown(result['controlId'])}{suffix}")
-    lines.extend(["", "## Evidence", f"Accepted: {len(decision['evidenceManifest'])}", "", "## Unknowns"])
+        lines.append(
+            f"- {result['status'].upper()} - {escape_markdown(result['controlId'])}{suffix}"
+        )
+    lines.extend(
+        ["", "## Evidence", f"Accepted: {len(decision['evidenceManifest'])}", "", "## Unknowns"]
+    )
     if not decision["unknowns"]:
         lines.append("- None")
     else:
@@ -41,7 +48,16 @@ def render_decision_summary(decision: Mapping[str, Any]) -> str:
 
 
 def escape_markdown(value: str) -> str:
-    replacements = (("\\", "\\\\"), ("`", "\\`"), ("*", "\\*"), ("_", "\\_"), ("[", "\\["), ("]", "\\]"), ("<", "&lt;"), (">", "&gt;"))
+    replacements = (
+        ("\\", "\\\\"),
+        ("`", "\\`"),
+        ("*", "\\*"),
+        ("_", "\\_"),
+        ("[", "\\["),
+        ("]", "\\]"),
+        ("<", "&lt;"),
+        (">", "&gt;"),
+    )
     for old, new in replacements:
         value = value.replace(old, new)
     return value

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Mapping, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 from l9_assurance.evidence.semver import compare_semver
 
@@ -11,7 +12,9 @@ def assess_control(
     subject: Mapping[str, Any],
 ) -> dict[str, Any]:
     applicability = control.get("applicability")
-    if isinstance(applicability, Mapping) and applicability.get("subjectKind") != subject.get("kind"):
+    if isinstance(applicability, Mapping) and applicability.get("subjectKind") != subject.get(
+        "kind"
+    ):
         return _result(
             "not-applicable",
             [],
@@ -73,11 +76,15 @@ def _assess_requirements(
         statuses = [item["observation"]["execution"]["status"] for item in matches]
         if "failed" in statuses:
             status = "fail"
-            reasons.append(("CONTROL_POSITIVE_FAILURE", f"{requirement['check']} positively reported failure"))
+            reasons.append(
+                ("CONTROL_POSITIVE_FAILURE", f"{requirement['check']} positively reported failure")
+            )
         elif "error" in statuses:
             if status != "fail":
                 status = "indeterminate"
-            reasons.append(("CONTROL_EVIDENCE_ERROR", f"{requirement['check']} reported execution error"))
+            reasons.append(
+                ("CONTROL_EVIDENCE_ERROR", f"{requirement['check']} reported execution error")
+            )
         elif "skipped" in statuses:
             if status != "fail":
                 status = "indeterminate"
@@ -102,7 +109,10 @@ def _assess_findings(
             "status": "indeterminate",
             "evidenceRefs": [],
             "reasons": [
-                {"code": "CONTROL_EVIDENCE_MISSING", "message": "mandatory findings observation is missing"}
+                {
+                    "code": "CONTROL_EVIDENCE_MISSING",
+                    "message": "mandatory findings observation is missing",
+                }
             ],
             "unknownCategory": "missing-evidence",
         }
@@ -117,7 +127,11 @@ def _assess_findings(
             ),
             None,
         )
-        if requirement is None or item["observation"]["execution"]["status"] not in requirement["acceptedExecutionStatus"]:
+        if (
+            requirement is None
+            or item["observation"]["execution"]["status"]
+            not in requirement["acceptedExecutionStatus"]
+        ):
             unauthorized = True
             break
     if unauthorized:
@@ -143,7 +157,12 @@ def _assess_findings(
         return _result(
             "fail",
             refs,
-            [("CONTROL_MANDATORY_FINDING_PRESENT", f"{len(blocking)} open mandatory finding(s) present")],
+            [
+                (
+                    "CONTROL_MANDATORY_FINDING_PRESENT",
+                    f"{len(blocking)} open mandatory finding(s) present",
+                )
+            ],
         )
     if any(item["observation"]["execution"]["status"] != "passed" for item in matches):
         return {
@@ -205,7 +224,12 @@ def _assess_subject_consistency(
     return _result(
         "pass",
         refs,
-        [("CONTROL_SUBJECT_CONSISTENT", "all admitted evidence references the exact subject revision")],
+        [
+            (
+                "CONTROL_SUBJECT_CONSISTENT",
+                "all admitted evidence references the exact subject revision",
+            )
+        ],
     )
 
 
@@ -214,7 +238,10 @@ def _matches_requirement(item: Mapping[str, Any], requirement: Mapping[str, Any]
     return (
         observation["producer"]["id"] == requirement["producer"]
         and observation["check"]["id"] == requirement["check"]
-        and compare_semver(observation["check"]["version"], requirement.get("minimumCheckVersion", "0.0.0")) >= 0
+        and compare_semver(
+            observation["check"]["version"], requirement.get("minimumCheckVersion", "0.0.0")
+        )
+        >= 0
     )
 
 

@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import json
 import sys
+from collections.abc import Callable, Mapping, Sequence
 from pathlib import Path
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any
 
 from l9_assurance.conformance import run_consumer_conformance, run_producer_conformance
 from l9_assurance.constants import EXIT_CODES
@@ -100,8 +101,12 @@ def run_cli(
             report = run_consumer_conformance(
                 consumer_id=_require(flags, "consumer"),
                 canonical_decision=decision,
-                transported_decision_text=(fixture / "transported-decision.json").read_text(encoding="utf-8"),
-                published_verdict=(fixture / "published-verdict.txt").read_text(encoding="utf-8").strip(),
+                transported_decision_text=(fixture / "transported-decision.json").read_text(
+                    encoding="utf-8"
+                ),
+                published_verdict=(fixture / "published-verdict.txt")
+                .read_text(encoding="utf-8")
+                .strip(),
                 published_summary=(fixture / "decision.summary.md").read_text(encoding="utf-8"),
             )
             stdout(json.dumps(report, indent=2) + "\n")
@@ -112,11 +117,30 @@ def run_cli(
         if route["id"] == "conformance.producer":
             artifacts = discover_json_artifacts(_require(flags, "input"))
             values = [item["value"] for item in artifacts]
-            subject = read_json_file(_require(flags, "subject")) if _optional(flags, "subject") else _derive_subject(values)
+            subject = (
+                read_json_file(_require(flags, "subject"))
+                if _optional(flags, "subject")
+                else _derive_subject(values)
+            )
             received_at = _optional(flags, "received-at") or _derive_received_at(values)
-            producers = read_json_file(_require(flags, "producer-registry")) if _optional(flags, "producer-registry") else config["producerRegistry"]
-            checks = read_json_file(_require(flags, "check-registry")) if _optional(flags, "check-registry") else config["checkRegistry"]
-            report = run_producer_conformance(values, producer_id=_require(flags, "producer"), subject=subject, producer_registry=producers, check_registry=checks, received_at=received_at)
+            producers = (
+                read_json_file(_require(flags, "producer-registry"))
+                if _optional(flags, "producer-registry")
+                else config["producerRegistry"]
+            )
+            checks = (
+                read_json_file(_require(flags, "check-registry"))
+                if _optional(flags, "check-registry")
+                else config["checkRegistry"]
+            )
+            report = run_producer_conformance(
+                values,
+                producer_id=_require(flags, "producer"),
+                subject=subject,
+                producer_registry=producers,
+                check_registry=checks,
+                received_at=received_at,
+            )
             report["files"] = len(artifacts)
             stdout(json.dumps(report, indent=2) + "\n")
             return EXIT_CODES["pass"] if report["passed"] else EXIT_CODES["input"]
@@ -127,7 +151,9 @@ def run_cli(
             plan = engine.plan(read_json_file(_require(flags, "subject")))
             verification = verify_plan(plan)
             if not verification["valid"]:
-                raise ValueError("Generated plan failed self-verification: " + "; ".join(verification["reasons"]))
+                raise ValueError(
+                    "Generated plan failed self-verification: " + "; ".join(verification["reasons"])
+                )
             write_canonical_file(_require(flags, "output"), plan)
             stdout(f"Planned {len(plan['controls'])} controls as {plan['planId']}.\n")
             return EXIT_CODES["pass"]
@@ -135,28 +161,54 @@ def run_cli(
         if route["id"] == "evidence.admit":
             subject = read_json_file(_require(flags, "subject"))
             artifacts = discover_json_artifacts(_require(flags, "input"))
-            report = engine.admit(subject, [item["value"] for item in artifacts], received_at=_optional(flags, "received-at"))
+            report = engine.admit(
+                subject,
+                [item["value"] for item in artifacts],
+                received_at=_optional(flags, "received-at"),
+            )
             output = Path(_require(flags, "output"))
             write_json_file(output / "admission-report.json", report)
             for item in report["accepted"]:
-                write_json_file(output / "accepted" / f"{item['envelope']['evidenceId']}.json", item["envelope"])
-            stdout(f"Accepted {len(report['accepted'])}; rejected {report['rejectedCount']}; quarantined {report['quarantinedCount']}; duplicate {report['duplicateCount']}.\n")
+                write_json_file(
+                    output / "accepted" / f"{item['envelope']['evidenceId']}.json", item["envelope"]
+                )
+            stdout(
+                f"Accepted {len(report['accepted'])}; rejected {report['rejectedCount']}; quarantined {report['quarantinedCount']}; duplicate {report['duplicateCount']}.\n"
+            )
             return EXIT_CODES["pass"]
 
         if route["id"] in {"evaluate", "simulate"}:
             _assert_selections(flags, config, require_policy=True)
             subject = read_json_file(_require(flags, "subject"))
             accepted = _load_accepted(_require(flags, "evidence"))
-            waivers = [parse_waiver(json.dumps(item["value"])) for item in discover_json_artifacts(_require(flags, "waivers"))] if _optional(flags, "waivers") else []
-            decision = engine.evaluate(subject, accepted, evaluation_time=_require(flags, "evaluation-time"), waivers=waivers)
+            waivers = (
+                [
+                    parse_waiver(json.dumps(item["value"]))
+                    for item in discover_json_artifacts(_require(flags, "waivers"))
+                ]
+                if _optional(flags, "waivers")
+                else []
+            )
+            decision = engine.evaluate(
+                subject,
+                accepted,
+                evaluation_time=_require(flags, "evaluation-time"),
+                waivers=waivers,
+            )
             if route["id"] == "simulate":
-                decision.setdefault("extensions", {})["l9.assurance.simulation"] = {"authoritative": False}
+                decision.setdefault("extensions", {})["l9.assurance.simulation"] = {
+                    "authoritative": False
+                }
             output = Path(_require(flags, "output"))
             write_canonical_file(output / "decision.json", decision)
             write_text_file(output / "decision.summary.md", render_decision_summary(decision))
             write_json_file(output / "evidence-manifest.json", decision["evidenceManifest"])
-            stdout(f"{'Simulation' if route['id'] == 'simulate' else 'Decision'} {decision['verdict']}.\n")
-            return EXIT_CODES["pass"] if route["id"] == "simulate" else EXIT_CODES[decision["verdict"]]
+            stdout(
+                f"{'Simulation' if route['id'] == 'simulate' else 'Decision'} {decision['verdict']}.\n"
+            )
+            return (
+                EXIT_CODES["pass"] if route["id"] == "simulate" else EXIT_CODES[decision["verdict"]]
+            )
 
         raise ValueError(f"Command route {route['id']} has no implementation.")
     except Exception as error:  # CLI boundary intentionally catches and classifies all errors.
@@ -185,7 +237,9 @@ def _optional(flags: Mapping[str, str | bool], name: str) -> str | None:
     return value if isinstance(value, str) else None
 
 
-def _assert_selections(flags: Mapping[str, str | bool], config: Mapping[str, Any], *, require_policy: bool) -> None:
+def _assert_selections(
+    flags: Mapping[str, str | bool], config: Mapping[str, Any], *, require_policy: bool
+) -> None:
     for key in ("profile", "policy"):
         selection = _optional(flags, key)
         if not selection:
@@ -196,24 +250,39 @@ def _assert_selections(flags: Mapping[str, str | bool], config: Mapping[str, Any
         major = value["version"].split(".")[0]
         allowed = {value["id"], f"{value['id']}@{value['version']}", f"{value['id']}@{major}"}
         if selection not in allowed:
-            raise ValueError(f"Unsupported {key} {selection}. Release zero supports {value['id']}@{value['version']}.")
+            raise ValueError(
+                f"Unsupported {key} {selection}. Release zero supports {value['id']}@{value['version']}."
+            )
 
 
 def _derive_subject(values: Sequence[Any]) -> Mapping[str, Any]:
-    subjects = [result.observation["subject"] for value in values if (result := validate_observation(value)).valid and result.observation]
+    subjects = [
+        result.observation["subject"]
+        for value in values
+        if (result := validate_observation(value)).valid and result.observation
+    ]
     if not subjects:
-        raise ValueError("Producer conformance requires --subject when no valid observation supplies one.")
+        raise ValueError(
+            "Producer conformance requires --subject when no valid observation supplies one."
+        )
     first = canonical_json(subjects[0])
     if any(canonical_json(item) != first for item in subjects):
         raise ValueError("Producer conformance observations contain multiple subjects")
-    return subjects[0]
+    subject: Mapping[str, Any] = subjects[0]
+    return subject
 
 
 def _derive_received_at(values: Sequence[Any]) -> str:
-    timestamps = sorted(result.observation["execution"]["completedAt"] for value in values if (result := validate_observation(value)).valid and result.observation)
+    timestamps = sorted(
+        result.observation["execution"]["completedAt"]
+        for value in values
+        if (result := validate_observation(value)).valid and result.observation
+    )
     if not timestamps:
-        raise ValueError("Producer conformance requires --received-at when no valid observation supplies one.")
-    return timestamps[-1]
+        raise ValueError(
+            "Producer conformance requires --received-at when no valid observation supplies one."
+        )
+    return str(timestamps[-1])
 
 
 def _load_accepted(path: str) -> list[dict[str, Any]]:
@@ -221,22 +290,38 @@ def _load_accepted(path: str) -> list[dict[str, Any]]:
     for artifact in discover_json_artifacts(path):
         envelope = artifact["value"]
         if not isinstance(envelope, Mapping):
-            raise ValueError(f"EVIDENCE_SCHEMA_INVALID: {artifact['path']}: envelope must be an object")
-        if envelope.get("schema") != "l9.evidence-envelope" or envelope.get("schemaVersion") != "1.0.0":
+            raise ValueError(
+                f"EVIDENCE_SCHEMA_INVALID: {artifact['path']}: envelope must be an object"
+            )
+        if (
+            envelope.get("schema") != "l9.evidence-envelope"
+            or envelope.get("schemaVersion") != "1.0.0"
+        ):
             raise ValueError(f"EVIDENCE_SCHEMA_UNSUPPORTED: {artifact['path']}")
         if not verify_envelope_integrity(envelope):
             raise ValueError(f"EVIDENCE_PAYLOAD_DIGEST_MISMATCH: {artifact['path']}")
         structural = validate_observation(envelope.get("payload"))
         if not structural.valid or structural.observation is None:
-            raise ValueError(f"EVIDENCE_SCHEMA_INVALID: {artifact['path']}: {'; '.join(structural.errors)}")
+            raise ValueError(
+                f"EVIDENCE_SCHEMA_INVALID: {artifact['path']}: {'; '.join(structural.errors)}"
+            )
         observation = structural.observation
         if envelope.get("sourceObservationId") != observation["observationId"]:
             raise ValueError(f"EVIDENCE_LINEAGE_INVALID: {artifact['path']}")
         if canonical_json(envelope.get("subject")) != canonical_json(observation["subject"]):
             raise ValueError(f"EVIDENCE_SUBJECT_MISMATCH: {artifact['path']}")
-        if envelope.get("producer", {}).get("id") != observation["producer"]["id"] or envelope.get("producer", {}).get("version") != observation["producer"]["version"]:
+        if (
+            envelope.get("producer", {}).get("id") != observation["producer"]["id"]
+            or envelope.get("producer", {}).get("version") != observation["producer"]["version"]
+        ):
             raise ValueError(f"EVIDENCE_PRODUCER_UNKNOWN: {artifact['path']}")
-        output.append({"envelope": dict(envelope), "observation": observation, "fingerprint": observation_fingerprint(observation)})
+        output.append(
+            {
+                "envelope": dict(envelope),
+                "observation": observation,
+                "fingerprint": observation_fingerprint(observation),
+            }
+        )
     return sorted(output, key=lambda item: item["envelope"]["evidenceId"])
 
 

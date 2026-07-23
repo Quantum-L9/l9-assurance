@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Mapping
 from copy import deepcopy
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 import yaml
 
@@ -101,7 +102,11 @@ def _validate_manifest(root: Path) -> dict[str, Any]:
             raise ValueError(f"Protocol bundle digest mismatch: {relative}")
         normalized_files.append({"path": relative.as_posix(), "digest": str(item["digest"])})
     digest = manifest["protocolDigest"]
-    if not isinstance(digest, Mapping) or digest.get("algorithm") != "sha256" or not _is_sha256(digest.get("value")):
+    if (
+        not isinstance(digest, Mapping)
+        or digest.get("algorithm") != "sha256"
+        or not _is_sha256(digest.get("value"))
+    ):
         raise ValueError("Protocol manifest aggregate digest is invalid")
     preimage = {
         "schema": manifest["schema"],
@@ -110,7 +115,9 @@ def _validate_manifest(root: Path) -> dict[str, Any]:
         "canonicalization": manifest["canonicalization"],
         "files": normalized_files,
     }
-    expected = hashlib.sha256(json.dumps(preimage, separators=(",", ":"), ensure_ascii=False).encode("utf-8")).hexdigest()
+    expected = hashlib.sha256(
+        json.dumps(preimage, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
     if digest["value"] != expected:
         raise ValueError("Protocol manifest aggregate digest mismatch")
     return deepcopy(manifest)
@@ -138,7 +145,9 @@ def _validate_registries(producers: Any, checks: Any) -> None:
             raise ValueError(f"Duplicate producer {identity}")
         if producer.get("authorization_status") not in {"trusted", "pending", "revoked"}:
             raise ValueError(f"Producer {identity} authorization_status is invalid")
-        if producer.get("authorization_status") == "trusted" and not isinstance(producer.get("allowed_versions"), str):
+        if producer.get("authorization_status") == "trusted" and not isinstance(
+            producer.get("allowed_versions"), str
+        ):
             raise ValueError(f"Producer {identity} allowed_versions is required when trusted")
         producer_by_id[identity] = producer
     identities: set[str] = set()
@@ -161,8 +170,14 @@ def _validate_registries(producers: Any, checks: Any) -> None:
     for producer in producer_items:
         unknown = set(producer.get("checks", [])) - check_ids
         if unknown:
-            raise ValueError(f"Producer {producer['id']} references unknown checks {sorted(unknown)}")
+            raise ValueError(
+                f"Producer {producer['id']} references unknown checks {sorted(unknown)}"
+            )
 
 
 def _is_sha256(value: Any) -> bool:
-    return isinstance(value, str) and len(value) == 64 and all(ch in "0123456789abcdef" for ch in value)
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(ch in "0123456789abcdef" for ch in value)
+    )
