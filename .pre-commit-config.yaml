@@ -1,0 +1,16 @@
+# Pre-commit hooks — mechanical enforcement before commit
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+#
+# NOTE: CI lint/test (.github/workflows/l9-lint-test.yml) is a locked
+# l9-ci-core preset ("DO NOT EDIT workflow structure") — this file is
+# untouched by that constraint; it only adds local pre-commit hooks that
+# mirror what the preset already runs in CI (ruff check + ruff format).
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.5
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
