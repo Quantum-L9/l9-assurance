@@ -21,7 +21,7 @@ dependencies = [
 # preset's uv-locked test job (--cov, --timeout=300, and -n auto when
 # PYTEST_PARALLEL=true) — that path has no pip fallback, so the lockfile must
 # already carry them.
-dev = ["pytest>=8,<10", "pytest-cov>=5,<7", "pytest-xdist>=3,<4", "pytest-timeout>=2,<3"]
+dev = ["pytest>=8,<10", "pytest-cov>=7.1.0,<8", "pytest-xdist>=3,<4", "pytest-timeout>=2,<3"]
 
 [project.scripts]
 l9-assurance = "l9_assurance.cli.app:main"
