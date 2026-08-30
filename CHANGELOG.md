@@ -2,6 +2,14 @@
 
 ## 2.1.1 - Unreleased
 
+- Admitted `sdkVersion` on artifact references so `l9-ci-sdk` finding-carrying observations pass the schema gate, keeping `unevaluatedProperties: false` (D-010).
+- Activated `l9-ci-sdk` producer trust for `>=2.0.0 <3.0.0`, resolving UNKNOWN-001 (D-009).
+- Added an executed cross-repository seam proof that admits real SDK output with real assurance admission, and a CI job that fails rather than skips when the SDK is absent.
+- Added a pending producer-registry fixture so the pending-producer quarantine path keeps coverage now that the live registry is trusted.
+- Added a `pytest`-level protocol-bundle drift guard alongside the existing `scripts/ci.py` sync check.
+- Documented the v0.1 constellation boundary, including what assurance intentionally does not do.
+- Backfilled L9 metadata coverage for `uv.lock`, `.github/dependabot.yml`, and `.pre-commit-config.yaml`.
+
 - Added centralized per-file L9 metadata and a machine-enforced repository specification.
 - Added an agent operating contract, recursive alignment report, and convergence record.
 - Made replay state bounded, append-only, conflict-detecting, and fail-closed at capacity.

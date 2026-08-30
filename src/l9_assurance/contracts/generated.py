@@ -14,6 +14,7 @@ class ArtifactReference(TypedDict, total=False):
     mediaType: NotRequired[str]
     path: NotRequired[str]
     uri: NotRequired[str]
+    sdkVersion: NotRequired[str]
 
 
 class AssuranceCapabilities(TypedDict, total=False):

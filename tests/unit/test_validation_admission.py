@@ -20,7 +20,32 @@ def test_invalid_observations(path: Path) -> None:
     assert not validate_observation(json.loads(path.read_text())).valid
 
 
-def test_pending_producer_is_quarantined(subject: dict, valid_observations: list[dict]) -> None:
+def test_pending_producer_is_quarantined(
+    pending_config: dict, subject: dict, valid_observations: list[dict]
+) -> None:
+    report = admit_observations(
+        valid_observations[:1],
+        {
+            "subject": subject,
+            "producerRegistry": pending_config["producerRegistry"],
+            "checkRegistry": pending_config["checkRegistry"],
+            "receivedAt": "2026-07-21T00:00:02Z",
+            "channel": "local",
+        },
+    )
+    assert report["quarantinedCount"] == 1
+    assert report["results"][0]["reasons"][0]["code"] == "EVIDENCE_POLICY_INADMISSIBLE"
+
+
+def test_live_registry_admits_the_trusted_sdk_producer(
+    subject: dict, valid_observations: list[dict]
+) -> None:
+    """The LIVE registry -- not a fixture -- must admit the SDK producer.
+
+    DECISION D-009 activated ``l9-ci-sdk`` trust. Reading the live
+    ``registry/producers.yaml`` here is deliberate: the v0.1 seam is only real
+    if the checked-in registry admits, and a fixture cannot prove that.
+    """
     from l9_assurance.cli import load_configuration
 
     config = load_configuration()
@@ -34,7 +59,8 @@ def test_pending_producer_is_quarantined(subject: dict, valid_observations: list
             "channel": "local",
         },
     )
-    assert report["quarantinedCount"] == 1
+    assert report["quarantinedCount"] == 0
+    assert report["rejectedCount"] == 0
 
 
 def test_revision_substitution_is_rejected(trusted_config: dict, subject: dict) -> None:
