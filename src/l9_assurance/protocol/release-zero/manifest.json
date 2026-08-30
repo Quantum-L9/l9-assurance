@@ -66,7 +66,7 @@
     },
     {
       "path": "registry/producers.yaml",
-      "digest": "d1a0fac4d8b33b742aef0c9368287f3f41f037cdb48ad67aabd7a7d04226cde3"
+      "digest": "3d0969804d14dc67d8a1d83b6a433cf3546383bb6289f416f10ffd5240551939"
     },
     {
       "path": "registry/profiles.yaml",
@@ -78,7 +78,7 @@
     },
     {
       "path": "schemas/v1/artifact-reference.schema.json",
-      "digest": "c483bde226e10d6bdc71575d74329deb69775d7841eb0e07f4b7451fdd799f11"
+      "digest": "87a26bffdd36b28c8a9b1470bc189341506be3c15933ce9f8681a6673dc72177"
     },
     {
       "path": "schemas/v1/assurance-capabilities.schema.json",
@@ -161,6 +161,6 @@
   "sourceBaselineCommit": "python-authoritative-v2.1.1",
   "protocolDigest": {
     "algorithm": "sha256",
-    "value": "a277b4f9948d4aab15620fdc700613d9aa4de00f96b5911f5708063f8c7aab5c"
+    "value": "f429c4586fa8c1972b26e71c928ae0db4d1262cf325906133acf1b7350940524"
   }
 }

@@ -4,9 +4,9 @@
     {
       "id": "l9-ci-sdk",
       "repository": "Quantum-L9/l9-ci-sdk",
-      "authorization_status": "trusted",
+      "authorization_status": "pending",
       "candidate_version_range": ">=2.0.0 <3.0.0",
-      "allowed_versions": ">=2.0.0 <3.0.0",
+      "allowed_versions": null,
       "subject_kinds": [
         "git-revision"
       ],

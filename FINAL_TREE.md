@@ -2,10 +2,11 @@
 
 Generated from the Python-authoritative source tree. Dependencies, build output, caches, temporary files, Git metadata, and nested archives are excluded.
 
-Tracked release files: **244**
+Tracked release files: **252**
 
 ```text
 l9-assurance/
+  .github/dependabot.yml
   .github/governance/execution-profiles.yaml
   .github/governance/promotion-policy.yaml
   .github/governance/provider-requiredness.yaml
@@ -13,11 +14,13 @@ l9-assurance/
   .github/governance/rule-modes.yaml
   .github/governance/waivers.yaml
   .github/workflows/ci.yml
+  .github/workflows/cross-repo-sdk.yml
   .github/workflows/l9-analysis.yml
   .github/workflows/l9-lint-test.yml
   .gitignore
   .l9/L9_META.jsonl
   .l9/repo-spec.yaml
+  .pre-commit-config.yaml
   AGENTS.md
   ALIGNMENT_REPORT.md
   ARCHITECTURE.md
@@ -59,6 +62,7 @@ l9-assurance/
   docs/producers/l9-ci-sdk.md
   docs/profiles/pull-request.md
   docs/protocol/README.md
+  docs/release-v0.1.md
   docs/reviews/HARNESS_2_0_4_COMPATIBILITY.md
   docs/reviews/PYTHON_RUNTIME_MIGRATION_REVIEW.md
   fixtures/adversarial/duplicate-a.observation.json
@@ -75,6 +79,7 @@ l9-assurance/
   fixtures/compatibility/consumer-pass/published-verdict.txt
   fixtures/compatibility/consumer-pass/transported-decision.json
   fixtures/compatibility/policy.json
+  fixtures/compatibility/producer-registry.pending.json
   fixtures/compatibility/producer-registry.trusted.json
   fixtures/compatibility/profile.json
   fixtures/compatibility/unsupported-decision.json
@@ -233,10 +238,12 @@ l9-assurance/
   src/l9_assurance/testing/signer.py
   tests/architecture/test_architecture.py
   tests/architecture/test_l9_alignment.py
+  tests/architecture/test_protocol_bundle_sync.py
   tests/conformance/test_conformance.py
   tests/conftest.py
   tests/contract/test_schemas.py
   tests/contract/test_verification.py
+  tests/cross_repo/test_sdk_assurance_observation.py
   tests/integration/test_cli_outputs.py
   tests/integration/test_engine.py
   tests/performance/test_performance.py
@@ -248,6 +255,7 @@ l9-assurance/
   tests/unit/test_policy.py
   tests/unit/test_time_semver_limits.py
   tests/unit/test_validation_admission.py
+  uv.lock
   validation-benchmark.json
   validation-report.json
 ```
