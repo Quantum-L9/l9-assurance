@@ -59,20 +59,20 @@ jobs:
           python-version: '3.12'
           cache: pip
 
-      # Installed through a pinned `uv` and this repository's own `uv.lock`,
-      # so the seam is proven against the exact dependency set the rest of CI
-      # resolves rather than whatever pip picks on the day. The SDK is the one
-      # deliberate exception: it is installed from the checkout above, because
-      # proving the seam against the real producer revision is the job.
+      # The one third-party install this job makes is pinned to the version
+      # uv.lock already resolves, so the seam is proven against a fixed test
+      # runner rather than whatever pip picks on the day. Everything else is a
+      # path install from the two checkouts above -- which is the point of the
+      # job: it proves *these* two revisions against each other, and the SDK's
+      # revision is chosen by the checkout step, not by a resolver.
       - name: Install both sides of the seam
         run: |
-          python -m pip install --disable-pip-version-check 'uv==0.8.17'
-          uv sync --locked --extra dev
-          uv pip install ./.l9-ci-sdk
+          python -m pip install --disable-pip-version-check 'pytest==9.1.1'
+          python -m pip install --disable-pip-version-check ./ ./.l9-ci-sdk
 
       - name: Report the proven revisions
         run: |
-          uv run --no-sync python - <<'PY'
+          python - <<'PY'
           import l9_assurance, l9_ci
           print(f"l9-ci-sdk producer version: {l9_ci.__version__}")
           print(f"l9-assurance consumer package: {l9_assurance.__file__}")
@@ -83,4 +83,4 @@ jobs:
       - name: Prove the SDK -> assurance admission seam
         env:
           L9_CROSS_REPO_SDK_REQUIRED: '1'
-        run: uv run --no-sync python -m pytest -q tests/cross_repo
+        run: python -m pytest -q tests/cross_repo
