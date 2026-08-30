@@ -2,10 +2,11 @@
 
 Generated from the Python-authoritative source tree. Dependencies, build output, caches, temporary files, Git metadata, and nested archives are excluded.
 
-Tracked release files: **244**
+Tracked release files: **247**
 
 ```text
 l9-assurance/
+  .github/dependabot.yml
   .github/governance/execution-profiles.yaml
   .github/governance/promotion-policy.yaml
   .github/governance/provider-requiredness.yaml
@@ -18,6 +19,7 @@ l9-assurance/
   .gitignore
   .l9/L9_META.jsonl
   .l9/repo-spec.yaml
+  .pre-commit-config.yaml
   AGENTS.md
   ALIGNMENT_REPORT.md
   ARCHITECTURE.md
@@ -248,6 +250,7 @@ l9-assurance/
   tests/unit/test_policy.py
   tests/unit/test_time_semver_limits.py
   tests/unit/test_validation_admission.py
+  uv.lock
   validation-benchmark.json
   validation-report.json
 ```
