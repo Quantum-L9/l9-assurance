@@ -2,7 +2,7 @@
 
 Generated from the Python-authoritative source tree. Dependencies, build output, caches, temporary files, Git metadata, and nested archives are excluded.
 
-Tracked release files: **252**
+Tracked release files: **253**
 
 ```text
 l9-assurance/
@@ -54,6 +54,7 @@ l9-assurance/
   docs/adr/ADR-0001-clean-rewrite.md
   docs/adr/ADR-0002-python-authoritative-runtime.md
   docs/adr/ADR-0003-l9-metadata-and-bounded-replay.md
+  docs/constellation-v0.1.md
   docs/decisions/verdicts.md
   docs/legacy/README.md
   docs/migration/legacy-extraction-ledger.md
