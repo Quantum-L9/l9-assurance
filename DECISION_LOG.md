@@ -64,4 +64,3 @@ The drift was invisible because each repository validated only against its own
 schemas. `tests/cross_repo/` and the `cross-repo-sdk-seam` workflow now run the
 real producer against the real consumer, which is the actual fix -- the schema
 property alone would leave the next drift equally silent.
-
