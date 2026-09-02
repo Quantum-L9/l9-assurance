@@ -17,3 +17,10 @@ artifacts/
 .DS_Store
 .env
 .env.*
+
+# Agent-session artifacts written into the workspace by tooling, never
+# repository content. `.l9/` is already ignored above for the same reason.
+# The release manifests enumerate the tree, so leaving these unignored made
+# every metadata and completeness gate stale the moment an agent session ran.
+.claude/
+.mcp.json
