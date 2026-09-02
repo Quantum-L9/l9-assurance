@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import json
+import sys
 from pathlib import Path
 
 import yaml
@@ -9,27 +10,23 @@ import yaml
 REPO = Path(__file__).resolve().parents[2]
 SRC = REPO / "src" / "l9_assurance"
 
+sys.path.insert(0, str(REPO / "scripts"))
+
+from repository_files import repository_files  # noqa: E402
+
 
 def _release_files() -> set[str]:
-    excluded = {
-        ".git",
-        ".mypy_cache",
-        ".pytest_cache",
-        ".ruff_cache",
-        ".venv",
-        "__pycache__",
-        "build",
-        "dist",
-        "node_modules",
+    """Delegate to the helper the generator itself uses.
+
+    This test previously reimplemented the exclusion rules. Two definitions of
+    "release file" then had to be kept in step by hand, and they drifted the
+    moment the helper learned to skip git-ignored residue: the generator
+    stopped recording the publication gate's own receipts while this test kept
+    demanding them, so a correct manifest failed. One definition, one place.
+    """
+    return {
+        path.as_posix() for path in repository_files(REPO, extra_paths=(Path(".l9/L9_META.jsonl"),))
     }
-    output: set[str] = set()
-    for path in REPO.rglob("*"):
-        relative = path.relative_to(REPO)
-        if any(part in excluded or part.endswith(".egg-info") for part in relative.parts):
-            continue
-        if path.is_file() and path.suffix not in {".pyc", ".pyo"}:
-            output.add(relative.as_posix())
-    return output
 
 
 def test_repo_spec_records_l9_applicability() -> None:

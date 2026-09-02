@@ -24,6 +24,11 @@
     "uri": {
       "type": "string",
       "minLength": 1
+    },
+    "sdkVersion": {
+      "type": "string",
+      "description": "Semantic version of the L9 CI SDK that produced the referenced artifact. Provenance only: this is the version of the producing SDK for the artifact itself, not the producer identity of the enclosing observation.",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:[-+][0-9A-Za-z.-]+)?$"
     }
   },
   "required": [
