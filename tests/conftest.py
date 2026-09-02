@@ -30,6 +30,21 @@ def trusted_config() -> dict[str, Any]:
 
 
 @pytest.fixture
+def pending_config() -> dict[str, Any]:
+    """Configuration whose producer registry has NOT been trust-activated.
+
+    The live ``registry/producers.yaml`` trusts ``l9-ci-sdk`` (DECISION D-009),
+    so the pending-producer quarantine path needs its own registry to stay
+    covered. Keep this fixture pending: it is the only proof that admission
+    still fails closed for an unactivated producer.
+    """
+    config = load_configuration()
+    config["producerRegistry"] = load_json("fixtures/compatibility/producer-registry.pending.json")
+    config["checkRegistry"] = load_json("fixtures/compatibility/check-registry.json")
+    return config
+
+
+@pytest.fixture
 def engine(trusted_config: dict[str, Any]) -> AssuranceEngine:
     return AssuranceEngine(trusted_config, clock=lambda: "2026-07-21T00:00:02.000Z")
 
