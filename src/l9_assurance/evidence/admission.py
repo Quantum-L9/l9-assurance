@@ -111,6 +111,50 @@ def observation_fingerprint(observation: Mapping[str, Any]) -> str:
     return sha256_digest(value)["value"]
 
 
+# An observationId of the form ``sha256:<64 lowercase hex>`` is a claim about the
+# observation's own content -- it is exactly what observation_fingerprint()
+# computes. ``l9-ci`` emits that form. Any other value is an opaque producer
+# identifier that says nothing about content and cannot be checked here.
+_CONTENT_ADDRESSED_OBSERVATION_ID = re.compile(r"sha256:([0-9a-f]{64})")
+
+
+def verify_observation_identity(
+    observation: Mapping[str, Any],
+    fingerprint: str,
+) -> str | None:
+    """Reject an observation whose content-addressed ID disagrees with its content.
+
+    ``verify_envelope_integrity`` cannot catch this: it re-checks the payloadDigest
+    assurance itself computed over the payload it just received, which is
+    self-consistent by construction and can never fail. And
+    ``observation_fingerprint`` deliberately excludes ``observationId`` from the
+    fingerprint, so a payload mutated in transit while retaining the original ID
+    used to be admitted with every validation passing -- severities, findings and
+    summary rewritten under a legitimate identity.
+
+    The replay store does detect the same mismatch, but only once the genuine
+    original has been admitted in the same execution context: ``InMemoryReplayStore``
+    is per-invocation and is not persisted, so in the ordinary one-admit-per-CI-run
+    topology a tampered observation arriving alone has no history to contradict it.
+    This check needs no history.
+
+    Returns an error message, or ``None`` when the identity is consistent or is not
+    a content-addressed claim at all.
+    """
+    observation_id = observation.get("observationId")
+    if not isinstance(observation_id, str):
+        return None
+    match = _CONTENT_ADDRESSED_OBSERVATION_ID.fullmatch(observation_id)
+    if match is None:
+        return None
+    if match.group(1) != fingerprint:
+        return (
+            "content-addressed observationId does not match observation content "
+            f"(declared sha256:{match.group(1)}, computed sha256:{fingerprint})"
+        )
+    return None
+
+
 def _admit_one(
     value: Any,
     *,
@@ -330,6 +374,24 @@ def _admit_one(
             )
 
     fingerprint = observation_fingerprint(observation)
+    # Bind identity to content BEFORE the replay lookup: a forged content-addressed
+    # ID must never reach the replay store, where it would otherwise bind evidence
+    # under an identity its content does not support.
+    identity_error = verify_observation_identity(observation, fingerprint)
+    if identity_error is not None:
+        validations["integrity"] = _validation(
+            "fail", "EVIDENCE_PAYLOAD_DIGEST_MISMATCH", identity_error
+        )
+        return _terminal(
+            "rejected",
+            [_reason("EVIDENCE_PAYLOAD_DIGEST_MISMATCH", identity_error)],
+            validations,
+            unknown=_unknown(
+                index,
+                "invalid-evidence",
+                "Observation identity does not match its content.",
+            ),
+        )
     existing = replay_store.find_by_observation_id(observation["observationId"])
     if existing is not None and existing.fingerprint != fingerprint:
         validations["replay"] = _validation(
