@@ -55,13 +55,15 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      # Every install below is version-pinned and wheel-only. `--only-binary
+      # :all:` refuses source distributions, so no dependency's setup.py runs
+      # during installation; the pins make the toolchain reproducible instead of
+      # "whatever PyPI served that morning", which is what an unpinned
+      # `pip install ruff` resolved to.
       - name: Install lint tools
         run: |
           set -euo pipefail
-          python -m pip install --upgrade pip
-          if [ -f requirements-ci.txt ]; then pip install -r requirements-ci.txt; fi
-          command -v ruff >/dev/null 2>&1 || pip install ruff
-          command -v mypy >/dev/null 2>&1 || pip install mypy
+          python -m pip install --only-binary :all: "ruff==0.16.1" "mypy==2.3.0"
 
       - name: ruff check
         run: ruff check . --output-format=github
@@ -101,24 +103,26 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      # uv.lock already pins the project's dev extra (pytest, pytest-cov,
+      # pytest-xdist, pytest-timeout), so the chain of unpinned conditional
+      # `pip install` fallbacks this replaced was both unreproducible and
+      # unnecessary. `--locked` installs exactly what uv.lock records and fails
+      # the job when it has drifted from pyproject.toml; `--no-build` refuses
+      # source distributions, so no dependency's setup.py runs.
       - name: Install test tools
         run: |
           set -euo pipefail
-          python -m pip install --upgrade pip
-          if [ -f requirements-ci.txt ]; then pip install -r requirements-ci.txt; fi
-          pip install -e ".[dev]" || pip install -e . || \
-            echo "::notice::no local editable package to install"
-          command -v pytest >/dev/null 2>&1 || pip install pytest
-          python -c "import pytest_cov" 2>/dev/null || pip install pytest-cov
-          python -c "import xdist" 2>/dev/null || pip install pytest-xdist
-          python -c "import pytest_timeout" 2>/dev/null || pip install pytest-timeout
+          python -m pip install --only-binary :all: "uv==0.12.10"
+          uv sync --locked --no-build --extra dev
 
       - name: pytest with coverage
         env:
           TESTING: "true"
         run: |
           set -euo pipefail
-          PYTHONPATH=. pytest "${TEST_DIR}" \
+          # --no-sync: the environment was built by the step above, and letting
+          # uv re-resolve here would undo that step's --no-build guarantee.
+          PYTHONPATH=. uv run --no-sync pytest "${TEST_DIR}" \
             -n auto \
             --cov="${SOURCE_DIR}" \
             --cov-report=xml --cov-report=term-missing \

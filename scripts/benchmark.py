@@ -66,6 +66,24 @@ def build_report() -> dict[str, object]:
     }
 
 
+def _report_destination(output: Path) -> Path:
+    """Resolve ``--output`` inside the repository, or fail.
+
+    The value is argv-supplied and is written to with ``parents=True``, so an
+    unconstrained path lets a caller create directories and overwrite a file
+    anywhere the process can reach. This report belongs to the repository it
+    measures, so containment removes the traversal without removing any
+    supported use.
+    """
+    candidate = output if output.is_absolute() else ROOT / output
+    resolved = candidate.resolve()
+    try:
+        resolved.relative_to(ROOT)
+    except ValueError as error:
+        raise SystemExit(f"--output must stay inside {ROOT}: {output}") from error
+    return resolved
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Run deterministic Assurance performance objectives."
@@ -76,7 +94,7 @@ def main() -> int:
     report = build_report()
     text = json.dumps(report, indent=2) + "\n"
     if args.output is not None:
-        destination = args.output if args.output.is_absolute() else ROOT / args.output
+        destination = _report_destination(args.output)
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(text, encoding="utf-8")
     print(text, end="")
