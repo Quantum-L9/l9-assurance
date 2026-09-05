@@ -14,6 +14,7 @@ from repository_files import ARCHIVE_SUFFIXES, EXCLUDED_DIRS, repository_files
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = "2.1.1"
+NODE_SUFFIXES = frozenset({".ts", ".tsx", ".js", ".mjs", ".cjs"})
 REQUIRED = [
     ".l9/repo-spec.yaml",
     ".l9/L9_META.jsonl",
@@ -49,10 +50,15 @@ MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 
 
 def _validate_markdown_links(failures: list[str]) -> None:
-    for document in ROOT.rglob("*.md"):
-        relative = document.relative_to(ROOT)
-        if any(part in EXCLUDED_DIRS for part in relative.parts):
+    # repository_files() is this repository's definition of its own content: it
+    # drops caches and .venv like EXCLUDED_DIRS did, and additionally drops
+    # untracked git-ignored residue such as an agent's .claude/ directory. Those
+    # documents are not part of the release surface, and linting their links
+    # made this gate fail in a dirty working tree while passing in CI.
+    for relative in repository_files(ROOT):
+        if relative.suffix != ".md":
             continue
+        document = ROOT / relative
         for raw_target in MARKDOWN_LINK.findall(document.read_text(encoding="utf-8")):
             target = raw_target.strip().split(maxsplit=1)[0].strip("<>")
             if not target or target.startswith(("#", "http://", "https://", "mailto:")):
@@ -138,15 +144,16 @@ def build_report() -> tuple[dict[str, object], list[str]]:
     if len(source) < 30:
         failures.append(f"Expected at least 30 Python source files, found {len(source)}")
 
-    node_residue = (
-        list(ROOT.rglob("*.ts"))
-        + list(ROOT.rglob("*.tsx"))
-        + list(ROOT.rglob("*.js"))
-        + list(ROOT.rglob("*.mjs"))
-        + list(ROOT.rglob("*.cjs"))
-    )
+    # Repository content only. A bare rglob swept installed dependencies, so this
+    # gate failed as soon as a virtualenv existed at the root (coverage ships
+    # coverage_html.js) — a property of the machine, not of the release surface.
+    release_files = repository_files(ROOT)
+    node_residue = [path for path in release_files if path.suffix in NODE_SUFFIXES]
     if node_residue or (ROOT / "package.json").exists() or (ROOT / "package-lock.json").exists():
-        failures.append("Node/TypeScript runtime residue remains")
+        detail = ", ".join(path.as_posix() for path in node_residue[:5])
+        failures.append(
+            "Node/TypeScript runtime residue remains" + (f": {detail}" if detail else "")
+        )
 
     executable_files = source + list((ROOT / "scripts").glob("*.py"))
     for path in executable_files:
@@ -180,7 +187,6 @@ def build_report() -> tuple[dict[str, object], list[str]]:
     if f'ASSURANCE_VERSION = "{RELEASE}"' not in constants:
         failures.append(f"runtime release version is not {RELEASE}")
 
-    release_files = repository_files(ROOT)
     report: dict[str, object] = {
         "status": "fail" if failures else "pass",
         "runtime": "python",
@@ -194,6 +200,24 @@ def build_report() -> tuple[dict[str, object], list[str]]:
     return report, failures
 
 
+def _report_destination(output: Path) -> Path:
+    """Resolve ``--output`` inside the repository, or fail.
+
+    The value is argv-supplied and is written to with ``parents=True``, so an
+    unconstrained path lets a caller create directories and overwrite a file
+    anywhere the process can reach. This report belongs to the repository it
+    describes, so containment removes the traversal without removing any
+    supported use.
+    """
+    candidate = output if output.is_absolute() else ROOT / output
+    resolved = candidate.resolve()
+    try:
+        resolved.relative_to(ROOT)
+    except ValueError as error:
+        raise SystemExit(f"--output must stay inside {ROOT}: {output}") from error
+    return resolved
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate source-tree completeness.")
     parser.add_argument("--output", type=Path, help="Optional report destination.")
@@ -202,7 +226,7 @@ def main() -> int:
     report, failures = build_report()
     text = json.dumps(report, indent=2) + "\n"
     if args.output is not None:
-        destination = args.output if args.output.is_absolute() else ROOT / args.output
+        destination = _report_destination(args.output)
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(text, encoding="utf-8")
     if failures:

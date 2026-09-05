@@ -29,23 +29,38 @@ COMMANDS = [
 ]
 
 
+RESIDUE_DIR_NAMES = (
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "htmlcov",
+)
+# Never walk into these while hunting residue. A virtualenv is the dangerous
+# one: pip's own tree contains pip/_internal/operations/build, so an unscoped
+# rglob("build") + rmtree deleted part of the installed pip and the very next
+# step -- _exercise_wheel's `python -m pip wheel` -- then died inside pip with
+# ModuleNotFoundError. Any dependency shipping a build/ or dist/ subpackage was
+# corrupted the same way. .git is listed for the same reason: this function
+# deletes, so it must never be pointed at anything it does not own.
+UNOWNED_TREES = frozenset({".git", ".venv", "venv", "node_modules"})
+
+
 def _clean_residue() -> None:
-    for name in (
-        "__pycache__",
-        ".pytest_cache",
-        ".mypy_cache",
-        ".ruff_cache",
-        "build",
-        "dist",
-        "htmlcov",
-    ):
+    def owned(path: Path) -> bool:
+        return not any(part in UNOWNED_TREES for part in path.relative_to(ROOT).parts)
+
+    for name in RESIDUE_DIR_NAMES:
         for path in ROOT.rglob(name):
-            if path.is_dir():
+            if path.is_dir() and owned(path):
                 shutil.rmtree(path, ignore_errors=True)
     for path in ROOT.rglob("*.py[co]"):
-        path.unlink(missing_ok=True)
+        if owned(path):
+            path.unlink(missing_ok=True)
     for path in ROOT.rglob("*.egg-info"):
-        if path.is_dir():
+        if path.is_dir() and owned(path):
             shutil.rmtree(path, ignore_errors=True)
     for name in (".coverage",):
         (ROOT / name).unlink(missing_ok=True)

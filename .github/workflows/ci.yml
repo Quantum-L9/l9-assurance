@@ -37,10 +37,40 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - name: Install package and test dependencies
+      - name: Install uv
         run: |
-          python -m pip install --disable-pip-version-check --upgrade setuptools wheel
-          python -m pip install --disable-pip-version-check -e .[dev]
+          set -euo pipefail
+          python -m pip install --only-binary :all: --disable-pip-version-check "uv==0.12.10"
+
+      - name: Install locked dependencies
+        run: |
+          set -euo pipefail
+          # uv.lock is this repository's resolved dependency set, so `--locked`
+          # installs exactly what it records and fails the job when the lockfile
+          # has drifted from pyproject.toml. `pip install -e .[dev]` re-resolved
+          # on every run instead, so CI tested whatever PyPI served that morning
+          # rather than what the lockfile pins.
+          #
+          # `--no-build` refuses source distributions, so no dependency's
+          # setup.py executes during installation.
+          #
+          # --seed and --inexact exist for scripts/ci.py::_exercise_wheel, which
+          # shells out to `python -m pip wheel . --no-build-isolation` to prove
+          # the package really builds and installs from a wheel: --seed puts a
+          # working pip in the venv, and --inexact stops the sync from pruning
+          # it back out again. Do not replace --seed with `uv pip install pip`,
+          # which yields an incomplete pip (pip/_internal/operations/build
+          # missing) that fails the same way.
+          uv venv --seed --python "${{ matrix.python-version }}"
+          uv sync --locked --no-build --inexact --extra dev \
+            --python "${{ matrix.python-version }}"
+          # --no-build-isolation means the build backend is not fetched on
+          # demand, so it has to be present already.
+          uv pip install --no-build "setuptools==84.0.0" "wheel==0.48.0"
 
       - name: Run repository gates
-        run: python scripts/ci.py
+        # .venv/bin/python directly, not `uv run`: uv run re-syncs with exact
+        # semantics and prunes the seeded pip that _exercise_wheel needs.
+        run: |
+          set -euo pipefail
+          .venv/bin/python scripts/ci.py

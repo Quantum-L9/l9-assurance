@@ -66,7 +66,13 @@ def _serialize(value: Any, seen: set[int], path: str) -> str:
 def _serialize_number(value: float, path: str) -> str:
     if not math.isfinite(value):
         raise CanonicalizationError(f"{path}: non-finite numbers are forbidden")
-    if value == 0.0:
+    # Both +0.0 and -0.0 canonicalise to "0". Tested by truthiness rather than
+    # an equality comparison against 0.0: zero is the one value IEEE-754 stores
+    # exactly with no representation error, so there is no tolerance to choose,
+    # and writing it this way says so instead of inviting the reader (or a
+    # static analyzer) to ask what epsilon belongs here. Non-finite values are
+    # already rejected above, so falsiness means exactly "is zero".
+    if not value:
         return "0"
     absolute = abs(value)
     representation = repr(value).lower()

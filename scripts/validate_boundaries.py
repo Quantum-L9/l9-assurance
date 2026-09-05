@@ -5,6 +5,8 @@ import ast
 import sys
 from pathlib import Path
 
+from repository_files import repository_files
+
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src" / "l9_assurance"
 FORBIDDEN_RUNTIME_DIRS = {"plugins", "scanners", "repair", "lsp", "debt", "github", "orchestration"}
@@ -19,12 +21,22 @@ EVALUATOR_FORBIDDEN_IMPORTS = {
     "httpx",
 }
 GLOBAL_FORBIDDEN_CALLS = {"eval", "exec", "compile"}
+NODE_SUFFIXES = frozenset({".ts", ".js"})
 
 
 def main() -> int:
     failures: list[str] = []
-    if (ROOT / "package.json").exists() or list(ROOT.rglob("*.ts")) or list(ROOT.rglob("*.js")):
-        failures.append("TypeScript/Node runtime artifacts remain")
+    # Scan the repository's own files, not the whole working tree. This check
+    # asserts that *this repository* ships no TypeScript/Node runtime, so a .js
+    # file vendored inside an installed dependency is not evidence of one.
+    # A bare ROOT.rglob() failed the moment a virtualenv existed at the
+    # repository root, because coverage ships coverage_html.js.
+    node_artifacts = [path for path in repository_files(ROOT) if path.suffix in NODE_SUFFIXES]
+    if (ROOT / "package.json").exists() or node_artifacts:
+        detail = ", ".join(path.as_posix() for path in node_artifacts[:5])
+        failures.append(
+            "TypeScript/Node runtime artifacts remain" + (f": {detail}" if detail else "")
+        )
     if {path.name for path in SRC.iterdir() if path.is_dir()} & FORBIDDEN_RUNTIME_DIRS:
         failures.append("Forbidden runtime responsibility directory exists")
     for path in SRC.rglob("*.py"):
