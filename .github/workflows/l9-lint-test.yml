@@ -55,13 +55,15 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      # Every install below is version-pinned and wheel-only. `--only-binary
+      # :all:` refuses source distributions, so no dependency's setup.py runs
+      # during installation; the pins make the toolchain reproducible instead of
+      # "whatever PyPI served that morning", which is what an unpinned
+      # `pip install ruff` resolved to.
       - name: Install lint tools
         run: |
           set -euo pipefail
-          python -m pip install --upgrade pip
-          if [ -f requirements-ci.txt ]; then pip install -r requirements-ci.txt; fi
-          command -v ruff >/dev/null 2>&1 || pip install ruff
-          command -v mypy >/dev/null 2>&1 || pip install mypy
+          python -m pip install --only-binary :all: "ruff==0.16.1" "mypy==2.3.0"
 
       - name: ruff check
         run: ruff check . --output-format=github
@@ -101,24 +103,30 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      # uv.lock already pins the project's dev extra (pytest, pytest-cov,
+      # pytest-xdist, pytest-timeout), so the chain of unpinned conditional
+      # `pip install` fallbacks this replaced was both unreproducible and
+      # unnecessary. Exporting the lockfile gives a fully pinned, per-artifact
+      # hashed requirements file, so pip runs in hash-checking mode and installs
+      # exactly the recorded artifacts; `--only-binary :all:` refuses source
+      # distributions so no dependency's setup.py runs. `--locked` fails the job
+      # if the lockfile has drifted from pyproject.toml.
       - name: Install test tools
         run: |
           set -euo pipefail
-          python -m pip install --upgrade pip
-          if [ -f requirements-ci.txt ]; then pip install -r requirements-ci.txt; fi
-          pip install -e ".[dev]" || pip install -e . || \
-            echo "::notice::no local editable package to install"
-          command -v pytest >/dev/null 2>&1 || pip install pytest
-          python -c "import pytest_cov" 2>/dev/null || pip install pytest-cov
-          python -c "import xdist" 2>/dev/null || pip install pytest-xdist
-          python -c "import pytest_timeout" 2>/dev/null || pip install pytest-timeout
+          python -m pip install --only-binary :all: "uv==0.12.10"
+          uv export --locked --extra dev --no-emit-project --format requirements-txt \
+            > "${RUNNER_TEMP}/locked-requirements.txt"
+          python -m pip install --only-binary :all: -r "${RUNNER_TEMP}/locked-requirements.txt"
 
       - name: pytest with coverage
         env:
           TESTING: "true"
         run: |
           set -euo pipefail
-          PYTHONPATH=. pytest "${TEST_DIR}" \
+          # PYTHONPATH carries src/ because the project itself is deliberately
+          # not installed -- see the install step above.
+          PYTHONPATH=.:src pytest "${TEST_DIR}" \
             -n auto \
             --cov="${SOURCE_DIR}" \
             --cov-report=xml --cov-report=term-missing \
