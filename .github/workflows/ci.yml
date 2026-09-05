@@ -45,31 +45,32 @@ jobs:
       - name: Install locked dependencies
         run: |
           set -euo pipefail
-          # uv.lock is this repository's resolved dependency set. Exporting it
-          # yields a fully pinned, per-artifact-hashed requirements file, so pip
-          # runs in hash-checking mode: the job installs the exact artifacts the
-          # lockfile records and nothing else. `pip install -e .[dev]`
-          # re-resolved on every run instead, so CI tested whatever PyPI served
-          # that morning rather than what the lockfile pins. `--locked` also
-          # fails the job when the lockfile has drifted from pyproject.toml.
+          # uv.lock is this repository's resolved dependency set, so `--locked`
+          # installs exactly what it records and fails the job when the lockfile
+          # has drifted from pyproject.toml. `pip install -e .[dev]` re-resolved
+          # on every run instead, so CI tested whatever PyPI served that morning
+          # rather than what the lockfile pins.
           #
-          # `--only-binary :all:` refuses source distributions, so no
-          # dependency's setup.py executes during installation.
+          # `--no-build` refuses source distributions, so no dependency's
+          # setup.py executes during installation.
           #
-          # Only dependencies are installed, not the project: scripts/ci.py puts
-          # src/ on PYTHONPATH itself. Skipping the editable install is what
-          # allows every install here to be both locked and wheel-only, and it
-          # leaves the runner's own pip intact -- scripts/ci.py::_exercise_wheel
+          # --seed and --inexact exist for scripts/ci.py::_exercise_wheel, which
           # shells out to `python -m pip wheel . --no-build-isolation` to prove
-          # the package really builds and installs from a wheel.
-          uv export --locked --extra dev --no-emit-project --format requirements-txt \
-            > "${RUNNER_TEMP}/locked-requirements.txt"
-          python -m pip install --only-binary :all: -r "${RUNNER_TEMP}/locked-requirements.txt"
+          # the package really builds and installs from a wheel: --seed puts a
+          # working pip in the venv, and --inexact stops the sync from pruning
+          # it back out again. Do not replace --seed with `uv pip install pip`,
+          # which yields an incomplete pip (pip/_internal/operations/build
+          # missing) that fails the same way.
+          uv venv --seed --python "${{ matrix.python-version }}"
+          uv sync --locked --no-build --inexact --extra dev \
+            --python "${{ matrix.python-version }}"
           # --no-build-isolation means the build backend is not fetched on
           # demand, so it has to be present already.
-          python -m pip install --only-binary :all: "setuptools==84.0.0" "wheel==0.48.0"
+          uv pip install --no-build "setuptools==84.0.0" "wheel==0.48.0"
 
       - name: Run repository gates
+        # .venv/bin/python directly, not `uv run`: uv run re-syncs with exact
+        # semantics and prunes the seeded pip that _exercise_wheel needs.
         run: |
           set -euo pipefail
-          python scripts/ci.py
+          .venv/bin/python scripts/ci.py
