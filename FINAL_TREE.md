@@ -2,7 +2,7 @@
 
 Generated from the Python-authoritative source tree. Dependencies, build output, caches, temporary files, Git metadata, and nested archives are excluded.
 
-Tracked release files: **257**
+Tracked release files: **258**
 
 ```text
 l9-assurance/
@@ -246,6 +246,7 @@ l9-assurance/
   tests/conftest.py
   tests/contract/test_schemas.py
   tests/contract/test_verification.py
+  tests/cross_repo/test_repository_metadata_control.py
   tests/cross_repo/test_sdk_assurance_observation.py
   tests/cross_repo/test_sdk_validation_control.py
   tests/integration/test_cli_outputs.py
