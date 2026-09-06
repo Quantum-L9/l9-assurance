@@ -39,8 +39,22 @@ RECEIVED = "2026-07-21T00:00:02Z"
 
 _SDK_REQUIRED = os.environ.get("L9_CROSS_REPO_SDK_REQUIRED") == "1"
 
+# Two different absences, which the first version of this guard conflated and
+# reported as "l9-ci is not importable" when l9-ci imported perfectly well.
+#
+#   1. The SDK is not installed at all. Under L9_CROSS_REPO_SDK_REQUIRED=1 that
+#      is a hard failure, exactly as in `test_sdk_assurance_observation`: the
+#      seam must not silently stop being proven.
+#   2. The SDK is installed but predates `project_sdk_validation_observation`.
+#      Then there is no producer for this control on that revision, and there
+#      is nothing to prove yet -- the cross-repo job checks the SDK out at
+#      `main`, so this is the state until the producer lands there.
+#
+# Failing (2) would make this PR permanently red on an ordering dependency it
+# cannot resolve from inside this repository. Skipping (1) would give away the
+# guarantee the job exists for. The SDK's own suite imports the projector
+# directly, so its removal fails loudly there rather than quietly here.
 try:  # pragma: no cover - import guard, exercised by the cross-repo CI job
-    from l9_ci.commands.observations import project_sdk_validation_observation
     from l9_ci.contracts import (
         Confidence,
         Coverage,
@@ -61,6 +75,16 @@ except ImportError as exc:  # pragma: no cover - see module docstring
         ) from exc
     pytest.skip(
         f"l9-ci is not installed ({exc}); run the cross-repo CI job to prove this",
+        allow_module_level=True,
+    )
+
+try:  # pragma: no cover - producer-availability guard, see the note above
+    from l9_ci.commands.observations import project_sdk_validation_observation
+except ImportError as exc:  # pragma: no cover
+    pytest.skip(
+        "the installed l9-ci has no project_sdk_validation_observation "
+        f"({exc}); L9.CI.SDK_VALIDATION has no producer on this SDK revision, "
+        "so there is nothing to prove yet",
         allow_module_level=True,
     )
 
