@@ -46,14 +46,25 @@ _SDK_REQUIRED = os.environ.get("L9_CROSS_REPO_SDK_REQUIRED") == "1"
 #      is a hard failure, exactly as in `test_sdk_assurance_observation`: the
 #      seam must not silently stop being proven.
 #   2. The SDK is installed but predates `project_sdk_validation_observation`.
-#      Then there is no producer for this control on that revision, and there
-#      is nothing to prove yet -- the cross-repo job checks the SDK out at
-#      `main`, so this is the state until the producer lands there.
+#      Then there is no producer for this control on that revision.
 #
-# Failing (2) would make this PR permanently red on an ordering dependency it
-# cannot resolve from inside this repository. Skipping (1) would give away the
-# guarantee the job exists for. The SDK's own suite imports the projector
-# directly, so its removal fails loudly there rather than quietly here.
+# Both are now fatal under L9_CROSS_REPO_SDK_REQUIRED=1, and the distinction
+# survives only in the message each raises.
+#
+# (2) used to skip unconditionally, as a deliberate accommodation while the
+# projector had not yet landed on the SDK's `main` -- the ref this job checks
+# out. Leaving it was worse than the gap it covered: an SDK regression that
+# renamed or removed the projector would have turned the one required proof of
+# this seam into a silent `skipped`, which reads as "nothing to prove" rather
+# than "the producer is gone". Required mode may not skip; that is the whole
+# guarantee this job exists to provide.
+#
+# Landing this ahead of the producer is intentional and has a cost: until
+# Quantum-L9/l9-ci-sdk#94 is merged, `main` has no
+# `project_sdk_validation_observation` and this job fails here by design. It
+# goes green on the first run after that merge, with no change needed on this
+# side. Verified locally against both SDK revisions: `main` raises, #94's head
+# passes 19 cross-repo tests.
 try:  # pragma: no cover - import guard, exercised by the cross-repo CI job
     from l9_ci.contracts import (
         Confidence,
@@ -81,6 +92,12 @@ except ImportError as exc:  # pragma: no cover - see module docstring
 try:  # pragma: no cover - producer-availability guard, see the note above
     from l9_ci.commands.observations import project_sdk_validation_observation
 except ImportError as exc:  # pragma: no cover
+    if _SDK_REQUIRED:
+        raise RuntimeError(
+            "L9_CROSS_REPO_SDK_REQUIRED=1 but the installed l9-ci has no "
+            "project_sdk_validation_observation; the sdk-validation control "
+            "has no producer to prove against"
+        ) from exc
     pytest.skip(
         "the installed l9-ci has no project_sdk_validation_observation "
         f"({exc}); L9.CI.SDK_VALIDATION has no producer on this SDK revision, "
