@@ -1,0 +1,140 @@
+# Deep nightly entry point for Quantum-L9/l9-assurance.
+#
+# Shape follows Quantum-L9/l9-ci-core docs/nightly-deep-consumer-contract.md:
+# five string inputs in contract order, contract run-name, mode=plan runs no
+# heavy job, mode=apply runs the suite once, admission before any heavy step,
+# and a successful apply is the nightly receipt for its head_sha.
+#
+# Admitted in Core's .github/nightly/deep-entrypoints.json as Quantum-L9/l9-assurance /
+# assurance-deep/v1 / scheduling: dispatch. Core's org-nightly-dispatch.yml plans at
+# 07:17 UTC and dispatches this file through workflow_dispatch when the
+# default-branch head changed since the last successful apply. The trigger is
+# therefore workflow_dispatch only: no schedule, no push, no pull_request.
+#
+# This replaces l9-nightly.yml, whose only job called
+# l9-ci-core/.github/workflows/nightly.yml@0d3d8d3. That pin is dead: the called
+# workflow was invalid for every caller and has been removed from Core main.
+name: Deep nightly
+run-name: deep ${{ inputs.mode }} ${{ inputs.utc_slot }} ${{ inputs.deep_contract }} ${{ inputs.dispatch_key }}
+on:
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Lowercase 40-hex default-branch SHA
+        type: string
+        required: true
+      utc_slot:
+        description: UTC evaluation slot YYYY-MM-DD
+        type: string
+        required: true
+      deep_contract:
+        description: Admitted deep contract id
+        type: string
+        required: true
+      dispatch_key:
+        description: Bounded dispatch key from Core
+        type: string
+        required: true
+      mode:
+        description: plan runs no heavy job; apply runs the suite once
+        type: string
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: deep-${{ inputs.utc_slot }}-assurance-deep/v1
+  cancel-in-progress: false
+jobs:
+  admit:
+    name: Admit the dispatch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      run: ${{ steps.admit.outputs.run }}
+    steps:
+      - id: admit
+        name: Admit the dispatch
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          MODE: ${{ inputs.mode }}
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          OBSERVED_SHA: ${{ github.sha }}
+          UTC_SLOT: ${{ inputs.utc_slot }}
+          DEEP_CONTRACT: ${{ inputs.deep_contract }}
+          DISPATCH_KEY: ${{ inputs.dispatch_key }}
+          REF_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import os
+          import re
+          import sys
+          def refuse(status):
+              print(status, file=sys.stderr)
+              raise SystemExit(1)
+          event = os.environ["EVENT_NAME"]
+          on_default = os.environ["REF_NAME"] == os.environ["DEFAULT_BRANCH"]
+          if event != "workflow_dispatch":
+              refuse("REFUSED_EVENT")
+          mode = os.environ.get("MODE", "")
+          if mode == "plan":
+              # The contract: plan runs no heavy job. It still reports, so a
+              # dispatcher can tell admission apart from a refusal.
+              print("run=false")
+              raise SystemExit(0)
+          if mode != "apply":
+              refuse("REFUSED_MODE")
+          if not on_default:
+              refuse("REFUSED_NOT_DEFAULT_BRANCH")
+          expected = os.environ.get("EXPECTED_SHA", "")
+          if re.fullmatch(r"[0-9a-f]{40}", expected) is None:
+              refuse("MALFORMED_SHA")
+          if expected != os.environ["OBSERVED_SHA"]:
+              refuse("STALE_SHA")
+          if re.fullmatch(r"\d{4}-\d{2}-\d{2}", os.environ.get("UTC_SLOT", "")) is None:
+              refuse("MALFORMED_SLOT")
+          if os.environ.get("DEEP_CONTRACT", "") != "assurance-deep/v1":
+              refuse("UNKNOWN_CONTRACT")
+          if re.fullmatch(r"[A-Za-z0-9._:-]{8,200}", os.environ.get("DISPATCH_KEY", "")) is None:
+              refuse("MALFORMED_KEY")
+          print("run=true")
+          PY
+  deep:
+    name: Deep suite
+    needs: admit
+    if: needs.admit.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout immutable event revision
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REVISION: ${{ github.sha }}
+          TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git init .
+          git remote add origin "https://github.com/${REPOSITORY}.git"
+          auth_header="Authorization: Basic $(printf 'x-access-token:%s' "${TOKEN}" | base64 | tr -d '\n')"
+          git -c protocol.version=2 \
+              -c "http.https://github.com/.extraheader=${auth_header}" \
+              fetch --depth=1 origin "${REVISION}"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "${REVISION}"
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0
+        with:
+          python-version: "3.12"
+      - name: Install uv
+        run: python -m pip install --only-binary ':all:' "uv==0.12.10"
+      - name: Sync the locked environment
+        run: uv sync --locked --no-build --extra dev
+      - name: Run the suite
+        # --no-sync: the step above built the environment with --locked and
+        # --no-build; letting uv re-resolve here would undo both guarantees.
+        run: uv run --no-sync pytest
