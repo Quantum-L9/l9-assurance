@@ -77,7 +77,8 @@ jobs:
           set -euo pipefail
           echo "artifact-name=l9-semgrep-${MATRIX_ID}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
 
-      - name: Run semgrep
+      - id: semgrep
+        name: Run semgrep
         if: steps.gov.outputs.enabled == 'true'
         run: |
           set -euo pipefail
@@ -85,6 +86,7 @@ jobs:
           # scan result reproducible, and --only-binary :all: keeps any
           # dependency's setup.py from executing during installation.
           pip install --only-binary :all: "semgrep==1.176.1"
+          echo "version=$(semgrep --version)" >> "$GITHUB_OUTPUT"
           mkdir -p "artifacts/raw/semgrep/${L9_MATRIX_ID}"
           semgrep scan \
             --config p/python \
@@ -110,6 +112,7 @@ jobs:
           root: .
           snapshot-id: ${{ github.sha }}
           revision: ${{ github.sha }}
+          provider-version: ${{ steps.semgrep.outputs.version }}
           strict: ${{ steps.gov.outputs.strict }}
           required: ${{ steps.gov.outputs.required-provider }}
           policy: ${{ steps.gov.outputs.sdk-policy }}

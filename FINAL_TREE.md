@@ -15,9 +15,9 @@ l9-assurance/
   .github/governance/waivers.yaml
   .github/workflows/ci.yml
   .github/workflows/cross-repo-sdk.yml
+  .github/workflows/deep-plan.yml
   .github/workflows/l9-analysis.yml
   .github/workflows/l9-lint-test.yml
-  .github/workflows/l9-nightly.yml
   .gitignore
   .l9/L9_META.jsonl
   .l9/repo-spec.yaml
