@@ -24,3 +24,8 @@ artifacts/
 # every metadata and completeness gate stale the moment an agent session ran.
 .claude/
 .mcp.json
+
+# Runtime material Core writes into the workspace before the verification
+# phases run (semgrep identity maps, policy, toolchain alignment). It is not
+# repository content and must not enter L9_META or the release surface.
+.l9/runtime/
