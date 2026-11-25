@@ -2,7 +2,7 @@
 
 Generated from the Python-authoritative source tree. Dependencies, build output, caches, temporary files, Git metadata, and nested archives are excluded.
 
-Tracked release files: **259**
+Tracked release files: **262**
 
 ```text
 l9-assurance/
@@ -21,6 +21,7 @@ l9-assurance/
   .gitignore
   .l9/L9_META.jsonl
   .l9/repo-spec.yaml
+  .l9/repo-workflow.json
   .pre-commit-config.yaml
   AGENTS.md
   ALIGNMENT_REPORT.md
@@ -35,11 +36,13 @@ l9-assurance/
   IMPROVEMENT_REPORT.md
   LICENSE
   MANIFEST.md
+  Makefile
   PROVENANCE_MAP.yaml
   README.md
   REGRESSION_GUARD.md
   REWRITE_EXECUTION_SPEC.md
   RUNBOOK.md
+  Repo.mk
   SECURITY.md
   SPECIFICATION.md
   TRACEABILITY_MAP.yaml
