@@ -135,4 +135,6 @@ jobs:
       - name: Sync the locked environment
         run: uv sync --locked --no-build --extra dev
       - name: Run the suite
-        run: uv run pytest
+        # --no-sync: the step above built the environment with --locked and
+        # --no-build; letting uv re-resolve here would undo both guarantees.
+        run: uv run --no-sync pytest
